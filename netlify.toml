@@ -1,0 +1,13 @@
+# This is a TOML file. The syntax is important.
+
+# This sets up a redirect/rewrite rule.
+[[redirects]]
+  # The "fake" path your front-end code will use.
+  from = "/api/*"
+
+  # The REAL destination server.
+  # Replace "https://firebasestorage.googleapis.com" with YOUR server's URL.
+  to = "https://firebasestorage.googleapis.com/:splat"
+
+  # A status of 200 makes this a "rewrite" or "proxy".
+  status = 200
