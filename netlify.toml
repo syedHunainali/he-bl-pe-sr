@@ -6,7 +6,7 @@
   from = "/api/upload"
 
   # The CORRECT destination server endpoint for Firebase Storage uploads
-  to = "https://firebasestorage.googleapis.com/v0/b/herbal-pansar.appspot.com/o?uploadType=media&name=products/image.jpg"
+  to = "https://firebasestorage.googleapis.com/v0/b/herbal-pansar.appspot.com/o"
 
   # A status of 200 makes this a "rewrite" or "proxy"
   status = 200
