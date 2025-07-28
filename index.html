@@ -1933,14 +1933,13 @@
             try {
                 // 1. Build upload URL
                 const fileName = `products/${Date.now()}-${imageFile.name}`;
-                const uploadUrl = `/api/v0/b/herbal-pansar.appspot.com/o?name=${encodeURIComponent(fileName)}`;
+                const uploadUrl = `/api/storage/?name=${encodeURIComponent(fileName)}`;
 
                 // 2. Upload image using fetch
                 const uploadResponse = await fetch(uploadUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': imageFile.type,
-                        // 'Authorization': 'Bearer YOUR_ID_TOKEN', // If needed for authentication
                     },
                     body: imageFile
                 });

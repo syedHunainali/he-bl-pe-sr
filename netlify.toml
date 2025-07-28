@@ -2,12 +2,12 @@
 
 # This sets up a redirect/rewrite rule.
 [[redirects]]
-  # The "fake" path your front-end code will use.
-  from = "/api/*"
+  # A more specific path for our image uploads
+  from = "/api/storage/*"
 
-  # The REAL destination server.
-  # Replace "https://firebasestorage.googleapis.com" with YOUR server's URL.
-  to = "https://firebasestorage.googleapis.com/:splat"
+  # The REAL, full destination path to your storage bucket's objects
+  # The :splat will now only contain the file name and query params
+  to = "https://firebasestorage.googleapis.com/v0/b/herbal-pansar.appspot.com/o/:splat"
 
   # A status of 200 makes this a "rewrite" or "proxy".
   status = 200
