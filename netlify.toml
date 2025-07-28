@@ -2,12 +2,14 @@
 
 # This sets up a redirect/rewrite rule.
 [[redirects]]
-  # A more specific path for our image uploads
-  from = "/api/storage/*"
+  # A new path for our upload proxy
+  from = "/api/upload"
 
-  # The REAL, full destination path to your storage bucket's objects
-  # The :splat will now only contain the file name and query params
-  to = "https://firebasestorage.googleapis.com/v0/b/herbal-pansar.appspot.com/o/:splat"
+  # The CORRECT destination server endpoint for Firebase Storage uploads
+  to = "https://firebasestorage.googleapis.com/v0/b/herbal-pansar.appspot.com/o?uploadType=media&name=products/image.jpg"
 
-  # A status of 200 makes this a "rewrite" or "proxy".
+  # A status of 200 makes this a "rewrite" or "proxy"
   status = 200
+  
+  # IMPORTANT: This ensures query parameters (like "?uploadType=media&name=...") are passed through
+  force = true
