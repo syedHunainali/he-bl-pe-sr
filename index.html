@@ -1944,17 +1944,27 @@
                     body: imageFile
                 });
 
+                // Check for network/server errors from the proxy
                 if (!uploadResponse.ok) {
-                    throw new Error('Image upload failed');
+                    const errorBody = await uploadResponse.text();
+                    console.error("Upload failed with status:", uploadResponse.status, "Body:", errorBody);
+                    throw new Error(`Image upload failed. Server responded with: ${uploadResponse.status}`);
                 }
 
                 const uploadResult = await uploadResponse.json();
-                // 3. Get download URL
-                const imageUrl = uploadResult.mediaLink || uploadResult.downloadTokens
-                    ? `https://firebasestorage.googleapis.com/v0/b/herbal-pansar.appspot.com/o/${encodeURIComponent(fileName)}?alt=media&token=${uploadResult.downloadTokens}`
-                    : `https://firebasestorage.googleapis.com/v0/b/herbal-pansar.appspot.com/o/${encodeURIComponent(fileName)}?alt=media`;
 
-                // 4. Create product object
+                // 3. IMPORTANT: Check for the download token from Firebase
+                if (!uploadResult.downloadTokens) {
+                    console.error("Firebase response missing download token:", uploadResult);
+                    throw new Error('Image uploaded, but failed to get a valid download URL.');
+                }
+                
+                // 4. Construct the public URL correctly
+                const token = uploadResult.downloadTokens;
+                const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${encodeURIComponent(fileName)}?alt=media&token=${token}`;
+
+
+                // 5. Create product object
                 const newProduct = {
                     id: String(Date.now()),
                     name,
@@ -1964,7 +1974,7 @@
                     image: imageUrl,
                 };
 
-                // 5. Save product data to Firestore (unchanged)
+                // 6. Save product data to Firestore (unchanged)
                 await setDoc(doc(db, "products", newProduct.id), newProduct);
 
                 showAlert("Product added successfully!");
@@ -1975,7 +1985,7 @@
                 imagePreview.src = '';
             } catch (error) {
                 console.error("Error adding product: ", error);
-                showAlert("Failed to add product. Please try again.");
+                showAlert(`Failed to add product. Error: ${error.message}`);
             } finally {
                 submitButton.disabled = false;
                 submitButton.textContent = 'Add Product';
