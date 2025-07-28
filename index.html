@@ -1933,7 +1933,7 @@
             try {
                 // 1. Build upload URL
                 const fileName = `products/${Date.now()}-${imageFile.name}`;
-                const uploadUrl = `/api/storage/?name=${encodeURIComponent(fileName)}`;
+                const uploadUrl = `/api/storage/${encodeURIComponent(fileName)}`;
 
                 // 2. Upload image using fetch
                 const uploadResponse = await fetch(uploadUrl, {
