@@ -1432,10 +1432,10 @@
                                         <option value="deals">Deals</option>
                                     </select>
                                 </div>
+                                <!-- MODIFIED: Changed file input to text input for filename -->
                                 <div class="form-group">
-                                    <label for="product-image-upload">Product Image</label>
-                                    <input type="file" id="product-image-upload" accept="image/*" required>
-                                    <img id="image-preview" alt="Image Preview" style="display:none;" />
+                                    <label for="product-image-filename">Product Image Filename</label>
+                                    <input type="text" id="product-image-filename" placeholder="e.g., my-image.jpg" required>
                                 </div>
                                 <div class="form-group" style="grid-column: 1 / -1;"><label
                                         for="product-description">Description</label><textarea id="product-description"
@@ -1460,7 +1460,8 @@
         // Import the functions you need from the SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, doc, setDoc, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+        // REMOVED: Storage imports are no longer needed
+        // import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
         // --- FIREBASE SETUP ---
         // Your web app's Firebase configuration
@@ -1477,10 +1478,9 @@
         // Initialize Firebase and Services
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
+        // REMOVED: const storage = getStorage(app);
 
         // --- INITIAL DATABASE DATA ---
-        // This is now empty as requested. Products will be loaded from your database.
         const initialProducts = [];
 
         // --- STATE MANAGEMENT ---
@@ -1911,101 +1911,52 @@
             }
         });
 
+        // --- UPDATED: Add Product Form using local image path ---
         addProductFormEl.addEventListener('submit', async function (e) {
             e.preventDefault();
             const submitButton = addProductFormEl.querySelector('button[type="submit"]');
-            const imagePreview = document.getElementById('image-preview');
 
             const name = document.getElementById('product-name').value;
             const price = parseFloat(document.getElementById('product-price').value);
             const category = document.getElementById('product-category').value;
             const description = document.getElementById('product-description').value;
-            const imageFile = document.getElementById('product-image-upload').files[0];
+            const imageFilename = document.getElementById('product-image-filename').value;
 
-            if (!imageFile) {
-                showAlert("Please select an image file to upload.");
+            if (!imageFilename) {
+                showAlert("Please enter the image filename.");
                 return;
             }
 
             submitButton.disabled = true;
-            submitButton.textContent = 'Uploading...';
+            submitButton.textContent = 'Adding...';
 
             try {
-                // 1. Build upload URL
-                const fileName = `products/${Date.now()}-${imageFile.name}`;
-                const uploadUrl = `/api/upload?uploadType=media&name=${encodeURIComponent(fileName)}`;
+                // 1. Construct the local image path
+                const imageUrl = `images/${imageFilename}`;
 
-                // 2. Upload image using fetch
-                const uploadResponse = await fetch(uploadUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': imageFile.type,
-                    },
-                    body: imageFile
-                });
-
-                // Check for network/server errors from the proxy
-                if (!uploadResponse.ok) {
-                    const errorBody = await uploadResponse.text();
-                    console.error("Upload failed with status:", uploadResponse.status, "Body:", errorBody);
-                    throw new Error(`Image upload failed. Server responded with: ${uploadResponse.status}`);
-                }
-
-                const uploadResult = await uploadResponse.json();
-
-                // 3. IMPORTANT: Check for the download token from Firebase
-                if (!uploadResult.downloadTokens) {
-                    console.error("Firebase response missing download token:", uploadResult);
-                    throw new Error('Image uploaded, but failed to get a valid download URL.');
-                }
-                
-                // 4. Construct the public URL correctly
-                const token = uploadResult.downloadTokens;
-                const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${encodeURIComponent(fileName)}?alt=media&token=${token}`;
-
-
-                // 5. Create product object
+                // 2. Create the product object
                 const newProduct = {
                     id: String(Date.now()),
                     name,
                     price,
                     category,
                     description,
-                    image: imageUrl,
+                    image: imageUrl, // Use the local path
                 };
 
-                // 6. Save product data to Firestore (unchanged)
+                // 3. Save the product data to Firestore
                 await setDoc(doc(db, "products", newProduct.id), newProduct);
 
                 showAlert("Product added successfully!");
                 allProducts.push(newProduct);
                 renderAllGrids();
                 addProductFormEl.reset();
-                imagePreview.style.display = 'none';
-                imagePreview.src = '';
             } catch (error) {
                 console.error("Error adding product: ", error);
                 showAlert(`Failed to add product. Error: ${error.message}`);
             } finally {
                 submitButton.disabled = false;
                 submitButton.textContent = 'Add Product';
-            }
-        });
-
-        // Add event listener for image preview
-        document.getElementById('product-image-upload').addEventListener('change', function (e) {
-            const preview = document.getElementById('image-preview');
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    preview.src = event.target.result;
-                    preview.style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            } else {
-                preview.src = '';
-                preview.style.display = 'none';
             }
         });
 
@@ -2028,8 +1979,7 @@
             try {
                 const productsCollection = collection(db, "products");
                 const productSnapshot = await getDocs(productsCollection);
-                // The initialProducts array is now empty, so the app will only load
-                // products that are actually in your Firestore database.
+                
                 if (productSnapshot.empty && initialProducts.length > 0) {
                     console.log("No products found in Firestore. Populating with initial data...");
                     const batch = [];
