@@ -80,6 +80,21 @@
             color: white;
         }
 
+        /* Delete Button */
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            margin-left: 10px;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+
         /* Fulfillment Button Style */
         .btn-fulfillment {
             background: #3498db;
@@ -100,7 +115,6 @@
             cursor: not-allowed;
         }
 
-
         /* Header & Navigation */
         .top-banner {
             background: #d4cdcd;
@@ -119,6 +133,11 @@
             top: 0;
             z-index: 1500;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .header.hidden-mobile {
+            transform: translateY(-100%);
         }
 
         .header-tools {
@@ -148,6 +167,70 @@
             border: 1px solid #ccc;
             outline: none;
             width: 500px;
+        }
+
+        /* Mobile Search */
+        .mobile-search-btn {
+            display: none;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-search-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+        }
+
+        .mobile-search-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-search-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mobile-search-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .mobile-search-close {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        .mobile-search-results {
+            max-height: 60vh;
+            overflow-y: auto;
         }
 
         .header-right-controls {
@@ -234,6 +317,79 @@
         }
 
         .nav-link:hover {
+            color: #f39c12;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: #000;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+        }
+
+        .mobile-menu-sidebar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100%;
+            background: white;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu-sidebar.open {
+            transform: translateX(0);
+        }
+
+        .mobile-menu-header {
+            background: #000;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-items {
+            padding: 20px 0;
+        }
+
+        .mobile-menu-item {
+            display: block;
+            padding: 15px 20px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .mobile-menu-item:hover {
+            background: #f0f0f0;
             color: #f39c12;
         }
 
@@ -556,6 +712,38 @@
             border: 1px solid #ccc;
             padding: 5px;
             border-radius: 5px;
+        }
+
+        /* Product Management in Admin */
+        .admin-product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #f9f9f9;
+        }
+
+        .admin-product-info {
+            flex: 1;
+        }
+
+        .admin-product-info h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .admin-product-info p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .admin-product-actions {
+            display: flex;
+            gap: 10px;
         }
 
         /* Custom Modal */
@@ -955,48 +1143,173 @@
             padding: 40px 0;
         }
 
-        /* Responsive */
-        @media (max-width: 992px) {
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            /* Mobile Header */
+            .header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+            }
 
-            .cart-container,
-            .checkout-container,
-            .product-detail-container,
-            .admin-product-form {
-                grid-template-columns: 1fr;
+            .header-tools {
+                padding: 10px 15px;
+                flex-wrap: nowrap;
+            }
+
+            .logo img {
+                height: 50px;
             }
 
             .search-wrapper {
-                position: static;
-                transform: none;
-                padding: 10px 20px;
+                display: none;
             }
 
-            .search-input {
-                width: 100%;
+            .mobile-search-btn {
+                display: flex;
+            }
+
+            .cart-total-display {
+                display: none;
+            }
+
+            .cart-button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .auth-controls a {
+                font-size: 12px;
+            }
+
+            /* Mobile Navigation */
+            .nav-container {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .top-banner {
+                margin-top: 70px;
+                font-size: 12px;
+                padding: 5px;
+            }
+
+            /* Mobile Content */
+            body {
+                padding-top: 120px;
+            }
+
+            .page-content {
+                padding: 30px 0;
+            }
+
+            .collections-section {
+                padding: 30px 0;
             }
 
             .collection-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 20px;
             }
 
             .collection-image {
                 width: 120px;
                 height: 120px;
             }
-        }
 
-        @media (max-width: 768px) {
-            .nav-menu {
+            /* Mobile Product Grid - 2 products per row */
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
             }
 
-            .nav-link {
-                font-size: 12px;
+            .product-card {
+                font-size: 14px;
             }
 
-            .header-tools {
-                flex-wrap: wrap;
-                justify-content: center;
+            .product-image {
+                height: 120px;
+            }
+
+            .product-info {
+                padding: 10px;
+            }
+
+            .product-info h3 {
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+
+            .product-price {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+
+            .quantity-controls {
+                margin-bottom: 8px;
+            }
+
+            .quantity-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 16px;
+            }
+
+            .quantity-input {
+                width: 40px;
+                height: 28px;
+                font-size: 14px;
+            }
+
+            .btn-primary {
+                padding: 8px;
+                font-size: 14px;
+            }
+
+            /* Mobile Slider */
+            .slide {
+                height: 250px;
+            }
+
+            .slide-content h1 {
+                font-size: 24px;
+            }
+
+            .slide-content p {
+                font-size: 14px;
+            }
+
+            .btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+
+            /* Mobile Product Detail */
+            .product-detail-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .product-detail-image {
+                padding: 20px;
+            }
+
+            .product-detail-info h1 {
+                font-size: 24px;
+            }
+
+            .product-detail-info .product-price {
+                font-size: 20px;
+            }
+
+            /* Mobile Cart */
+            .cart-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
 
             .cart-item {
@@ -1005,16 +1318,113 @@
                 gap: 10px;
             }
 
-            .slide {
-                height: 300px;
+            .cart-item-details {
+                width: 100%;
+            }
+
+            .cart-item-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .cart-summary {
+                position: static;
+            }
+
+            /* Mobile Checkout */
+            .checkout-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .payment-method-tabs {
+                flex-wrap: wrap;
+            }
+
+            .payment-tab {
+                flex: 1;
+                min-width: 100px;
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+
+            /* Mobile Admin */
+            .admin-product-form {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .admin-tabs {
+                flex-wrap: wrap;
+            }
+
+            .admin-tab {
+                flex: 1;
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+
+            .admin-product-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .admin-product-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            /* Mobile Auth */
+            .auth-container {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            /* Mobile Modal */
+            .modal-content {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .page-header h1 {
+                font-size: 28px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-info h3 {
+                font-size: 12px;
+            }
+
+            .product-price {
+                font-size: 14px;
             }
 
             .slide-content h1 {
-                font-size: 32px;
+                font-size: 20px;
             }
 
-            .slide-content p {
-                font-size: 16px;
+            .collection-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 15px;
+            }
+
+            .collection-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            .collection-item h4 {
+                font-size: 14px;
             }
         }
     </style>
@@ -1028,14 +1438,51 @@
         </div>
     </div>
 
-    <header class="header">
+    <!-- Mobile Search Overlay -->
+    <div id="mobile-search-overlay" class="mobile-search-overlay">
+        <div class="mobile-search-container">
+            <div class="mobile-search-header">
+                <input type="search" id="mobile-search-input" class="mobile-search-input" placeholder="Search products...">
+                <button class="mobile-search-close" onclick="closeMobileSearch()">×</button>
+            </div>
+            <div class="mobile-search-results">
+                <div id="mobile-search-results-grid" class="product-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+        <div id="mobile-menu-sidebar" class="mobile-menu-sidebar">
+            <div class="mobile-menu-header">
+                <h3>Menu</h3>
+                <button class="mobile-menu-close" onclick="closeMobileMenu()">×</button>
+            </div>
+            <div class="mobile-menu-items">
+                <a href="#" class="mobile-menu-item" onclick="showPage('home'); closeMobileMenu();">HOME</a>
+                <a href="#" class="mobile-menu-item" onclick="showPage('dry-fruits'); closeMobileMenu();">DRY FRUITS</a>
+                <a href="#" class="mobile-menu-item" onclick="showPage('herbal-tea'); closeMobileMenu();">HERBAL TEA</a>
+                <a href="#" class="mobile-menu-item" onclick="showPage('honey'); closeMobileMenu();">HONEY</a>
+                <a href="#" class="mobile-menu-item" onclick="showPage('seeds'); closeMobileMenu();">SEEDS</a>
+                <a href="#" class="mobile-menu-item" onclick="showPage('supplements'); closeMobileMenu();">SUPPLEMENTS</a>
+                <a href="#" class="mobile-menu-item" onclick="showPage('capsules'); closeMobileMenu();">CAPSULES</a>
+                <a href="#" class="mobile-menu-item" onclick="showPage('cold-pressed-oil'); closeMobileMenu();">COLD PRESSED OIL</a>
+                <a href="#" class="mobile-menu-item" onclick="showPage('essential-oils'); closeMobileMenu();">ESSENTIAL OILS</a>
+                <a href="#" class="mobile-menu-item" onclick="showPage('deals'); closeMobileMenu();">DEALS</a>
+            </div>
+        </div>
+    </div>
+
+    <header class="header" id="main-header">
         <div class="header-tools">
+            <button class="mobile-menu-btn" onclick="openMobileMenu()">☰ Menu</button>
             <div class="logo"><a href="#" onclick="showPage('home')"><img src="images/logo.jpg"
                         alt="Herbal Store Logo"></a></div>
             <div class="search-wrapper">
                 <input type="search" id="search-input" class="search-input" placeholder="Search products...">
             </div>
             <div class="header-right-controls">
+                <button class="mobile-search-btn" onclick="openMobileSearch()">🔍</button>
                 <div id="auth-controls">
                     <a href="#" onclick="showPage('login')">Login</a>
                 </div>
@@ -1405,6 +1852,7 @@
                     <div class="admin-tabs">
                         <div class="admin-tab active" onclick="showAdminContent('orders')">Orders</div>
                         <div class="admin-tab" onclick="showAdminContent('products')">Add Product</div>
+                        <div class="admin-tab" onclick="showAdminContent('manage')">Manage Products</div>
                     </div>
                     <div id="admin-orders-content" class="admin-content">
                         <h3 style="margin-bottom: 20px;">Received Orders</h3>
@@ -1432,7 +1880,6 @@
                                         <option value="deals">Deals</option>
                                     </select>
                                 </div>
-                                <!-- MODIFIED: Changed file input to text input for filename -->
                                 <div class="form-group">
                                     <label for="product-image-filename">Product Image Filename</label>
                                     <input type="text" id="product-image-filename" placeholder="e.g., my-image.jpg" required>
@@ -1444,6 +1891,10 @@
                             <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: auto;">Add
                                 Product</button>
                         </form>
+                    </div>
+                    <div id="admin-manage-content" class="admin-content hidden">
+                        <h3 style="margin-bottom: 20px;">Manage Products</h3>
+                        <div id="admin-products-list"></div>
                     </div>
                 </div>
             </div>
@@ -1459,9 +1910,7 @@
     <script type="module">
         // Import the functions you need from the SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, doc, setDoc, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        // REMOVED: Storage imports are no longer needed
-        // import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, doc, setDoc, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         // --- FIREBASE SETUP ---
         // Your web app's Firebase configuration
@@ -1478,7 +1927,6 @@
         // Initialize Firebase and Services
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        // REMOVED: const storage = getStorage(app);
 
         // --- INITIAL DATABASE DATA ---
         const initialProducts = [];
@@ -1490,6 +1938,7 @@
         let currentUser = null;
         let slideIndex = 1;
         let slideInterval;
+        let lastScrollY = 0;
 
         // --- DOM ELEMENTS ---
         const pages = document.querySelectorAll('.page');
@@ -1499,6 +1948,7 @@
         const checkoutFormEl = document.getElementById('checkout-form-element');
         const productDetailContentEl = document.getElementById('product-detail-content');
         const searchInputEl = document.getElementById('search-input');
+        const mobileSearchInputEl = document.getElementById('mobile-search-input');
         const authControlsEl = document.getElementById('auth-controls');
         const loginFormEl = document.getElementById('login-form');
         const signupFormEl = document.getElementById('signup-form');
@@ -1507,6 +1957,69 @@
         const modalEl = document.getElementById('custom-modal');
         const modalMessageEl = document.getElementById('modal-message');
         const modalCloseBtn = document.getElementById('modal-close-btn');
+        const mainHeader = document.getElementById('main-header');
+        const mobileSearchOverlay = document.getElementById('mobile-search-overlay');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileMenuSidebar = document.getElementById('mobile-menu-sidebar');
+
+        // --- MOBILE FUNCTIONALITY ---
+        // Mobile header scroll behavior
+        function handleScroll() {
+            if (window.innerWidth <= 768) {
+                const currentScrollY = window.scrollY;
+                if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                    mainHeader.classList.add('hidden-mobile');
+                } else {
+                    mainHeader.classList.remove('hidden-mobile');
+                }
+                lastScrollY = currentScrollY;
+            }
+        }
+
+        // Mobile search functions
+        window.openMobileSearch = function() {
+            mobileSearchOverlay.style.display = 'block';
+            mobileSearchInputEl.focus();
+        }
+
+        window.closeMobileSearch = function() {
+            mobileSearchOverlay.style.display = 'none';
+            mobileSearchInputEl.value = '';
+            document.getElementById('mobile-search-results-grid').innerHTML = '';
+        }
+
+        // Mobile menu functions
+        window.openMobileMenu = function() {
+            mobileMenuOverlay.style.display = 'block';
+            setTimeout(() => {
+                mobileMenuSidebar.classList.add('open');
+            }, 10);
+        }
+
+        window.closeMobileMenu = function() {
+            mobileMenuSidebar.classList.remove('open');
+            setTimeout(() => {
+                mobileMenuOverlay.style.display = 'none';
+            }, 300);
+        }
+
+        // Handle mobile search
+        function handleMobileSearch() {
+            const query = mobileSearchInputEl.value.toLowerCase().trim();
+            const resultsGrid = document.getElementById('mobile-search-results-grid');
+            
+            if (query.length === 0) {
+                resultsGrid.innerHTML = '';
+                return;
+            }
+            
+            const results = allProducts.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.description.toLowerCase().includes(query)
+            );
+            
+            renderProducts(results, 'mobile-search-results-grid');
+        }
 
         // --- RENDER FUNCTIONS ---
         function renderAllGrids() {
@@ -1533,7 +2046,7 @@
 
             container.innerHTML = productsToRender.map(p => `
                 <div class="product-card">
-                    <div class="product-image" onclick="showProductPage('${p.id}')"><img src="${p.image}" alt="${p.name}" onerror="this.onerror=null;this.src='https.placehold.co/300x300/ccc/ffffff?text=Image+Not+Found';"></div>
+                    <div class="product-image" onclick="showProductPage('${p.id}')"><img src="${p.image}" alt="${p.name}" onerror="this.onerror=null;this.src='https://placehold.co/300x300/ccc/ffffff?text=Image+Not+Found';"></div>
                     <div class="product-info">
                         <h3 onclick="showProductPage('${p.id}')">${p.name}</h3>
                         <div class="product-price">
@@ -1556,7 +2069,31 @@
                 productDetailContentEl.innerHTML = '<p>Product not found.</p>';
                 return;
             }
-            productDetailContentEl.innerHTML = `<a href="#" onclick="showPage(lastViewedCategory)" class="back-link">&larr; Back to products</a><div class="product-detail-container"><div class="product-detail-image"><img src="${product.image}" alt="${product.name}" onerror="this.onerror=null;this.src='https.placehold.co/400x400/ccc/ffffff?text=Image+Not+Found';"></div><div class="product-detail-info"><h1>${product.name}</h1><div class="product-price">${product.originalPrice ? `<span class="price-original">Rs.${product.originalPrice.toFixed(2)}</span>` : ''}Rs.${product.price.toFixed(2)}</div><p>${product.description || 'No description available.'}</p><div class="quantity-controls" data-product-id="${product.id}"><button class="quantity-btn">-</button><input type="number" class="quantity-input" value="1" min="1"><button class="quantity-btn">+</button></div><button class="btn-primary add-to-cart-btn" data-product-id="${product.id}" style="margin-top: 20px; width: auto;">ADD TO CART</button></div></div>`;
+            productDetailContentEl.innerHTML = `<a href="#" onclick="showPage(lastViewedCategory)" class="back-link">&larr; Back to products</a><div class="product-detail-container"><div class="product-detail-image"><img src="${product.image}" alt="${product.name}" onerror="this.onerror=null;this.src='https://placehold.co/400x400/ccc/ffffff?text=Image+Not+Found';"></div><div class="product-detail-info"><h1>${product.name}</h1><div class="product-price">${product.originalPrice ? `<span class="price-original">Rs.${product.originalPrice.toFixed(2)}</span>` : ''}Rs.${product.price.toFixed(2)}</div><p>${product.description || 'No description available.'}</p><div class="quantity-controls" data-product-id="${product.id}"><button class="quantity-btn">-</button><input type="number" class="quantity-input" value="1" min="1"><button class="quantity-btn">+</button></div><button class="btn-primary add-to-cart-btn" data-product-id="${product.id}" style="margin-top: 20px; width: auto;">ADD TO CART</button></div></div>`;
+        }
+
+        // Render admin products list for management
+        function renderAdminProductsList() {
+            const adminProductsListEl = document.getElementById('admin-products-list');
+            if (!adminProductsListEl) return;
+
+            if (allProducts.length === 0) {
+                adminProductsListEl.innerHTML = '<p>No products found.</p>';
+                return;
+            }
+
+            adminProductsListEl.innerHTML = allProducts.map(product => `
+                <div class="admin-product-item">
+                    <div class="admin-product-info">
+                        <h4>${product.name}</h4>
+                        <p>Price: Rs.${product.price.toFixed(2)} | Category: ${product.category}</p>
+                        <p>ID: ${product.id}</p>
+                    </div>
+                    <div class="admin-product-actions">
+                        <button class="btn-delete" onclick="deleteProduct('${product.id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
         }
 
         // --- PAGE NAVIGATION ---
@@ -1573,6 +2110,10 @@
 
             if (pageId === 'checkout') renderCheckoutPage();
             if (pageId === 'admin') renderAdminPanel();
+            
+            // Close mobile overlays when navigating
+            closeMobileSearch();
+            closeMobileMenu();
         }
 
         window.showProductPage = function (productId) {
@@ -1647,7 +2188,7 @@
                 return;
             }
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            cartViewContainerEl.innerHTML = `<div class="cart-container"><div class="cart-items">${cart.map(item => `<div class="cart-item"><div class="cart-item-details"><div class="cart-item-image"><img src="${item.image}" alt="${item.name}" onerror="this.onerror=null;this.src='https.placehold.co/60x60/ccc/ffffff?text=N/A';"></div><div class="cart-item-info"><h4>${item.name}</h4><p class="cart-item-price">Rs.${item.price.toFixed(2)} x ${item.quantity}</p></div></div><div class="cart-item-actions"><strong>Rs.${(item.price * item.quantity).toFixed(2)}</strong><button class="remove-from-cart-btn" data-product-id="${item.id}">Remove</button></div></div>`).join('')}</div><div class="cart-summary"><h3>Order Summary</h3><p><span>Subtotal</span> <span>Rs.${total.toFixed(2)}</span></p><p><span>Shipping</span> <span>${total >= 3000 ? 'Free' : 'Rs.200'}</span></p><hr><p class="total"><span>Total</span> <span>Rs.${(total + (total < 3000 ? 200 : 0)).toFixed(2)}</span></p><button class="btn-primary" onclick="showPage('checkout')">Proceed to Checkout</button></div></div>`;
+            cartViewContainerEl.innerHTML = `<div class="cart-container"><div class="cart-items">${cart.map(item => `<div class="cart-item"><div class="cart-item-details"><div class="cart-item-image"><img src="${item.image}" alt="${item.name}" onerror="this.onerror=null;this.src='https://placehold.co/60x60/ccc/ffffff?text=N/A';"></div><div class="cart-item-info"><h4>${item.name}</h4><p class="cart-item-price">Rs.${item.price.toFixed(2)} x ${item.quantity}</p></div></div><div class="cart-item-actions"><strong>Rs.${(item.price * item.quantity).toFixed(2)}</strong><button class="remove-from-cart-btn" data-product-id="${item.id}">Remove</button></div></div>`).join('')}</div><div class="cart-summary"><h3>Order Summary</h3><p><span>Subtotal</span> <span>Rs.${total.toFixed(2)}</span></p><p><span>Shipping</span> <span>${total >= 3000 ? 'Free' : 'Rs.200'}</span></p><hr><p class="total"><span>Total</span> <span>Rs.${(total + (total < 3000 ? 200 : 0)).toFixed(2)}</span></p><button class="btn-primary" onclick="showPage('checkout')">Proceed to Checkout</button></div></div>`;
         }
 
         // --- CHECKOUT LOGIC ---
@@ -1681,6 +2222,24 @@
             document.getElementById(`${method}-content`).classList.remove('hidden');
             document.querySelectorAll('.payment-tab').forEach(el => el.classList.remove('active'));
             document.querySelector(`.payment-tab[onclick="showPaymentContent('${method}')"]`).classList.add('active');
+        }
+
+        // --- PRODUCT MANAGEMENT ---
+        window.deleteProduct = async function(productId) {
+            if (!confirm('Are you sure you want to delete this product?')) {
+                return;
+            }
+
+            try {
+                await deleteDoc(doc(db, "products", productId));
+                allProducts = allProducts.filter(p => p.id !== productId);
+                renderAllGrids();
+                renderAdminProductsList();
+                showAlert("Product deleted successfully!");
+            } catch (error) {
+                console.error("Error deleting product: ", error);
+                showAlert("Failed to delete product. Please try again.");
+            }
         }
 
         // --- AUTHENTICATION & ADMIN (LOCAL STORAGE) ---
@@ -1727,6 +2286,9 @@
                 });
                 renderOrders(orders);
             });
+            
+            // Render products list for management
+            renderAdminProductsList();
         }
 
         window.showAdminContent = function (contentType) {
@@ -1734,6 +2296,10 @@
             document.getElementById(`admin-${contentType}-content`).classList.remove('hidden');
             document.querySelectorAll('.admin-tab').forEach(el => el.classList.remove('active'));
             document.querySelector(`.admin-tab[onclick="showAdminContent('${contentType}')"]`).classList.add('active');
+            
+            if (contentType === 'manage') {
+                renderAdminProductsList();
+            }
         }
 
         function renderOrders(orders) {
@@ -1828,10 +2394,36 @@
             }
         });
 
+        // Close mobile overlays when clicking outside
+        mobileSearchOverlay.addEventListener('click', (e) => {
+            if (e.target === mobileSearchOverlay) {
+                closeMobileSearch();
+            }
+        });
+
+        mobileMenuOverlay.addEventListener('click', (e) => {
+            if (e.target === mobileMenuOverlay) {
+                closeMobileMenu();
+            }
+        });
+
         modalCloseBtn.addEventListener('click', () => modalEl.classList.add('hidden'));
         modalEl.addEventListener('click', (e) => { if (e.target === modalEl) modalEl.classList.add('hidden'); });
 
         searchInputEl.addEventListener('keyup', handleSearch);
+        mobileSearchInputEl.addEventListener('keyup', handleMobileSearch);
+
+        // Add scroll listener for mobile header
+        window.addEventListener('scroll', handleScroll);
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                mainHeader.classList.remove('hidden-mobile');
+                closeMobileSearch();
+                closeMobileMenu();
+            }
+        });
 
         loginFormEl.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -1895,7 +2487,7 @@
                 items: cart,
                 paymentMethod: document.querySelector('.payment-tab.active').textContent,
                 total: total,
-                status: 'pending' // Initial status
+                status: 'pending'
             };
 
             try {
@@ -1911,7 +2503,6 @@
             }
         });
 
-        // --- UPDATED: Add Product Form using local image path ---
         addProductFormEl.addEventListener('submit', async function (e) {
             e.preventDefault();
             const submitButton = addProductFormEl.querySelector('button[type="submit"]');
@@ -1931,25 +2522,22 @@
             submitButton.textContent = 'Adding...';
 
             try {
-                // 1. Construct the local image path
                 const imageUrl = `images/${imageFilename}`;
-
-                // 2. Create the product object
                 const newProduct = {
                     id: String(Date.now()),
                     name,
                     price,
                     category,
                     description,
-                    image: imageUrl, // Use the local path
+                    image: imageUrl,
                 };
 
-                // 3. Save the product data to Firestore
                 await setDoc(doc(db, "products", newProduct.id), newProduct);
 
                 showAlert("Product added successfully!");
                 allProducts.push(newProduct);
                 renderAllGrids();
+                renderAdminProductsList();
                 addProductFormEl.reset();
             } catch (error) {
                 console.error("Error adding product: ", error);
@@ -1959,7 +2547,6 @@
                 submitButton.textContent = 'Add Product';
             }
         });
-
 
         // --- INITIALIZATION ---
         async function initializeStore() {
