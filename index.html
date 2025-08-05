@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
-  <!-- SEO META TAGS -->
-  <meta content="Buy herbal products online from Mubarak Pansar - Karachi's trusted source for 100% natural remedies, dry fruits, honey, seeds, and supplements." name="description"/>
-  <meta content="pensar, pansar, mubarakpansar, mubarakpensar, herbal store karachi, herbs in karachi, natural remedies pakistan, herbal online store, cold pressed oils, herbal tea, seeds, supplements, dry fruits, essential oils, Karachi herbal store" name="keywords"/>
-  <meta content="Mubarak Pansar" name="author"/>
-  <!-- Open Graph / Facebook -->
-  <meta content="Mubarak Pansar - Herbal Remedies &amp; Natural Products Online" property="og:title"/>
-  <meta content="Explore 100% natural herbal remedies, essential oils, and more at Karachi’s best online herbal store." property="og:description"/>
-  <meta content="https://herbal-pansar.web.app/images/logo.png" property="og:image"/>
-  <meta content="https://herbal-pansar.web.app/" property="og:url"/>
-  <meta content="website" property="og:type"/>
-  <!-- Twitter -->
-  <meta content="summary_large_image" name="twitter:card"/>
-  <meta content="Mubarak Pansar - Karachi's Herbal Experts" name="twitter:title"/>
-  <meta content="Buy herbal supplements, oils, and teas in Pakistan from a trusted Karachi pansar store." name="twitter:description"/>
-  <meta content="https://herbal-pansar.web.app/images/logo.png" name="twitter:image"/>
-  <!-- Schema Markup -->
-  <script type="application/ld+json">
+
+<head>
+    <!-- SEO META TAGS -->
+    <meta
+        content="Buy herbal products online from Mubarak Pansar - Karachi's trusted source for 100% natural remedies, dry fruits, honey, seeds, and supplements."
+        name="description" />
+    <meta
+        content="pensar, pansar, mubarakpansar, mubarakpensar, herbal store karachi, herbs in karachi, natural remedies pakistan, herbal online store, cold pressed oils, herbal tea, seeds, supplements, dry fruits, essential oils, Karachi herbal store"
+        name="keywords" />
+    <meta content="Mubarak Pansar" name="author" />
+    <!-- Open Graph / Facebook -->
+    <meta content="Mubarak Pansar - Herbal Remedies &amp; Natural Products Online" property="og:title" />
+    <meta
+        content="Explore 100% natural herbal remedies, essential oils, and more at Karachi’s best online herbal store."
+        property="og:description" />
+    <meta content="https://herbal-pansar.web.app/images/logo.png" property="og:image" />
+    <meta content="https://herbal-pansar.web.app/" property="og:url" />
+    <meta content="website" property="og:type" />
+    <!-- Twitter -->
+    <meta content="summary_large_image" name="twitter:card" />
+    <meta content="Mubarak Pansar - Karachi's Herbal Experts" name="twitter:title" />
+    <meta content="Buy herbal supplements, oils, and teas in Pakistan from a trusted Karachi pansar store."
+        name="twitter:description" />
+    <meta content="https://herbal-pansar.web.app/images/logo.png" name="twitter:image" />
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
    {
       "@context": "https://schema.org",
       "@type": "Store",
@@ -36,808 +44,818 @@
       ]
     }
   </script>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   Mubarak-pansar - Pakistan Leading Herbal Online Store
-  </title>
-  <link href="styles.css" rel="stylesheet"/>
- </head>
- <body>
-  <div class="modal-overlay hidden" id="custom-modal">
-   <div class="modal-content">
-    <p id="modal-message">
-     This is a message.
-    </p>
-    <button class="btn btn-primary modal-close-btn" id="modal-close-btn">
-     Close
-    </button>
-   </div>
-  </div>
-  <!-- Mobile Search Overlay -->
-  <div class="mobile-search-overlay" id="mobile-search-overlay">
-   <div class="mobile-search-container">
-    <div class="mobile-search-header">
-     <input class="mobile-search-input" id="mobile-search-input" placeholder="Search products..." type="search"/>
-     <button class="mobile-search-close" onclick="closeMobileSearch()">
-      ×
-     </button>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>
+        Mubarak-pansar - Pakistan Leading Herbal Online Store
+    </title>
+    <link href="styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="modal-overlay hidden" id="custom-modal">
+        <div class="modal-content">
+            <p id="modal-message">
+                This is a message.
+            </p>
+            <button class="btn btn-primary modal-close-btn" id="modal-close-btn">
+                Close
+            </button>
+        </div>
     </div>
-    <div class="mobile-search-results">
-     <div class="product-grid" id="mobile-search-results-grid">
-     </div>
+    <!-- Mobile Search Overlay -->
+    <div class="mobile-search-overlay" id="mobile-search-overlay">
+        <div class="mobile-search-container">
+            <div class="mobile-search-header">
+                <input class="mobile-search-input" id="mobile-search-input" placeholder="Search products..."
+                    type="search" />
+                <button class="mobile-search-close" onclick="closeMobileSearch()">
+                    ×
+                </button>
+            </div>
+            <div class="mobile-search-results">
+                <div class="product-grid" id="mobile-search-results-grid">
+                </div>
+            </div>
+        </div>
     </div>
-   </div>
-  </div>
-  <!-- Mobile Menu Overlay -->
-  <div class="mobile-menu-overlay" id="mobile-menu-overlay">
-   <div class="mobile-menu-sidebar" id="mobile-menu-sidebar">
-    <div class="mobile-menu-header">
-     <h3>
-      Menu
-     </h3>
-     <button class="mobile-menu-close" onclick="closeMobileMenu()">
-      ×
-     </button>
-    </div>
-    <div class="mobile-menu-items">
-     <a class="mobile-menu-item" href="#" onclick="showPage('home'); closeMobileMenu();">
-      HOME
-     </a>
-     <a class="mobile-menu-item" href="#" onclick="showPage('dry-fruits'); closeMobileMenu();">
-      DRY FRUITS
-     </a>
-     <a class="mobile-menu-item" href="#" onclick="showPage('herbal-tea'); closeMobileMenu();">
-      HERBAL TEA
-     </a>
-     <a class="mobile-menu-item" href="#" onclick="showPage('honey'); closeMobileMenu();">
-      HONEY
-     </a>
-     <a class="mobile-menu-item" href="#" onclick="showPage('seeds'); closeMobileMenu();">
-      SEEDS
-     </a>
-     <a class="mobile-menu-item" href="#" onclick="showPage('supplements'); closeMobileMenu();">
-      SUPPLEMENTS
-     </a>
-     <a class="mobile-menu-item" href="#" onclick="showPage('capsules'); closeMobileMenu();">
-      CAPSULES
-     </a>
-     <a class="mobile-menu-item" href="#" onclick="showPage('cold-pressed-oil'); closeMobileMenu();">
-      COLD
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <div class="mobile-menu-sidebar" id="mobile-menu-sidebar">
+            <div class="mobile-menu-header">
+                <h3>
+                    Menu
+                </h3>
+                <button class="mobile-menu-close" onclick="closeMobileMenu()">
+                    ×
+                </button>
+            </div>
+            <div class="mobile-menu-items">
+                <a class="mobile-menu-item" href="#" onclick="showPage('home'); closeMobileMenu();">
+                    HOME
+                </a>
+                <a class="mobile-menu-item" href="#" onclick="showPage('dry-fruits'); closeMobileMenu();">
+                    DRY FRUITS
+                </a>
+                <a class="mobile-menu-item" href="#" onclick="showPage('herbal-tea'); closeMobileMenu();">
+                    HERBAL TEA
+                </a>
+                <a class="mobile-menu-item" href="#" onclick="showPage('honey'); closeMobileMenu();">
+                    HONEY
+                </a>
+                <a class="mobile-menu-item" href="#" onclick="showPage('seeds'); closeMobileMenu();">
+                    SEEDS
+                </a>
+                <a class="mobile-menu-item" href="#" onclick="showPage('supplements'); closeMobileMenu();">
+                    SUPPLEMENTS
+                </a>
+                <a class="mobile-menu-item" href="#" onclick="showPage('capsules'); closeMobileMenu();">
+                    CAPSULES
+                </a>
+                <a class="mobile-menu-item" href="#" onclick="showPage('cold-pressed-oil'); closeMobileMenu();">
+                    COLD
                     PRESSED OIL
-     </a>
-     <a class="mobile-menu-item" href="#" onclick="showPage('essential-oils'); closeMobileMenu();">
-      ESSENTIAL
+                </a>
+                <a class="mobile-menu-item" href="#" onclick="showPage('essential-oils'); closeMobileMenu();">
+                    ESSENTIAL
                     OILS
-     </a>
-     <a class="mobile-menu-item" href="#" onclick="showPage('deals'); closeMobileMenu();">
-      DEALS
-     </a>
-    </div>
-   </div>
-  </div>
-  <header class="header" id="main-header">
-   <div class="header-tools">
-    <button class="mobile-menu-btn" onclick="openMobileMenu()">
-     ☰ Menu
-    </button>
-    <div class="logo">
-     <a href="#" onclick="showPage('home')">
-      <img alt="Herbal Store Logo" src="images/logo.png"/>
-     </a>
-    </div>
-    <div class="search-wrapper">
-     <input class="search-input" id="search-input" placeholder="Search products..." type="search"/>
-    </div>
-    <div class="header-right-controls">
-     <button class="mobile-search-btn" onclick="openMobileSearch()">
-      🔍
-     </button>
-     <div id="auth-controls">
-      <a href="#" onclick="showPage('login')">
-       Login
-      </a>
-     </div>
-     <div class="cart-total-display">
-      Total: PKR
-      <span id="cart-total-header">
-       0.00
-      </span>
-     </div>
-     <div class="cart-button" onclick="showPage('cart')">
-      <img alt="your cart" height="30" src="images/cart.png" width="30"/>
-      <span class="cart-item-count-badge">
-       0
-      </span>
-     </div>
-    </div>
-   </div>
-   <div class="nav-container">
-    <nav>
-     <ul class="nav-menu">
-      <li>
-       <a class="nav-link" href="#" onclick="showPage('home')">
-        HOME
-       </a>
-      </li>
-      <li>
-       <a class="nav-link" href="#" onclick="showPage('dry-fruits')">
-        DRY FRUITS
-       </a>
-      </li>
-      <li>
-       <a class="nav-link" href="#" onclick="showPage('herbal-tea')">
-        HERBAL TEA
-       </a>
-      </li>
-      <li>
-       <a class="nav-link" href="#" onclick="showPage('honey')">
-        HONEY
-       </a>
-      </li>
-      <li>
-       <a class="nav-link" href="#" onclick="showPage('seeds')">
-        SEEDS
-       </a>
-      </li>
-      <li>
-       <a class="nav-link" href="#" onclick="showPage('supplements')">
-        SUPPLEMENTS
-       </a>
-      </li>
-      <li>
-       <a class="nav-link" href="#" onclick="showPage('capsules')">
-        CAPSULES
-       </a>
-      </li>
-      <li>
-       <a class="nav-link" href="#" onclick="showPage('cold-pressed-oil')">
-        COLD PRESSED OIL
-       </a>
-      </li>
-      <li>
-       <a class="nav-link" href="#" onclick="showPage('essential-oils')">
-        ESSENTIAL OILS
-       </a>
-      </li>
-      <li>
-       <a class="nav-link" href="#" onclick="showPage('deals')">
-        DEALS
-       </a>
-      </li>
-     </ul>
-    </nav>
-   </div>
-   <div class="top-banner">
-    *Free Shipping For Order Above Rs.2000 **Pakistan's Best Herbal Online Store
-   </div>
-  </header>
-  <main>
-   <div class="page" id="home-page">
-    <div class="slider-container">
-     <div class="slide fade">
-      <video autoplay="" class="background-video" loop="" muted="" playsinline="">
-       <source src="images/Banner 1.mp4" type="video/mp4"/>
-       Your browser does not support the video tag.
-      </video>
-      <div class="slide-content">
-       <h1>
-        Discover Nature's Finest Remedies
-       </h1>
-       <p>
-        Your trusted source for natural health and wellness products.
-       </p>
-       <a class="btn" href="#" onclick="showPage('supplements')">
-        Shop Now
-       </a>
-      </div>
-     </div>
-     <div class="slide fade" style="background-image: url('https://placehold.co/1600x500/e9c46a/ffffff?text=Pure+Honey');">
-      <div class="slide-content">
-       <h1>
-        Premium Quality Honey
-       </h1>
-       <p>
-        100% Pure and Organic Honey varieties.
-       </p>
-       <a class="btn btn-secondary" href="#" onclick="showPage('honey')">
-        Explore Honey
-       </a>
-      </div>
-     </div>
-     <div class="slide fade" style="background-image: url('https://placehold.co/1600x500/f4a261/ffffff?text=Dry+Fruits');">
-      <div class="slide-content">
-       <h1>
-        Fresh Dry Fruits
-       </h1>
-       <p>
-        Packed with nutrients for a healthy lifestyle.
-       </p>
-       <a class="btn" href="#" onclick="showPage('dry-fruits')">
-        View Collection
-       </a>
-      </div>
-     </div>
-     <a class="prev" onclick="plusSlides(-1)">
-      ❮
-     </a>
-     <a class="next" onclick="plusSlides(1)">
-      ❯
-     </a>
-     <div class="dots-container">
-      <span class="dot" onclick="currentSlideDot(1)">
-      </span>
-      <span class="dot" onclick="currentSlideDot(2)">
-      </span>
-      <span class="dot" onclick="currentSlideDot(3)">
-      </span>
-     </div>
-    </div>
-    <section class="collections-section">
-     <div class="container">
-      <h2 class="collection-title">
-       Shop By Collection
-      </h2>
-      <div class="collection-grid">
-       <div class="collection-item" onclick="showPage('dry-fruits')">
-        <div class="collection-image">
-         <img alt="Dry Fruits" src="https://placehold.co/150x150/f4a261/ffffff?text=Dry+Fruits"/>
+                </a>
+                <a class="mobile-menu-item" href="#" onclick="showPage('deals'); closeMobileMenu();">
+                    DEALS
+                </a>
+            </div>
         </div>
-        <h4>
-         Dry Fruits
-        </h4>
-       </div>
-       <div class="collection-item" onclick="showPage('herbal-tea')">
-        <div class="collection-image">
-         <img alt="Herbal Tea" src="https://placehold.co/150x150/2a9d8f/ffffff?text=Herbal+Tea"/>
+    </div>
+    <header class="header" id="main-header">
+        <div class="header-tools">
+            <button class="mobile-menu-btn" onclick="openMobileMenu()">
+                ☰ Menu
+            </button>
+            <div class="logo">
+                <a href="#" onclick="showPage('home')">
+                    <img alt="Herbal Store Logo" src="images/logo.png" />
+                </a>
+            </div>
+            <div class="search-wrapper">
+                <input class="search-input" id="search-input" placeholder="Search products..." type="search" />
+            </div>
+            <div class="header-right-controls">
+                <button class="mobile-search-btn" onclick="openMobileSearch()">
+                    🔍
+                </button>
+                <div id="auth-controls">
+                    <a href="#" onclick="showPage('login')">
+                        Login
+                    </a>
+                </div>
+                <div class="cart-total-display">
+                    Total: PKR
+                    <span id="cart-total-header">
+                        0.00
+                    </span>
+                </div>
+                <div class="cart-button" onclick="showPage('cart')">
+                    <img alt="your cart" height="30" src="images/cart.png" width="30" />
+                    <span class="cart-item-count-badge">
+                        0
+                    </span>
+                </div>
+            </div>
         </div>
-        <h4>
-         Herbal Tea
-        </h4>
-       </div>
-       <div class="collection-item" onclick="showPage('honey')">
-        <div class="collection-image">
-         <img alt="Honey" src="https://placehold.co/150x150/e9c46a/ffffff?text=Honey"/>
+        <div class="nav-container">
+            <nav>
+                <ul class="nav-menu">
+                    <li>
+                        <a class="nav-link" href="#" onclick="showPage('home')">
+                            HOME
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#" onclick="showPage('dry-fruits')">
+                            DRY FRUITS
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#" onclick="showPage('herbal-tea')">
+                            HERBAL TEA
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#" onclick="showPage('honey')">
+                            HONEY
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#" onclick="showPage('seeds')">
+                            SEEDS
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#" onclick="showPage('supplements')">
+                            SUPPLEMENTS
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#" onclick="showPage('capsules')">
+                            CAPSULES
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#" onclick="showPage('cold-pressed-oil')">
+                            COLD PRESSED OIL
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#" onclick="showPage('essential-oils')">
+                            ESSENTIAL OILS
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#" onclick="showPage('deals')">
+                            DEALS
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
-        <h4>
-         Honey
-        </h4>
-       </div>
-       <div class="collection-item" onclick="showPage('seeds')">
-        <div class="collection-image">
-         <img alt="Seeds" src="https://placehold.co/150x150/e76f51/ffffff?text=Seeds"/>
+        <div class="top-banner">
+            *Free Shipping For Order Above Rs.2000 **Pakistan's Best Herbal Online Store
         </div>
-        <h4>
-         Seeds
-        </h4>
-       </div>
-       <div class="collection-item" onclick="showPage('supplements')">
-        <div class="collection-image">
-         <img alt="Supplements" src="https://placehold.co/150x150/8ab17d/ffffff?text=Supplements"/>
+    </header>
+    <main>
+        <div class="page" id="home-page">
+            <div class="slider-container">
+                <div class="slide fade">
+                    <img alt="buy now" src="images/Banner1.png" />
+                    <div class="slide-content">
+                        <h1>
+                            Discover Nature's Finest Remedies
+                        </h1>
+                        <p>
+                            Your trusted source for natural health and wellness products.
+                        </p>
+                        <a class="btn" href="#" onclick="showPage('supplements')">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+                <div class="slide fade">
+                    <img alt="buy now" src="images/Banner1.png" />
+                    <div class="slide-content">
+                        <h1>
+                            Premium Quality Honey
+                        </h1>
+                        <p>
+                            100% Pure and Organic Honey varieties.
+                        </p>
+                        <a class="btn btn-secondary" href="#" onclick="showPage('honey')">
+                            Explore Honey
+                        </a>
+                    </div>
+                </div>
+                <div class="slide fade">
+                        <img alt="buy now" src="images/Banner1.png" />                    <div class="slide-content">
+                        <h1>
+                            Fresh Dry Fruits
+                        </h1>
+                        <p>
+                            Packed with nutrients for a healthy lifestyle.
+                        </p>
+                        <a class="btn" href="#" onclick="showPage('dry-fruits')">
+                            View Collection
+                        </a>
+                    </div>
+                </div>
+                <a class="prev" onclick="plusSlides(-1)">
+                    ❮
+                </a>
+                <a class="next" onclick="plusSlides(1)">
+                    ❯
+                </a>
+                <div class="dots-container">
+                    <span class="dot" onclick="currentSlideDot(1)">
+                    </span>
+                    <span class="dot" onclick="currentSlideDot(2)">
+                    </span>
+                    <span class="dot" onclick="currentSlideDot(3)">
+                    </span>
+                </div>
+            </div>
+            <section class="collections-section">
+                <div class="container">
+                    <h2 class="collection-title">
+                        Shop By Collection
+                    </h2>
+                    <div class="collection-grid">
+                        <div class="collection-item" onclick="showPage('dry-fruits')">
+                            <div class="collection-image">
+                                <img alt="Dry Fruits"
+                                    src="https://placehold.co/150x150/f4a261/ffffff?text=Dry+Fruits" />
+                            </div>
+                            <h4>
+                                Dry Fruits
+                            </h4>
+                        </div>
+                        <div class="collection-item" onclick="showPage('herbal-tea')">
+                            <div class="collection-image">
+                                <img alt="Herbal Tea"
+                                    src="https://placehold.co/150x150/2a9d8f/ffffff?text=Herbal+Tea" />
+                            </div>
+                            <h4>
+                                Herbal Tea
+                            </h4>
+                        </div>
+                        <div class="collection-item" onclick="showPage('honey')">
+                            <div class="collection-image">
+                                <img alt="Honey" src="https://placehold.co/150x150/e9c46a/ffffff?text=Honey" />
+                            </div>
+                            <h4>
+                                Honey
+                            </h4>
+                        </div>
+                        <div class="collection-item" onclick="showPage('seeds')">
+                            <div class="collection-image">
+                                <img alt="Seeds" src="https://placehold.co/150x150/e76f51/ffffff?text=Seeds" />
+                            </div>
+                            <h4>
+                                Seeds
+                            </h4>
+                        </div>
+                        <div class="collection-item" onclick="showPage('supplements')">
+                            <div class="collection-image">
+                                <img alt="Supplements"
+                                    src="https://placehold.co/150x150/8ab17d/ffffff?text=Supplements" />
+                            </div>
+                            <h4>
+                                Supplements
+                            </h4>
+                        </div>
+                        <div class="collection-item" onclick="showPage('essential-oils')">
+                            <div class="collection-image">
+                                <img alt="Essential Oils" src="https://placehold.co/150x150/264653/ffffff?text=Oils" />
+                            </div>
+                            <h4>
+                                Essential Oils
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="products page-content">
+                <div class="container">
+                    <h2 class="section-title">
+                        All Products
+                    </h2>
+                    <div class="product-grid" id="all-products-grid">
+                    </div>
+                </div>
+            </section>
         </div>
-        <h4>
-         Supplements
-        </h4>
-       </div>
-       <div class="collection-item" onclick="showPage('essential-oils')">
-        <div class="collection-image">
-         <img alt="Essential Oils" src="https://placehold.co/150x150/264653/ffffff?text=Oils"/>
+        <div class="page hidden" id="dry-fruits-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>
+                        Dry Fruits
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container">
+                    <div class="product-grid" id="dry-fruits-grid">
+                    </div>
+                </div>
+            </div>
         </div>
-        <h4>
-         Essential Oils
-        </h4>
-       </div>
-      </div>
-     </div>
-    </section>
-    <section class="products page-content">
-     <div class="container">
-      <h2 class="section-title">
-       All Products
-      </h2>
-      <div class="product-grid" id="all-products-grid">
-      </div>
-     </div>
-    </section>
-   </div>
-   <div class="page hidden" id="dry-fruits-page">
-    <div class="page-header">
-     <div class="container">
-      <h1>
-       Dry Fruits
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container">
-      <div class="product-grid" id="dry-fruits-grid">
-      </div>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="herbal-tea-page">
-    <div class="page-header">
-     <div class="container">
-      <h1>
-       Herbal Tea
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container">
-      <div class="product-grid" id="herbal-tea-grid">
-      </div>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="honey-page">
-    <div class="page-header">
-     <div class="container">
-      <h1>
-       Honey
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container">
-      <div class="product-grid" id="honey-grid">
-      </div>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="seeds-page">
-    <div class="page-header">
-     <div class="container">
-      <h1>
-       Seeds
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container">
-      <div class="product-grid" id="seeds-grid">
-      </div>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="supplements-page">
-    <div class="page-header">
-     <div class="container">
-      <h1>
-       Supplements
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container">
-      <div class="product-grid" id="supplements-grid">
-      </div>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="capsules-page">
-    <div class="page-header">
-     <div class="container">
-      <h1>
-       Capsules
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container">
-      <div class="product-grid" id="capsules-grid">
-      </div>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="cold-pressed-oil-page">
-    <div class="page-header">
-     <div class="container">
-      <h1>
-       Cold Pressed Oil
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container">
-      <div class="product-grid" id="cold-pressed-oil-grid">
-      </div>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="essential-oils-page">
-    <div class="page-header">
-     <div class="container">
-      <h1>
-       Essential Oils
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container">
-      <div class="product-grid" id="essential-oils-grid">
-      </div>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="deals-page">
-    <div class="page-header">
-     <div class="container">
-      <h1>
-       Deals
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container">
-      <div class="product-grid" id="deals-grid">
-      </div>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="search-results-page">
-    <div class="page-header">
-     <div class="container">
-      <h1 id="search-results-title">
-       Search Results
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container">
-      <div class="product-grid" id="search-results-grid">
-      </div>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="product-detail-page">
-    <div class="page-content">
-     <div class="container" id="product-detail-content">
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="cart-page">
-    <div class="page-header">
-     <div class="container">
-      <h1>
-       Shopping Cart
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container" id="cart-view-container">
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="checkout-page">
-    <div class="page-header">
-     <div class="container">
-      <h1>
-       Checkout
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container checkout-container">
-      <div class="checkout-form">
-       <h3>
-        Shipping Details
-       </h3>
-       <form id="checkout-form-element">
-        <div class="form-group">
-         <label for="fullName">
-          Full Name
-         </label>
-         <input id="fullName" name="Full Name" required="" type="text"/>
+        <div class="page hidden" id="herbal-tea-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>
+                        Herbal Tea
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container">
+                    <div class="product-grid" id="herbal-tea-grid">
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group hidden" id="guest-email-group">
-         <label for="email">
-          Email
+        <div class="page hidden" id="honey-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>
+                        Honey
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container">
+                    <div class="product-grid" id="honey-grid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page hidden" id="seeds-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>
+                        Seeds
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container">
+                    <div class="product-grid" id="seeds-grid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page hidden" id="supplements-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>
+                        Supplements
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container">
+                    <div class="product-grid" id="supplements-grid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page hidden" id="capsules-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>
+                        Capsules
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container">
+                    <div class="product-grid" id="capsules-grid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page hidden" id="cold-pressed-oil-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>
+                        Cold Pressed Oil
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container">
+                    <div class="product-grid" id="cold-pressed-oil-grid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page hidden" id="essential-oils-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>
+                        Essential Oils
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container">
+                    <div class="product-grid" id="essential-oils-grid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page hidden" id="deals-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>
+                        Deals
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container">
+                    <div class="product-grid" id="deals-grid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page hidden" id="search-results-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1 id="search-results-title">
+                        Search Results
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container">
+                    <div class="product-grid" id="search-results-grid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page hidden" id="product-detail-page">
+            <div class="page-content">
+                <div class="container" id="product-detail-content">
+                </div>
+            </div>
+        </div>
+        <div class="page hidden" id="cart-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>
+                        Shopping Cart
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container" id="cart-view-container">
+                </div>
+            </div>
+        </div>
+        <div class="page hidden" id="checkout-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>
+                        Checkout
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container checkout-container">
+                    <div class="checkout-form">
+                        <h3>
+                            Shipping Details
+                        </h3>
+                        <form id="checkout-form-element">
+                            <div class="form-group">
+                                <label for="fullName">
+                                    Full Name
+                                </label>
+                                <input id="fullName" name="Full Name" required="" type="text" />
+                            </div>
+                            <div class="form-group hidden" id="guest-email-group">
+                                <label for="email">
+                                    Email
                                     Address
-         </label>
-         <input id="email" name="Email" required="" type="email"/>
-        </div>
-        <div class="form-group">
-         <label for="phone">
-          Phone Number
-         </label>
-         <input id="phone" name="Phone Number" required="" type="tel"/>
-        </div>
-        <div class="form-group">
-         <label for="address">
-          Full Address
-         </label>
-         <textarea id="address" name="Address" required="" rows="4"></textarea>
-        </div>
-        <div class="payment-methods">
-         <h3>
-          Payment Method
-         </h3>
-         <div class="payment-method-tabs">
-          <div class="payment-tab active" onclick="showPaymentContent('cod')">
-           Cash on Delivery
-          </div>
-          <div class="payment-tab" onclick="showPaymentContent('easypaisa')">
-           EasyPaisa
-          </div>
-          <div class="payment-tab" onclick="showPaymentContent('card')">
-           Card Payment
-          </div>
-         </div>
-         <div class="payment-content" id="cod-content">
-          <p>
-           You will pay when your order is delivered.
-          </p>
-         </div>
-         <div class="payment-content hidden" id="easypaisa-content">
-          <p>
-           Please transfer the total amount to the following EasyPaisa account and enter the
+                                </label>
+                                <input id="email" name="Email" required="" type="email" />
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">
+                                    Phone Number
+                                </label>
+                                <input id="phone" name="Phone Number" required="" type="tel" />
+                            </div>
+                            <div class="form-group">
+                                <label for="address">
+                                    Full Address
+                                </label>
+                                <textarea id="address" name="Address" required="" rows="4"></textarea>
+                            </div>
+                            <div class="payment-methods">
+                                <h3>
+                                    Payment Method
+                                </h3>
+                                <div class="payment-method-tabs">
+                                    <div class="payment-tab active" onclick="showPaymentContent('cod')">
+                                        Cash on Delivery
+                                    </div>
+                                    <div class="payment-tab" onclick="showPaymentContent('easypaisa')">
+                                        EasyPaisa
+                                    </div>
+                                    <div class="payment-tab" onclick="showPaymentContent('card')">
+                                        Card Payment
+                                    </div>
+                                </div>
+                                <div class="payment-content" id="cod-content">
+                                    <p>
+                                        You will pay when your order is delivered.
+                                    </p>
+                                </div>
+                                <div class="payment-content hidden" id="easypaisa-content">
+                                    <p>
+                                        Please transfer the total amount to the following EasyPaisa account and enter
+                                        the
                                         Transaction ID below:
-          </p>
-          <p>
-           <b>
-            Account Title:
-           </b>
-           Herbal Store PK
-           <br/>
-           <b>
-            Account Number:
-           </b>
-           0300-1234567
-          </p>
-          <div class="form-group" style="margin-top: 15px;">
-           <label for="easypaisa-tid">
-            Transaction ID (TID)
-           </label>
-           <input id="easypaisa-tid" name="EasyPaisa TID" placeholder="Enter your payment TID" type="text"/>
-          </div>
-         </div>
-         <div class="payment-content hidden" id="card-content">
-          <div class="form-group">
-           <label for="card-number">
-            Card Number
-           </label>
-           <input id="card-number" name="Card Number" placeholder="XXXX XXXX XXXX XXXX" type="text"/>
-          </div>
-          <div class="form-group" style="display: flex; gap: 10px;">
-           <div style="flex: 1;">
-            <label for="card-expiry">
-             Expiry (MM/YY)
-            </label>
-            <input id="card-expiry" name="Card Expiry" placeholder="MM/YY" type="text"/>
-           </div>
-           <div style="flex: 1;">
-            <label for="card-cvc">
-             CVC
-            </label>
-            <input id="card-cvc" name="Card CVC" placeholder="XXX" type="text"/>
-           </div>
-          </div>
-          <div class="payment-warning">
-           <strong>
-            For Demo Purposes Only.
-           </strong>
-           Do not enter
+                                    </p>
+                                    <p>
+                                        <b>
+                                            Account Title:
+                                        </b>
+                                        Herbal Store PK
+                                        <br />
+                                        <b>
+                                            Account Number:
+                                        </b>
+                                        0300-1234567
+                                    </p>
+                                    <div class="form-group" style="margin-top: 15px;">
+                                        <label for="easypaisa-tid">
+                                            Transaction ID (TID)
+                                        </label>
+                                        <input id="easypaisa-tid" name="EasyPaisa TID"
+                                            placeholder="Enter your payment TID" type="text" />
+                                    </div>
+                                </div>
+                                <div class="payment-content hidden" id="card-content">
+                                    <div class="form-group">
+                                        <label for="card-number">
+                                            Card Number
+                                        </label>
+                                        <input id="card-number" name="Card Number" placeholder="XXXX XXXX XXXX XXXX"
+                                            type="text" />
+                                    </div>
+                                    <div class="form-group" style="display: flex; gap: 10px;">
+                                        <div style="flex: 1;">
+                                            <label for="card-expiry">
+                                                Expiry (MM/YY)
+                                            </label>
+                                            <input id="card-expiry" name="Card Expiry" placeholder="MM/YY"
+                                                type="text" />
+                                        </div>
+                                        <div style="flex: 1;">
+                                            <label for="card-cvc">
+                                                CVC
+                                            </label>
+                                            <input id="card-cvc" name="Card CVC" placeholder="XXX" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="payment-warning">
+                                        <strong>
+                                            For Demo Purposes Only.
+                                        </strong>
+                                        Do not enter
                                         real credit card information.
-          </div>
-         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn-primary" style="margin-top: 20px;" type="submit">
+                                Place Order
+                            </button>
+                        </form>
+                    </div>
+                    <div class="order-summary">
+                        <h3>
+                            Your Order
+                        </h3>
+                        <div id="checkout-summary-container">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button class="btn-primary" style="margin-top: 20px;" type="submit">
-         Place Order
-        </button>
-       </form>
-      </div>
-      <div class="order-summary">
-       <h3>
-        Your Order
-       </h3>
-       <div id="checkout-summary-container">
-       </div>
-      </div>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="order-success-page">
-    <div class="page-content" style="text-align: center;">
-     <div class="container">
-      <h2>
-       ✅ Thank You!
-      </h2>
-      <p>
-       Your order has been placed successfully.
-      </p>
-      <p>
-       We will contact you shortly to confirm the details.
-      </p>
-      <button class="btn-primary" onclick="showPage('home'); cart = []; updateCartDisplay();" style="margin-top: 20px; width: auto;">
-       Continue Shopping
-      </button>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="login-page">
-    <div class="auth-page">
-     <div class="auth-container">
-      <form id="login-form">
-       <h2>
-        Login
-       </h2>
-       <div class="form-group">
-        <label for="login-email">
-         Email
-        </label>
-        <input id="login-email" required="" type="email"/>
-       </div>
-       <div class="form-group">
-        <label for="login-password">
-         Password
-        </label>
-        <input id="login-password" required="" type="password"/>
-       </div>
-       <button class="btn btn-primary" type="submit">
-        Login
-       </button>
-       <p class="toggle-auth">
-        Don't have an account?
-        <a onclick="toggleAuthForms()">
-         Sign Up
-        </a>
-       </p>
-      </form>
-      <form class="hidden" id="signup-form">
-       <h2>
-        Sign Up
-       </h2>
-       <div class="form-group">
-        <label for="signup-name">
-         Name
-        </label>
-        <input id="signup-name" required="" type="text"/>
-       </div>
-       <div class="form-group">
-        <label for="signup-email">
-         Email
-        </label>
-        <input id="signup-email" required="" type="email"/>
-       </div>
-       <div class="form-group">
-        <label for="signup-password">
-         Password
-        </label>
-        <input id="signup-password" required="" type="password"/>
-       </div>
-       <button class="btn btn-primary" type="submit">
-        Sign Up
-       </button>
-       <p class="toggle-auth">
-        Already have an account?
-        <a onclick="toggleAuthForms()">
-         Login
-        </a>
-       </p>
-      </form>
-     </div>
-    </div>
-   </div>
-   <div class="page hidden" id="admin-page">
-    <div class="page-header">
-     <div class="container">
-      <h1>
-       Admin Panel
-      </h1>
-     </div>
-    </div>
-    <div class="page-content">
-     <div class="container admin-panel">
-      <div class="admin-tabs">
-       <div class="admin-tab active" onclick="showAdminContent('orders')">
-        Orders
-       </div>
-       <div class="admin-tab" onclick="showAdminContent('products')">
-        Add Product
-       </div>
-       <div class="admin-tab" onclick="showAdminContent('manage')">
-        Manage Products
-       </div>
-      </div>
-      <div class="admin-content" id="admin-orders-content">
-       <h3 style="margin-bottom: 20px;">
-        Received Orders
-       </h3>
-       <div id="orders-list">
-       </div>
-      </div>
-      <div class="admin-content hidden" id="admin-products-content">
-       <h3 style="margin-bottom: 20px;">
-        Add a New Product
-       </h3>
-       <form id="add-product-form">
-        <div class="admin-product-form">
-         <div class="form-group">
-          <label for="product-name">
-           Product Name
-          </label>
-          <input id="product-name" required="" type="text"/>
-         </div>
-         <div class="form-group">
-          <label for="product-price">
-           Price (PKR)
-          </label>
-          <input id="product-price" required="" type="number"/>
-         </div>
-         <div class="form-group">
-          <label for="product-category">
-           Category
-          </label>
-          <select id="product-category" required="" style="width:100%; padding:12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
-           <option value="dry-fruits">
-            Dry Fruits
-           </option>
-           <option value="herbal-tea">
-            Herbal Tea
-           </option>
-           <option value="honey">
-            Honey
-           </option>
-           <option value="seeds">
-            Seeds
-           </option>
-           <option value="supplements">
-            Supplements
-           </option>
-           <option value="capsules">
-            Capsules
-           </option>
-           <option value="cold-pressed-oil">
-            Cold Pressed Oil
-           </option>
-           <option value="essential-oils">
-            Essential Oils
-           </option>
-           <option value="deals">
-            Deals
-           </option>
-          </select>
-         </div>
-         <div class="form-group">
-          <label for="product-image-filename">
-           Product Image Filename
-          </label>
-          <input id="product-image-filename" placeholder="e.g., my-image.jpg" required="" type="text"/>
-         </div>
-         <div class="form-group" style="grid-column: 1 / -1;">
-          <label for="product-description">
-           Description
-          </label>
-          <textarea id="product-description" required="" rows="4"></textarea>
-         </div>
+        <div class="page hidden" id="order-success-page">
+            <div class="page-content" style="text-align: center;">
+                <div class="container">
+                    <h2>
+                        ✅ Thank You!
+                    </h2>
+                    <p>
+                        Your order has been placed successfully.
+                    </p>
+                    <p>
+                        We will contact you shortly to confirm the details.
+                    </p>
+                    <button class="btn-primary" onclick="showPage('home'); cart = []; updateCartDisplay();"
+                        style="margin-top: 20px; width: auto;">
+                        Continue Shopping
+                    </button>
+                </div>
+            </div>
         </div>
-        <button class="btn btn-primary" style="margin-top: 20px; width: auto;" type="submit">
-         Add
+        <div class="page hidden" id="login-page">
+            <div class="auth-page">
+                <div class="auth-container">
+                    <form id="login-form">
+                        <h2>
+                            Login
+                        </h2>
+                        <div class="form-group">
+                            <label for="login-email">
+                                Email
+                            </label>
+                            <input id="login-email" required="" type="email" />
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">
+                                Password
+                            </label>
+                            <input id="login-password" required="" type="password" />
+                        </div>
+                        <button class="btn btn-primary" type="submit">
+                            Login
+                        </button>
+                        <p class="toggle-auth">
+                            Don't have an account?
+                            <a onclick="toggleAuthForms()">
+                                Sign Up
+                            </a>
+                        </p>
+                    </form>
+                    <form class="hidden" id="signup-form">
+                        <h2>
+                            Sign Up
+                        </h2>
+                        <div class="form-group">
+                            <label for="signup-name">
+                                Name
+                            </label>
+                            <input id="signup-name" required="" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">
+                                Email
+                            </label>
+                            <input id="signup-email" required="" type="email" />
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">
+                                Password
+                            </label>
+                            <input id="signup-password" required="" type="password" />
+                        </div>
+                        <button class="btn btn-primary" type="submit">
+                            Sign Up
+                        </button>
+                        <p class="toggle-auth">
+                            Already have an account?
+                            <a onclick="toggleAuthForms()">
+                                Login
+                            </a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="page hidden" id="admin-page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>
+                        Admin Panel
+                    </h1>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="container admin-panel">
+                    <div class="admin-tabs">
+                        <div class="admin-tab active" onclick="showAdminContent('orders')">
+                            Orders
+                        </div>
+                        <div class="admin-tab" onclick="showAdminContent('products')">
+                            Add Product
+                        </div>
+                        <div class="admin-tab" onclick="showAdminContent('manage')">
+                            Manage Products
+                        </div>
+                    </div>
+                    <div class="admin-content" id="admin-orders-content">
+                        <h3 style="margin-bottom: 20px;">
+                            Received Orders
+                        </h3>
+                        <div id="orders-list">
+                        </div>
+                    </div>
+                    <div class="admin-content hidden" id="admin-products-content">
+                        <h3 style="margin-bottom: 20px;">
+                            Add a New Product
+                        </h3>
+                        <form id="add-product-form">
+                            <div class="admin-product-form">
+                                <div class="form-group">
+                                    <label for="product-name">
+                                        Product Name
+                                    </label>
+                                    <input id="product-name" required="" type="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-price">
+                                        Price (PKR)
+                                    </label>
+                                    <input id="product-price" required="" type="number" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-category">
+                                        Category
+                                    </label>
+                                    <select id="product-category" required=""
+                                        style="width:100%; padding:12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+                                        <option value="dry-fruits">
+                                            Dry Fruits
+                                        </option>
+                                        <option value="herbal-tea">
+                                            Herbal Tea
+                                        </option>
+                                        <option value="honey">
+                                            Honey
+                                        </option>
+                                        <option value="seeds">
+                                            Seeds
+                                        </option>
+                                        <option value="supplements">
+                                            Supplements
+                                        </option>
+                                        <option value="capsules">
+                                            Capsules
+                                        </option>
+                                        <option value="cold-pressed-oil">
+                                            Cold Pressed Oil
+                                        </option>
+                                        <option value="essential-oils">
+                                            Essential Oils
+                                        </option>
+                                        <option value="deals">
+                                            Deals
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-image-filename">
+                                        Product Image Filename
+                                    </label>
+                                    <input id="product-image-filename" placeholder="e.g., my-image.jpg" required=""
+                                        type="text" />
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label for="product-description">
+                                        Description
+                                    </label>
+                                    <textarea id="product-description" required="" rows="4"></textarea>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" style="margin-top: 20px; width: auto;" type="submit">
+                                Add
                                 Product
-        </button>
-       </form>
-      </div>
-      <div class="admin-content hidden" id="admin-manage-content">
-       <h3 style="margin-bottom: 20px;">
-        Manage Products
-       </h3>
-       <div id="admin-products-list">
-       </div>
-      </div>
-     </div>
-    </div>
-   </div>
-  </main>
-  <footer class="footer">
-   <div class="container">
-    <p>
-     © 2025 Herbal Store. All rights reserved. | Pakistan's Leading Herbal Online Store
-    </p>
-   </div>
-  </footer>
-  <script type="module">
-   // Import the functions you need from the SDKs
+                            </button>
+                        </form>
+                    </div>
+                    <div class="admin-content hidden" id="admin-manage-content">
+                        <h3 style="margin-bottom: 20px;">
+                            Manage Products
+                        </h3>
+                        <div id="admin-products-list">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <p>
+                © 2025 Herbal Store. All rights reserved. | Pakistan's Leading Herbal Online Store
+            </p>
+        </div>
+    </footer>
+    <script type="module">
+        // Import the functions you need from the SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, doc, setDoc, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -1522,6 +1540,7 @@
 
         // Run the store on window load
         window.onload = initializeStore;
-  </script>
- </body>
+    </script>
+</body>
+
 </html>
