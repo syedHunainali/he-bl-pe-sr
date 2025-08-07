@@ -129,7 +129,7 @@
     <header class="header" id="main-header">
         <div class="header-tools">
             <button class="mobile-menu-btn" onclick="openMobileMenu()">
-                ☰ Menu
+                ☰
             </button>
             <div class="logo">
                 <a href="#" onclick="showPage('home')">
@@ -224,9 +224,10 @@
     </header>
     <main>
         <div class="page" id="home-page">
-            <div class="slider-container">
-                <div class="slide fade">
-                    <img alt="buy now" src="images/Banner1.png" />
+            <!-- Desktop Banner (Slider with 2 slides) -->
+            <div id="desktop-slider" class="slider-container desktop-banner">
+                <div class="slide">
+                    <img alt="Herbal Remedies Banner" src="images/Banner1.png" />
                     <div class="slide-content">
                         <h1>
                             Discover Nature's Finest Remedies
@@ -239,8 +240,8 @@
                         </a>
                     </div>
                 </div>
-                <div class="slide fade">
-                    <img alt="buy now" src="images/Banner1.png" />
+                <div class="slide">
+                    <img alt="Premium Honey Banner" src="images/Banner1.png" />
                     <div class="slide-content">
                         <h1>
                             Premium Quality Honey
@@ -250,19 +251,6 @@
                         </p>
                         <a class="btn btn-secondary" href="#" onclick="showPage('honey')">
                             Explore Honey
-                        </a>
-                    </div>
-                </div>
-                <div class="slide fade">
-                        <img alt="buy now" src="images/Banner1.png" />                    <div class="slide-content">
-                        <h1>
-                            Fresh Dry Fruits
-                        </h1>
-                        <p>
-                            Packed with nutrients for a healthy lifestyle.
-                        </p>
-                        <a class="btn" href="#" onclick="showPage('dry-fruits')">
-                            View Collection
                         </a>
                     </div>
                 </div>
@@ -277,10 +265,28 @@
                     </span>
                     <span class="dot" onclick="currentSlideDot(2)">
                     </span>
-                    <span class="dot" onclick="currentSlideDot(3)">
-                    </span>
                 </div>
             </div>
+
+            <!-- Mobile Banner (1 slide) -->
+            <div id="mobile-slider" class="slider-container mobile-banner">
+                <div class="slide" style="display: block;">
+                    <!-- It's recommended to use a vertically oriented banner image for mobile -->
+                    <img alt="Herbal Remedies Mobile Banner" src="images/Banner1.png" />
+                    <div class="slide-content">
+                        <h1>
+                            Nature's Finest Remedies
+                        </h1>
+                        <p>
+                            Natural health and wellness.
+                        </p>
+                        <a class="btn" href="#" onclick="showPage('supplements')">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <section class="collections-section">
                 <div class="container">
                     <h2 class="collection-title">
@@ -290,7 +296,7 @@
                         <div class="collection-item" onclick="showPage('dry-fruits')">
                             <div class="collection-image">
                                 <img alt="Dry Fruits"
-                                    src="https://placehold.co/150x150/f4a261/ffffff?text=Dry+Fruits" />
+                                    src="images/collection-1.png" />
                             </div>
                             <h4>
                                 Dry Fruits
@@ -299,7 +305,7 @@
                         <div class="collection-item" onclick="showPage('herbal-tea')">
                             <div class="collection-image">
                                 <img alt="Herbal Tea"
-                                    src="https://placehold.co/150x150/2a9d8f/ffffff?text=Herbal+Tea" />
+                                    src="images/collection-2.png" />
                             </div>
                             <h4>
                                 Herbal Tea
@@ -307,7 +313,7 @@
                         </div>
                         <div class="collection-item" onclick="showPage('honey')">
                             <div class="collection-image">
-                                <img alt="Honey" src="https://placehold.co/150x150/e9c46a/ffffff?text=Honey" />
+                                <img alt="Honey" src="images/collection-3.png" />
                             </div>
                             <h4>
                                 Honey
@@ -315,7 +321,7 @@
                         </div>
                         <div class="collection-item" onclick="showPage('seeds')">
                             <div class="collection-image">
-                                <img alt="Seeds" src="https://placehold.co/150x150/e76f51/ffffff?text=Seeds" />
+                                <img alt="Seeds" src="images/collection-4.png" />
                             </div>
                             <h4>
                                 Seeds
@@ -324,7 +330,7 @@
                         <div class="collection-item" onclick="showPage('supplements')">
                             <div class="collection-image">
                                 <img alt="Supplements"
-                                    src="https://placehold.co/150x150/8ab17d/ffffff?text=Supplements" />
+                                    src="images/collection-5.png" />
                             </div>
                             <h4>
                                 Supplements
@@ -332,7 +338,7 @@
                         </div>
                         <div class="collection-item" onclick="showPage('essential-oils')">
                             <div class="collection-image">
-                                <img alt="Essential Oils" src="https://placehold.co/150x150/264653/ffffff?text=Oils" />
+                                <img alt="Essential Oils" src="images/collection-6.png" />
                             </div>
                             <h4>
                                 Essential Oils
@@ -883,7 +889,7 @@
         let cart = [];
         let lastViewedCategory = 'home';
         let currentUser = null;
-        let slideIndex = 1;
+        let slideIndex = 1; // For the desktop slider
         let slideInterval;
         let lastScrollY = 0;
 
@@ -1069,7 +1075,7 @@
             showPage('product-detail');
         }
 
-        // --- SLIDER LOGIC ---
+        // --- SLIDER LOGIC (for Desktop) ---
         window.plusSlides = function (n) {
             showSlides(slideIndex += n);
             resetSlideInterval();
@@ -1081,15 +1087,21 @@
         }
 
         function showSlides(n) {
-            let slides = document.getElementsByClassName("slide");
-            let dots = document.getElementsByClassName("dot");
+            let i;
+            const sliderEl = document.getElementById('desktop-slider');
+            if (!sliderEl) return;
+
+            let slides = sliderEl.getElementsByClassName("slide");
+            let dots = sliderEl.getElementsByClassName("dot");
             if (slides.length === 0) return;
+
             if (n > slides.length) { slideIndex = 1 }
             if (n < 1) { slideIndex = slides.length }
-            for (let i = 0; i < slides.length; i++) {
+
+            for (i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none";
             }
-            for (let i = 0; i < dots.length; i++) {
+            for (i = 0; i < dots.length; i++) {
                 dots[i].className = dots[i].className.replace(" active-dot", "");
             }
             slides[slideIndex - 1].style.display = "block";
