@@ -224,7 +224,7 @@
     </header>
     <main>
         <div class="page" id="home-page">
-            <!-- Desktop Banner (Slider with 2 slides) -->
+            <!-- Desktop Banner (Slider with 3 slides) -->
             <div id="desktop-slider" class="slider-container desktop-banner">
                 <div class="slide">
                     <img alt="Herbal Remedies Banner" src="images/Banner1.png" />
@@ -241,7 +241,7 @@
                     </div>
                 </div>
                 <div class="slide">
-                    <img alt="Premium Honey Banner" src="images/Banner1.png" />
+                    <img alt="Premium Honey Banner" src="images/Banner2.png" />
                     <div class="slide-content">
                         <h1>
                             Premium Quality Honey
@@ -251,6 +251,20 @@
                         </p>
                         <a class="btn btn-secondary" href="#" onclick="showPage('honey')">
                             Explore Honey
+                        </a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img alt="Fresh Dry Fruits Banner" src="images/Banner1.png" />
+                    <div class="slide-content">
+                        <h1>
+                            Fresh & Healthy Dry Fruits
+                        </h1>
+                        <p>
+                            The perfect snack for a healthy lifestyle.
+                        </p>
+                        <a class="btn" href="#" onclick="showPage('dry-fruits')">
+                            View Collection
                         </a>
                     </div>
                 </div>
@@ -265,23 +279,43 @@
                     </span>
                     <span class="dot" onclick="currentSlideDot(2)">
                     </span>
+                    <span class="dot" onclick="currentSlideDot(3)">
+                    </span>
                 </div>
             </div>
 
-            <!-- Mobile Banner (1 slide) -->
+            <!-- Mobile Banner (3 slides, auto-rotating) -->
             <div id="mobile-slider" class="slider-container mobile-banner">
                 <div class="slide" style="display: block;">
-                    <!-- It's recommended to use a vertically oriented banner image for mobile -->
-                    <img alt="Herbal Remedies Mobile Banner" src="images/Banner1.png" />
+                    <img alt="Herbal Remedies Mobile Banner" src="images/MBanner1.png" />
                     <div class="slide-content">
                         <h1>
                             Nature's Finest Remedies
                         </h1>
-                        <p>
-                            Natural health and wellness.
-                        </p>
                         <a class="btn" href="#" onclick="showPage('supplements')">
                             Shop Now
+                        </a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img alt="Premium Honey Mobile Banner" src="images/MBanner2.png" />
+                    <div class="slide-content">
+                        <h1>
+                            Premium Quality Honey
+                        </h1>
+                        <a class="btn" href="#" onclick="showPage('honey')">
+                            Explore
+                        </a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img alt="Dry Fruits Mobile Banner" src="images/MBanner3.png" />
+                    <div class="slide-content">
+                        <h1>
+                            Healthy Dry Fruits
+                        </h1>
+                        <a class="btn" href="#" onclick="showPage('dry-fruits')">
+                            View All
                         </a>
                     </div>
                 </div>
@@ -889,8 +923,9 @@
         let cart = [];
         let lastViewedCategory = 'home';
         let currentUser = null;
-        let slideIndex = 1; // For the desktop slider
-        let slideInterval;
+        let desktopSlideIndex = 1;
+        let desktopSlideInterval;
+        let mobileSlideIndex = 0;
         let lastScrollY = 0;
 
         // --- DOM ELEMENTS ---
@@ -1075,15 +1110,16 @@
             showPage('product-detail');
         }
 
-        // --- SLIDER LOGIC (for Desktop) ---
+        // --- SLIDER LOGIC ---
+        // Desktop Slider
         window.plusSlides = function (n) {
-            showSlides(slideIndex += n);
-            resetSlideInterval();
+            showSlides(desktopSlideIndex += n);
+            resetDesktopSlideInterval();
         }
 
         window.currentSlideDot = function (n) {
-            showSlides(slideIndex = n);
-            resetSlideInterval();
+            showSlides(desktopSlideIndex = n);
+            resetDesktopSlideInterval();
         }
 
         function showSlides(n) {
@@ -1095,8 +1131,8 @@
             let dots = sliderEl.getElementsByClassName("dot");
             if (slides.length === 0) return;
 
-            if (n > slides.length) { slideIndex = 1 }
-            if (n < 1) { slideIndex = slides.length }
+            if (n > slides.length) { desktopSlideIndex = 1 }
+            if (n < 1) { desktopSlideIndex = slides.length }
 
             for (i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none";
@@ -1104,14 +1140,31 @@
             for (i = 0; i < dots.length; i++) {
                 dots[i].className = dots[i].className.replace(" active-dot", "");
             }
-            slides[slideIndex - 1].style.display = "block";
-            dots[slideIndex - 1].className += " active-dot";
+            slides[desktopSlideIndex - 1].style.display = "block";
+            dots[desktopSlideIndex - 1].className += " active-dot";
         }
 
-        function resetSlideInterval() {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(() => plusSlides(1), 5000);
+        function resetDesktopSlideInterval() {
+            clearInterval(desktopSlideInterval);
+            desktopSlideInterval = setInterval(() => plusSlides(1), 5000);
         }
+
+        // Mobile Slider (Auto-rotating)
+        function rotateMobileSlides() {
+            let i;
+            const sliderEl = document.getElementById('mobile-slider');
+            if (!sliderEl) return;
+            let slides = sliderEl.getElementsByClassName("slide");
+            if (slides.length === 0) return;
+
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            mobileSlideIndex++;
+            if (mobileSlideIndex > slides.length) { mobileSlideIndex = 1 }
+            slides[mobileSlideIndex - 1].style.display = "block";
+        }
+
 
         // --- CART LOGIC ---
         function addToCart(productId, quantity) {
@@ -1546,8 +1599,12 @@
 
             // Initial UI setup
             updateCartDisplay();
-            showSlides(slideIndex);
-            resetSlideInterval();
+            // Start Desktop Slider
+            showSlides(desktopSlideIndex);
+            resetDesktopSlideInterval();
+            // Start Mobile Slider
+            rotateMobileSlides();
+            setInterval(rotateMobileSlides, 5000);
         }
 
         // Run the store on window load
