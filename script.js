@@ -1,8 +1,9 @@
-// Import Firebase functions
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, doc, setDoc, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// Import Firebase functions from the latest SDK
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, doc, setDoc, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // --- FIREBASE SETUP ---
+// Your provided Firebase config
 const firebaseConfig = {
     apiKey: "AIzaSyCJnref7x3qqdtlFGtt-c6lZjUcmlfYK0I",
     authDomain: "herbal-pansar.firebaseapp.com",
@@ -17,8 +18,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// --- CONSTANTS ---
+const DISCOUNT_RATE = 0.14; // 14% discount
+
 // --- PERFORMANCE OPTIMIZATIONS ---
-// Debounce function for search
+// Debounce function to limit the rate at which a function gets called.
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -31,7 +35,7 @@ function debounce(func, wait) {
     };
 }
 
-// Document fragment for better DOM performance
+// Function to create a document fragment for efficient DOM manipulation
 function createDocumentFragment() {
     return document.createDocumentFragment();
 }
@@ -45,9 +49,9 @@ let desktopSlideIndex = 1;
 let desktopSlideInterval;
 let mobileSlideIndex = 0;
 let lastScrollY = 0;
-let tooltipShown = false; // Track if appointment tooltip has been shown
 
 // --- CACHED DOM ELEMENTS ---
+// Caching DOM elements for faster access
 const elements = {
     pages: document.querySelectorAll('.page'),
     cartTotalHeaderEl: document.getElementById('cart-total-header'),
@@ -57,7 +61,8 @@ const elements = {
     productDetailContentEl: document.getElementById('product-detail-content'),
     searchInputEl: document.getElementById('search-input'),
     mobileSearchInputEl: document.getElementById('mobile-search-input'),
-    authControlsEl: document.getElementById('auth-controls'),
+    authControlsDesktopEl: document.getElementById('auth-controls-desktop'),
+    authControlsMobileEl: document.getElementById('auth-controls-mobile'),
     loginFormEl: document.getElementById('login-form'),
     signupFormEl: document.getElementById('signup-form'),
     ordersListEl: document.getElementById('orders-list'),
@@ -67,49 +72,21 @@ const elements = {
     modalEl: document.getElementById('custom-modal'),
     modalMessageEl: document.getElementById('modal-message'),
     modalCloseBtn: document.getElementById('modal-close-btn'),
+    confirmModalEl: document.getElementById('confirm-modal'),
+    confirmMessageEl: document.getElementById('confirm-message'),
+    confirmYesBtn: document.getElementById('confirm-yes-btn'),
+    confirmNoBtn: document.getElementById('confirm-no-btn'),
+    editProductModalEl: document.getElementById('edit-product-modal'),
+    editProductFormEl: document.getElementById('edit-product-form'),
+    editModalCloseBtn: document.getElementById('edit-modal-close-btn'),
     mainHeader: document.getElementById('main-header'),
     mobileSearchOverlay: document.getElementById('mobile-search-overlay'),
     mobileMenuOverlay: document.getElementById('mobile-menu-overlay'),
-    mobileMenuSidebar: document.getElementById('mobile-menu-sidebar'),
-    appointmentTooltip: document.getElementById('appointment-tooltip')
+    mobileMenuSidebar: document.getElementById('mobile-menu-sidebar')
 };
 
-// --- APPOINTMENT TOOLTIP FUNCTIONS ---
-function showAppointmentTooltip() {
-    if (!tooltipShown && elements.appointmentTooltip) {
-        elements.appointmentTooltip.classList.add('show');
-        tooltipShown = true;
-        
-        // Auto-hide after 8 seconds
-        setTimeout(() => {
-            if (elements.appointmentTooltip.classList.contains('show')) {
-                closeAppointmentTooltip();
-            }
-        }, 8000);
-    }
-}
-
-window.closeAppointmentTooltip = function() {
-    if (elements.appointmentTooltip) {
-        elements.appointmentTooltip.classList.remove('show');
-        // Mark as permanently dismissed
-        localStorage.setItem('appointmentTooltipDismissed', 'true');
-    }
-}
-
-// Check if tooltip should be shown on page load
-function checkAppointmentTooltip() {
-    const dismissed = localStorage.getItem('appointmentTooltipDismissed');
-    if (!dismissed) {
-        // Show tooltip after 3 seconds on page load
-        setTimeout(() => {
-            showAppointmentTooltip();
-        }, 3000);
-    }
-}
-
 // --- MOBILE FUNCTIONALITY ---
-// Mobile header scroll behavior with requestAnimationFrame for better performance
+// Hides header on scroll down on mobile for better visibility
 function handleScroll() {
     if (window.innerWidth <= 768) {
         requestAnimationFrame(() => {
@@ -127,11 +104,13 @@ function handleScroll() {
 // Mobile search functions
 window.openMobileSearch = function () {
     elements.mobileSearchOverlay.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
     elements.mobileSearchInputEl.focus();
 }
 
 window.closeMobileSearch = function () {
     elements.mobileSearchOverlay.style.display = 'none';
+    document.body.style.overflow = ''; // Restore scrolling
     elements.mobileSearchInputEl.value = '';
     document.getElementById('mobile-search-results-grid').innerHTML = '';
 }
@@ -139,6 +118,7 @@ window.closeMobileSearch = function () {
 // Mobile menu functions
 window.openMobileMenu = function () {
     elements.mobileMenuOverlay.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
     setTimeout(() => {
         elements.mobileMenuSidebar.classList.add('open');
     }, 10);
@@ -146,6 +126,7 @@ window.openMobileMenu = function () {
 
 window.closeMobileMenu = function () {
     elements.mobileMenuSidebar.classList.remove('open');
+    document.body.style.overflow = ''; // Restore scrolling
     setTimeout(() => {
         elements.mobileMenuOverlay.style.display = 'none';
     }, 300);
@@ -170,7 +151,7 @@ const handleMobileSearch = debounce(() => {
 }, 300);
 
 // --- APPOINTMENT FUNCTIONS ---
-// Set minimum date to tomorrow
+// Set minimum appointment date to tomorrow to prevent booking for past dates
 function setMinimumAppointmentDate() {
     const today = new Date();
     const tomorrow = new Date(today);
@@ -179,7 +160,7 @@ function setMinimumAppointmentDate() {
     document.getElementById('appointment-date').setAttribute('min', minDate);
 }
 
-// Render appointments in admin panel
+// Renders appointments in the admin panel
 function renderAppointments(appointments) {
     if (!elements.appointmentsListEl) return;
     
@@ -242,8 +223,8 @@ function renderAppointments(appointments) {
 }
 
 // --- OPTIMIZED RENDER FUNCTIONS ---
+// Renders all product grids efficiently
 function renderAllGrids() {
-    // Use requestIdleCallback for non-critical rendering
     const grids = [
         { products: allProducts, id: 'all-products-grid' },
         { products: allProducts.filter(p => p.category === 'dry-fruits'), id: 'dry-fruits-grid' },
@@ -257,26 +238,21 @@ function renderAllGrids() {
         { products: allProducts.filter(p => p.category === 'deals'), id: 'deals-grid' }
     ];
 
-    // Render critical grids first
-    renderProducts(grids[0].products, grids[0].id);
-
-    // Use requestIdleCallback for other grids
+    // Use requestIdleCallback for non-critical rendering to avoid blocking the main thread
     if (window.requestIdleCallback) {
-        window.requestIdleCallback(() => {
-            grids.slice(1).forEach(grid => {
+        grids.forEach(grid => {
+            window.requestIdleCallback(() => {
                 renderProducts(grid.products, grid.id);
             });
         });
     } else {
-        // Fallback for browsers without requestIdleCallback
-        setTimeout(() => {
-            grids.slice(1).forEach(grid => {
-                renderProducts(grid.products, grid.id);
-            });
-        }, 0);
+        grids.forEach(grid => {
+            setTimeout(() => renderProducts(grid.products, grid.id), 0);
+        });
     }
 }
 
+// Renders a list of products into a specified container
 function renderProducts(productsToRender, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -291,15 +267,17 @@ function renderProducts(productsToRender, containerId) {
     productsToRender.forEach(p => {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
+        // Display original price and discounted sale price
         productCard.innerHTML = `
             <div class="product-image" onclick="showProductPage('${p.id}')">
                 <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/300x300/ccc/ffffff?text=Image+Not+Found';">
+                <div class="discount-badge">${(DISCOUNT_RATE * 100).toFixed(0)}% OFF</div>
             </div>
             <div class="product-info">
                 <h3 onclick="showProductPage('${p.id}')">${p.name}</h3>
                 <div class="product-price">
-                    ${p.originalPrice ? `<span class="price-original">Rs.${p.originalPrice.toFixed(2)}</span>` : ''}
-                    Rs.${p.price.toFixed(2)}
+                    <span class="price-sale">Rs.${p.salePrice.toFixed(2)}</span>
+                    <span class="price-original">Rs.${p.originalPrice.toFixed(2)}</span>
                 </div>
                 <div class="quantity-controls" data-product-id="${p.id}">
                     <button class="quantity-btn">-</button>
@@ -316,6 +294,7 @@ function renderProducts(productsToRender, containerId) {
     container.appendChild(fragment);
 }
 
+// Renders the product detail page
 function renderProductDetailPage(product) {
     if (!product) {
         elements.productDetailContentEl.innerHTML = '<p>Product not found.</p>';
@@ -331,8 +310,8 @@ function renderProductDetailPage(product) {
             <div class="product-detail-info">
                 <h1>${product.name}</h1>
                 <div class="product-price">
-                    ${product.originalPrice ? `<span class="price-original">Rs.${product.originalPrice.toFixed(2)}</span>` : ''}
-                    Rs.${product.price.toFixed(2)}
+                     <span class="price-sale">Rs.${product.salePrice.toFixed(2)}</span>
+                     <span class="price-original">Rs.${product.originalPrice.toFixed(2)}</span>
                 </div>
                 <p>${product.description || 'No description available.'}</p>
                 <div class="quantity-controls" data-product-id="${product.id}">
@@ -346,7 +325,7 @@ function renderProductDetailPage(product) {
     `;
 }
 
-// Render admin products list for management
+// Renders the list of products in the admin management panel
 function renderAdminProductsList() {
     const adminProductsListEl = document.getElementById('admin-products-list');
     if (!adminProductsListEl) return;
@@ -357,17 +336,21 @@ function renderAdminProductsList() {
     }
 
     const fragment = createDocumentFragment();
-    allProducts.forEach(product => {
+    allProducts.sort((a, b) => a.name.localeCompare(b.name)).forEach(product => {
         const productItem = document.createElement('div');
         productItem.className = 'admin-product-item';
         productItem.innerHTML = `
             <div class="admin-product-info">
-                <h4>${product.name}</h4>
-                <p>Price: Rs.${product.price.toFixed(2)} | Category: ${product.category}</p>
-                <p>ID: ${product.id}</p>
+                <img src="${product.image}" alt="${product.name}" class="admin-product-thumbnail" onerror="this.onerror=null;this.style.display='none';">
+                <div>
+                    <h4>${product.name}</h4>
+                    <p>Price: Rs.${product.originalPrice.toFixed(2)} | Category: ${product.category}</p>
+                    <p>ID: ${product.id}</p>
+                </div>
             </div>
             <div class="admin-product-actions">
-                <button class="btn-delete" onclick="deleteProduct('${product.id}')">Delete</button>
+                <button class="btn-edit" data-product-id='${product.id}'>Edit</button>
+                <button class="btn-delete" data-product-id="${product.id}">Delete</button>
             </div>
         `;
         fragment.appendChild(productItem);
@@ -379,7 +362,6 @@ function renderAdminProductsList() {
 
 // --- PAGE NAVIGATION ---
 window.showPage = function (pageId) {
-    // Use requestAnimationFrame for smoother transitions
     requestAnimationFrame(() => {
         elements.pages.forEach(page => page.classList.add('hidden'));
         const targetPage = document.getElementById(pageId + '-page');
@@ -395,14 +377,8 @@ window.showPage = function (pageId) {
         if (pageId === 'admin') renderAdminPanel();
         if (pageId === 'appointment') setMinimumAppointmentDate();
 
-        // Close mobile overlays when navigating
         closeMobileSearch();
         closeMobileMenu();
-        
-        // Hide appointment tooltip when navigating to appointment page
-        if (pageId === 'appointment') {
-            closeAppointmentTooltip();
-        }
     });
 }
 
@@ -435,7 +411,6 @@ function showSlides(n) {
     if (n > slides.length) { desktopSlideIndex = 1 }
     if (n < 1) { desktopSlideIndex = slides.length }
 
-    // Use forEach for better performance
     Array.from(slides).forEach(slide => slide.style.display = "none");
     Array.from(dots).forEach(dot => dot.classList.remove("active-dot"));
     
@@ -470,6 +445,7 @@ function addToCart(productId, quantity) {
     if (existingItem) {
         existingItem.quantity += quantity;
     } else {
+        // Add salePrice to the cart item
         cart.push({ ...product, quantity: quantity });
     }
     updateCartDisplay();
@@ -483,7 +459,8 @@ function removeFromCart(productId) {
 
 function updateCartDisplay() {
     renderCartPage();
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    // Use salePrice for cart total calculation
+    const total = cart.reduce((sum, item) => sum + (item.salePrice * item.quantity), 0);
     elements.cartTotalHeaderEl.textContent = total.toFixed(2);
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     elements.cartItemCountBadgeEl.textContent = totalItems;
@@ -497,7 +474,7 @@ function renderCartPage() {
         return;
     }
     
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const total = cart.reduce((sum, item) => sum + (item.salePrice * item.quantity), 0);
     const cartItemsHtml = cart.map(item => `
         <div class="cart-item">
             <div class="cart-item-details">
@@ -506,11 +483,11 @@ function renderCartPage() {
                 </div>
                 <div class="cart-item-info">
                     <h4>${item.name}</h4>
-                    <p class="cart-item-price">Rs.${item.price.toFixed(2)} x ${item.quantity}</p>
+                    <p class="cart-item-price">Rs.${item.salePrice.toFixed(2)} x ${item.quantity}</p>
                 </div>
             </div>
             <div class="cart-item-actions">
-                <strong>Rs.${(item.price * item.quantity).toFixed(2)}</strong>
+                <strong>Rs.${(item.salePrice * item.quantity).toFixed(2)}</strong>
                 <button class="remove-from-cart-btn" data-product-id="${item.id}">Remove</button>
             </div>
         </div>
@@ -553,14 +530,14 @@ function renderCheckoutPage() {
         return;
     }
     
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const subtotal = cart.reduce((sum, item) => sum + (item.salePrice * item.quantity), 0);
     const shipping = subtotal >= 2000 ? 0 : 200;
     const total = subtotal + shipping;
     
     const summaryItemsHtml = cart.map(item => `
         <div class="summary-item">
             <span>${item.name} (x${item.quantity})</span>
-            <span>Rs.${(item.price * item.quantity).toFixed(2)}</span>
+            <span>Rs.${(item.salePrice * item.quantity).toFixed(2)}</span>
         </div>
     `).join('');
     
@@ -588,22 +565,36 @@ window.showPaymentContent = function (method) {
     document.querySelector(`.payment-tab[onclick="showPaymentContent('${method}')"]`).classList.add('active');
 }
 
-// --- PRODUCT MANAGEMENT ---
-window.deleteProduct = async function (productId) {
-    if (!confirm('Are you sure you want to delete this product?')) {
-        return;
-    }
+// --- PRODUCT MANAGEMENT (ADMIN) ---
 
-    try {
-        await deleteDoc(doc(db, "products", productId));
-        allProducts = allProducts.filter(p => p.id !== productId);
-        renderAllGrids();
-        renderAdminProductsList();
-        showAlert("Product deleted successfully!");
-    } catch (error) {
-        console.error("Error deleting product: ", error);
-        showAlert("Failed to delete product. Please try again.");
-    }
+// Opens the modal to edit a product's details
+function openEditModal(product) {
+    document.getElementById('edit-product-id').value = product.id;
+    document.getElementById('edit-product-name').value = product.name;
+    // Admin edits the original price, not the sale price
+    document.getElementById('edit-product-price').value = product.originalPrice; 
+    document.getElementById('edit-product-category').value = product.category;
+    document.getElementById('edit-product-description').value = product.description;
+    // The image path is like "images/my-image.jpg", we only need the filename
+    const filename = product.image.split('/').pop();
+    document.getElementById('edit-product-image-filename').value = filename;
+    
+    elements.editProductModalEl.classList.remove('hidden');
+}
+
+// Deletes a product after confirmation
+window.deleteProduct = function (productId) {
+    showConfirm('Are you sure you want to delete this product?', async () => {
+        try {
+            await deleteDoc(doc(db, "products", productId));
+            // Refetch all products to ensure data consistency
+            await initializeStore(true); 
+            showAlert("Product deleted successfully!");
+        } catch (error) {
+            console.error("Error deleting product: ", error);
+            showAlert("Failed to delete product. Please try again.");
+        }
+    });
 }
 
 // --- AUTHENTICATION & ADMIN (LOCAL STORAGE) ---
@@ -615,17 +606,27 @@ window.toggleAuthForms = function () {
 }
 
 function updateAuthControls() {
+    let welcomeMessage = '';
+    const defaultLogin = `<a href="#" onclick="showPage('login')">Login</a>`;
+
     if (currentUser) {
-        let welcomeMessage = `Welcome, ${currentUser.name}`;
+        welcomeMessage = `<span>Welcome, ${currentUser.name}</span>`;
         if (currentUser.role === 'admin') {
-            welcomeMessage += ` | <a href="#" onclick="showPage('admin')">Admin Panel</a>`;
+            welcomeMessage += ` <a href="#" onclick="showPage('admin')">Admin Panel</a>`;
         }
-        welcomeMessage += ` | <a href="#" onclick="logout()">Logout</a>`;
-        elements.authControlsEl.innerHTML = welcomeMessage;
+        welcomeMessage += ` <a href="#" onclick="logout()">Logout</a>`;
     } else {
-        elements.authControlsEl.innerHTML = `<a href="#" onclick="showPage('login')">Login</a>`;
+        welcomeMessage = defaultLogin;
+    }
+
+    if (elements.authControlsDesktopEl) {
+        elements.authControlsDesktopEl.innerHTML = welcomeMessage;
+    }
+    if (elements.authControlsMobileEl) {
+        elements.authControlsMobileEl.innerHTML = welcomeMessage;
     }
 }
+
 
 window.logout = function () {
     currentUser = null;
@@ -642,27 +643,18 @@ function renderAdminPanel() {
         return;
     }
     
-    // Firestore listener for orders
     const ordersQuery = query(collection(db, "orders"));
     onSnapshot(ordersQuery, (querySnapshot) => {
-        const orders = [];
-        querySnapshot.forEach((doc) => {
-            orders.push({ id: doc.id, ...doc.data() });
-        });
+        const orders = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         renderOrders(orders);
     });
 
-    // Firestore listener for appointments
     const appointmentsQuery = query(collection(db, "appointments"));
     onSnapshot(appointmentsQuery, (querySnapshot) => {
-        const appointments = [];
-        querySnapshot.forEach((doc) => {
-            appointments.push({ id: doc.id, ...doc.data() });
-        });
+        const appointments = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         renderAppointments(appointments);
     });
 
-    // Render products list for management
     renderAdminProductsList();
 }
 
@@ -683,7 +675,6 @@ function renderOrders(orders) {
         return;
     }
     
-    // Sort orders by date, newest first
     orders.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const fragment = createDocumentFragment();
@@ -724,13 +715,26 @@ function renderOrders(orders) {
     elements.ordersListEl.appendChild(fragment);
 }
 
-// --- MODAL & SEARCH ---
+// --- MODALS & SEARCH ---
 function showAlert(message) {
     elements.modalMessageEl.textContent = message;
     elements.modalEl.classList.remove('hidden');
 }
 
-// Debounced search function for better performance
+function showConfirm(message, onConfirm) {
+    elements.confirmMessageEl.textContent = message;
+    elements.confirmModalEl.classList.remove('hidden');
+
+    const newYesBtn = elements.confirmYesBtn.cloneNode(true);
+    elements.confirmYesBtn.parentNode.replaceChild(newYesBtn, elements.confirmYesBtn);
+    elements.confirmYesBtn = newYesBtn;
+
+    elements.confirmYesBtn.onclick = () => {
+        onConfirm();
+        elements.confirmModalEl.classList.add('hidden');
+    };
+}
+
 const handleSearch = debounce(() => {
     const query = elements.searchInputEl.value.toLowerCase().trim();
     if (query.length === 0) {
@@ -748,10 +752,9 @@ const handleSearch = debounce(() => {
     document.getElementById('search-results-title').textContent = `Results for "${query}"`;
 }, 300);
 
-// --- OPTIMIZED EVENT LISTENERS ---
-// Use event delegation for better performance
+// --- EVENT LISTENERS ---
+// Event delegation for dynamically created elements
 document.addEventListener('click', async function (e) {
-    // Handle add to cart buttons
     if (e.target.classList.contains('add-to-cart-btn')) {
         const productId = e.target.dataset.productId;
         const controls = e.target.closest('.product-info, .product-detail-info');
@@ -759,7 +762,6 @@ document.addEventListener('click', async function (e) {
         addToCart(productId, quantity);
     }
     
-    // Handle quantity buttons
     if (e.target.classList.contains('quantity-btn')) {
         const input = e.target.parentNode.querySelector('.quantity-input');
         let value = parseInt(input.value);
@@ -768,76 +770,66 @@ document.addEventListener('click', async function (e) {
         input.value = value;
     }
     
-    // Handle remove from cart buttons
     if (e.target.classList.contains('remove-from-cart-btn')) {
-        const productId = e.target.dataset.productId;
-        removeFromCart(productId);
+        removeFromCart(e.target.dataset.productId);
     }
     
-    // Order fulfillment button listener
-    if (e.target.classList.contains('btn-fulfillment') && !e.target.disabled && e.target.dataset.orderId) {
-        const orderId = e.target.dataset.orderId;
-        const orderRef = doc(db, "orders", orderId);
-        try {
-            await updateDoc(orderRef, { status: "fulfilled" });
-            showAlert(`Order ${orderId} marked as fulfilled.`);
-        } catch (error) {
-            console.error("Error updating order status: ", error);
-            showAlert("Failed to update order status.");
-        }
+    if (e.target.classList.contains('btn-delete')) {
+        deleteProduct(e.target.dataset.productId);
     }
-    
-    // Appointment status button listener
-    if (e.target.classList.contains('btn-fulfillment') && !e.target.disabled && e.target.dataset.appointmentId) {
-        const appointmentId = e.target.dataset.appointmentId;
-        const currentStatus = e.target.dataset.currentStatus;
-        let newStatus;
-        
-        if (currentStatus === 'pending') {
-            newStatus = 'confirmed';
-        } else if (currentStatus === 'confirmed') {
-            newStatus = 'completed';
-        } else {
-            return; // Already completed
-        }
 
-        const appointmentRef = doc(db, "appointments", appointmentId);
-        try {
-            await updateDoc(appointmentRef, { status: newStatus });
-            showAlert(`Appointment ${appointmentId} marked as ${newStatus}.`);
-        } catch (error) {
-            console.error("Error updating appointment status: ", error);
-            showAlert("Failed to update appointment status.");
+    if (e.target.classList.contains('btn-edit')) {
+        const product = allProducts.find(p => p.id === e.target.dataset.productId);
+        if (product) openEditModal(product);
+    }
+    
+    if (e.target.classList.contains('btn-fulfillment') && !e.target.disabled) {
+        if (e.target.dataset.orderId) {
+            const orderId = e.target.dataset.orderId;
+            try {
+                await updateDoc(doc(db, "orders", orderId), { status: "fulfilled" });
+                showAlert(`Order ${orderId} marked as fulfilled.`);
+            } catch (error) {
+                console.error("Error updating order status: ", error);
+                showAlert("Failed to update order status.");
+            }
+        } else if (e.target.dataset.appointmentId) {
+            const appointmentId = e.target.dataset.appointmentId;
+            const currentStatus = e.target.dataset.currentStatus;
+            let newStatus = (currentStatus === 'pending') ? 'confirmed' : 'completed';
+            
+            try {
+                await updateDoc(doc(db, "appointments", appointmentId), { status: newStatus });
+                showAlert(`Appointment ${appointmentId} marked as ${newStatus}.`);
+            } catch (error) {
+                console.error("Error updating appointment status: ", error);
+                showAlert("Failed to update appointment status.");
+            }
         }
     }
 });
 
-// Close mobile overlays when clicking outside
 elements.mobileSearchOverlay.addEventListener('click', (e) => {
-    if (e.target === elements.mobileSearchOverlay) {
-        closeMobileSearch();
-    }
+    if (e.target === elements.mobileSearchOverlay) closeMobileSearch();
 });
 
 elements.mobileMenuOverlay.addEventListener('click', (e) => {
-    if (e.target === elements.mobileMenuOverlay) {
-        closeMobileMenu();
-    }
+    if (e.target === elements.mobileMenuOverlay) closeMobileMenu();
 });
 
-// Modal event listeners
 elements.modalCloseBtn.addEventListener('click', () => elements.modalEl.classList.add('hidden'));
 elements.modalEl.addEventListener('click', (e) => { 
     if (e.target === elements.modalEl) elements.modalEl.classList.add('hidden'); 
 });
 
-// Search event listeners with debouncing
+elements.confirmNoBtn.addEventListener('click', () => elements.confirmModalEl.classList.add('hidden'));
+elements.editModalCloseBtn.addEventListener('click', () => elements.editProductModalEl.classList.add('hidden'));
+
 elements.searchInputEl.addEventListener('input', handleSearch);
 elements.mobileSearchInputEl.addEventListener('input', handleMobileSearch);
 
-// Add scroll listener for mobile header with throttling
 let ticking = false;
-function throttledScrollHandler() {
+window.addEventListener('scroll', () => {
     if (!ticking) {
         requestAnimationFrame(() => {
             handleScroll();
@@ -845,10 +837,8 @@ function throttledScrollHandler() {
         });
         ticking = true;
     }
-}
-window.addEventListener('scroll', throttledScrollHandler, { passive: true });
+}, { passive: true });
 
-// Handle window resize
 window.addEventListener('resize', debounce(() => {
     if (window.innerWidth > 768) {
         elements.mainHeader.classList.remove('hidden-mobile');
@@ -904,10 +894,8 @@ elements.signupFormEl.addEventListener('submit', function (e) {
     toggleAuthForms();
 });
 
-// Appointment form submission
 elements.appointmentFormEl.addEventListener('submit', async function (e) {
     e.preventDefault();
-
     const formData = {
         name: document.getElementById('appointment-name').value,
         phone: document.getElementById('appointment-phone').value,
@@ -919,10 +907,8 @@ elements.appointmentFormEl.addEventListener('submit', async function (e) {
         createdAt: new Date().toISOString()
     };
 
-    // Validate date is not in the past
     const appointmentDateTime = new Date(`${formData.date}T${formData.time}`);
-    const now = new Date();
-    if (appointmentDateTime <= now) {
+    if (appointmentDateTime <= new Date()) {
         showAlert("Please select a future date and time for your appointment.");
         return;
     }
@@ -931,7 +917,7 @@ elements.appointmentFormEl.addEventListener('submit', async function (e) {
         const docRef = await addDoc(collection(db, "appointments"), formData);
         showAlert(`Appointment booked successfully! Your booking reference is: ${docRef.id.substring(0, 8).toUpperCase()}`);
         elements.appointmentFormEl.reset();
-        setMinimumAppointmentDate(); // Reset minimum date
+        setMinimumAppointmentDate();
         showPage('home');
     } catch (error) {
         console.error("Error booking appointment: ", error);
@@ -941,8 +927,7 @@ elements.appointmentFormEl.addEventListener('submit', async function (e) {
 
 elements.checkoutFormEl.addEventListener('submit', async function (e) {
     e.preventDefault();
-
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const subtotal = cart.reduce((sum, item) => sum + (item.salePrice * item.quantity), 0);
     const shipping = subtotal >= 2000 ? 0 : 200;
     const total = subtotal + shipping;
 
@@ -961,8 +946,7 @@ elements.checkoutFormEl.addEventListener('submit', async function (e) {
     };
 
     try {
-        const docRef = await addDoc(collection(db, "orders"), newOrder);
-        console.log("Order written with ID: ", docRef.id);
+        await addDoc(collection(db, "orders"), newOrder);
         showPage('order-success');
         cart = [];
         updateCartDisplay();
@@ -975,99 +959,96 @@ elements.checkoutFormEl.addEventListener('submit', async function (e) {
 
 elements.addProductFormEl.addEventListener('submit', async function (e) {
     e.preventDefault();
-    const submitButton = elements.addProductFormEl.querySelector('button[type="submit"]');
-
-    const name = document.getElementById('product-name').value;
-    const price = parseFloat(document.getElementById('product-price').value);
-    const category = document.getElementById('product-category').value;
-    const description = document.getElementById('product-description').value;
-    const imageFilename = document.getElementById('product-image-filename').value;
-
-    if (!imageFilename) {
-        showAlert("Please enter the image filename.");
-        return;
-    }
-
-    submitButton.disabled = true;
-    submitButton.textContent = 'Adding...';
+    const newProduct = {
+        name: document.getElementById('product-name').value,
+        price: parseFloat(document.getElementById('product-price').value),
+        category: document.getElementById('product-category').value,
+        description: document.getElementById('product-description').value,
+        image: `images/${document.getElementById('product-image-filename').value}`,
+    };
 
     try {
-        const imageUrl = `images/${imageFilename}`;
-        const newProduct = {
-            id: String(Date.now()),
-            name,
-            price,
-            category,
-            description,
-            image: imageUrl,
-        };
-
-        await setDoc(doc(db, "products", newProduct.id), newProduct);
-
+        // Let firestore generate the ID by using addDoc
+        const docRef = await addDoc(collection(db, "products"), newProduct);
         showAlert("Product added successfully!");
-        allProducts.push(newProduct);
-        renderAllGrids();
-        renderAdminProductsList();
         elements.addProductFormEl.reset();
-    } catch (error) {
+        // Refetch products to get the new one
+        await initializeStore(true);
+    } catch (error)
+        {
         console.error("Error adding product: ", error);
         showAlert(`Failed to add product. Error: ${error.message}`);
-    } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = 'Add Product';
     }
 });
 
-// --- INITIALIZATION ---
-async function initializeStore() {
-    // Load user from local storage
+// Handle the submission of the edit product form
+elements.editProductFormEl.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const productId = document.getElementById('edit-product-id').value;
+    const updatedData = {
+        name: document.getElementById('edit-product-name').value,
+        price: parseFloat(document.getElementById('edit-product-price').value),
+        category: document.getElementById('edit-product-category').value,
+        description: document.getElementById('edit-product-description').value,
+        image: `images/${document.getElementById('edit-product-image-filename').value}`,
+    };
+
     try {
-        const loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (loggedInUser) {
-            currentUser = loggedInUser;
-        }
+        await updateDoc(doc(db, "products", productId), updatedData);
+        showAlert("Product updated successfully!");
+        elements.editProductModalEl.classList.add('hidden');
+        // Refetch all products to ensure UI is up-to-date
+        await initializeStore(true); 
     } catch (error) {
-        console.error("Could not parse user from local storage:", error);
-        localStorage.removeItem('currentUser');
+        console.error("Error updating product: ", error);
+        showAlert("Failed to update product.");
     }
-    updateAuthControls();
+});
 
-    // Fetch products from Firestore
-    try {
-        const productsCollection = collection(db, "products");
-        const productSnapshot = await getDocs(productsCollection);
 
-        if (productSnapshot.empty) {
-            console.log("No products found in Firestore.");
-            allProducts = [];
-        } else {
-            allProducts = productSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+// --- INITIALIZATION ---
+async function initializeStore(forceRefetch = false) {
+    if (!forceRefetch) {
+        try {
+            const loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (loggedInUser) currentUser = loggedInUser;
+        } catch (error) {
+            console.error("Could not parse user from local storage:", error);
+            localStorage.removeItem('currentUser');
         }
+        updateAuthControls();
+    }
+
+    try {
+        const productSnapshot = await getDocs(collection(db, "products"));
+        allProducts = productSnapshot.docs.map(doc => {
+            const data = doc.data();
+            // Apply 14% discount
+            const originalPrice = data.price;
+            const salePrice = originalPrice * (1 - DISCOUNT_RATE);
+            return { 
+                id: doc.id, 
+                ...data,
+                originalPrice: originalPrice,
+                salePrice: salePrice
+            };
+        });
+        
         renderAllGrids();
+        renderAdminProductsList(); // Also update admin list
     } catch (error) {
         console.error("Error fetching products from Firestore: ", error);
-        showAlert("Could not load products. Please check your connection and Firebase setup.");
+        showAlert("Could not load products. Please check your connection.");
     }
 
-    // Initial UI setup
-    updateCartDisplay();
-    
-    // Start Desktop Slider
-    showSlides(desktopSlideIndex);
-    resetDesktopSlideInterval();
-    
-    // Start Mobile Slider
-    rotateMobileSlides();
-    setInterval(rotateMobileSlides, 5000);
-    
-    // Check and show appointment tooltip
-    checkAppointmentTooltip();
+    if (!forceRefetch) {
+        updateCartDisplay();
+        showSlides(desktopSlideIndex);
+        resetDesktopSlideInterval();
+        rotateMobileSlides();
+        setInterval(rotateMobileSlides, 5000);
+    }
 }
 
-// Run the store on DOMContentLoaded for better performance
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeStore);
-} else {
-    initializeStore();
-}
-            
+// Run the store on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => initializeStore());

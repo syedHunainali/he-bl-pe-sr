@@ -43,7 +43,7 @@
         "addressCountry": "PK"
       },
       "sameAs": [
-        https://www.facebook.com/profile.php?id=100089355260379",
+        "https://www.facebook.com/profile.php?id=100089355260379",
         "https://instagram.com"
       ]
     }
@@ -54,18 +54,30 @@
     <title>Mubarak-pansar - Pakistan Leading Herbal Online Store</title>
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="css/styles.css" as="style">
-    <link rel="preload" href="https://mubarakpansar.store/images/logo.png" as="image">
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="images/logo.png" as="image">
     
     <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+    <!-- Custom Alert Modal -->
     <div class="modal-overlay hidden" id="custom-modal">
         <div class="modal-content">
             <p id="modal-message">This is a message.</p>
-            <button class="btn btn-primary modal-close-btn" id="modal-close-btn">Close</button>
+            <button class="btn btn-primary-login modal-close-btn" id="modal-close-btn">Close</button>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay hidden" id="confirm-modal">
+        <div class="modal-content">
+            <p id="confirm-message">Are you sure?</p>
+            <div class="confirm-buttons">
+                <button class="btn btn-primary-yes" id="confirm-yes-btn">Yes</button>
+                <button class="btn btn-primary-no" id="confirm-no-btn">No</button>
+            </div>
         </div>
     </div>
     
@@ -99,23 +111,37 @@
                 <h3>Menu</h3>
                 <button class="mobile-menu-close" onclick="closeMobileMenu()">×</button>
             </div>
-            <div class="mobile-menu-items">
-                <a class="mobile-menu-item" href="#" onclick="showPage('home'); closeMobileMenu();">HOME</a>
-                <a class="mobile-menu-item" href="#" onclick="showPage('dry-fruits'); closeMobileMenu();">DRY FRUITS</a>
-                <a class="mobile-menu-item" href="#" onclick="showPage('herbal-tea'); closeMobileMenu();">HERBAL TEA</a>
-                <a class="mobile-menu-item" href="#" onclick="showPage('honey'); closeMobileMenu();">HONEY</a>
-                <a class="mobile-menu-item" href="#" onclick="showPage('seeds'); closeMobileMenu();">SEEDS</a>
-                <a class="mobile-menu-item" href="#" onclick="showPage('supplements'); closeMobileMenu();">SUPPLEMENTS</a>
-                <a class="mobile-menu-item" href="#" onclick="showPage('capsules'); closeMobileMenu();">CAPSULES</a>
-                <a class="mobile-menu-item" href="#" onclick="showPage('cold-pressed-oil'); closeMobileMenu();">COLD PRESSED OIL</a>
-                <a class="mobile-menu-item" href="#" onclick="showPage('essential-oils'); closeMobileMenu();">ESSENTIAL OILS</a>
-                <a class="mobile-menu-item" href="#" onclick="showPage('deals'); closeMobileMenu();">DEALS</a>
-                <a class="mobile-menu-item appointment-nav-item" href="#" onclick="showPage('appointment'); closeMobileMenu();">📅 BOOK APPOINTMENT</a>
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-items">
+                    <a class="mobile-menu-item" href="#" onclick="showPage('home'); closeMobileMenu();">HOME</a>
+                    <a class="mobile-menu-item" href="#" onclick="showPage('dry-fruits'); closeMobileMenu();">DRY FRUITS</a>
+                    <a class="mobile-menu-item" href="#" onclick="showPage('herbal-tea'); closeMobileMenu();">HERBAL TEA</a>
+                    <a class="mobile-menu-item" href="#" onclick="showPage('honey'); closeMobileMenu();">HONEY</a>
+                    <a class="mobile-menu-item" href="#" onclick="showPage('seeds'); closeMobileMenu();">SEEDS</a>
+                    <a class="mobile-menu-item" href="#" onclick="showPage('supplements'); closeMobileMenu();">SUPPLEMENTS</a>
+                    <a class="mobile-menu-item" href="#" onclick="showPage('capsules'); closeMobileMenu();">CAPSULES</a>
+                    <a class="mobile-menu-item" href="#" onclick="showPage('cold-pressed-oil'); closeMobileMenu();">Herbs and spices</a>
+                    <a class="mobile-menu-item" href="#" onclick="showPage('essential-oils'); closeMobileMenu();">ESSENTIAL OILS</a>
+                    <a class="mobile-menu-item" href="#" onclick="showPage('deals'); closeMobileMenu();">DEALS</a>
+                    <a class="mobile-menu-item appointment-nav-item" href="#" onclick="showPage('appointment'); closeMobileMenu();">📅 BOOK APPOINTMENT</a>
+                </div>
+                <div class="mobile-menu-footer">
+                    <div id="auth-controls-mobile" class="mobile-menu-auth">
+                        <!-- Mobile auth links will be injected here by JS -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     
     <header class="header" id="main-header">
+        <!-- Special August 14 Banner with image background -->
+        <div class="august-14-banner">
+            <img src="images/14-aug-banner.svg"  class="august-14-banner-image" alt="14th August Banner">
+            <div class="august-14-banner-text">
+                 <!-- Text can be added here if needed -->
+            </div>
+        </div>
         <div class="header-tools">
             <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
             <div class="logo">
@@ -128,7 +154,7 @@
             </div>
             <div class="header-right-controls">
                 <button class="mobile-search-btn" onclick="openMobileSearch()">🔍</button>
-                <div id="auth-controls">
+                <div id="auth-controls-desktop" class="auth-controls">
                     <a href="#" onclick="showPage('login')">Login</a>
                 </div>
                 <div class="cart-total-display">
@@ -150,7 +176,7 @@
                     <li><a class="nav-link" href="#" onclick="showPage('seeds')">SEEDS</a></li>
                     <li><a class="nav-link" href="#" onclick="showPage('supplements')">SUPPLEMENTS</a></li>
                     <li><a class="nav-link" href="#" onclick="showPage('capsules')">CAPSULES</a></li>
-                    <li><a class="nav-link" href="#" onclick="showPage('cold-pressed-oil')">COLD PRESSED OIL</a></li>
+                    <li><a class="nav-link" href="#" onclick="showPage('cold-pressed-oil')">Herbs and spices</a></li>
                     <li><a class="nav-link" href="#" onclick="showPage('essential-oils')">ESSENTIAL OILS</a></li>
                     <li><a class="nav-link" href="#" onclick="showPage('deals')">DEALS</a></li>
                     <li><a class="nav-link appointment-nav-link" href="#" onclick="showPage('appointment')">📅 BOOK APPOINTMENT</a></li>
@@ -169,24 +195,18 @@
                 <div class="slide">
                     <img alt="Herbal Remedies Banner" src="images/Banner1.png" />
                     <div class="slide-content">
-                        <!-- <h1>Discover Nature's Finest Remedies</h1> -->
-                        <!-- <p>Your trusted source for natural health and wellness products.</p> -->
                         <a class="btn" href="#" onclick="showPage('supplements')">Shop Now</a>
                     </div>
                 </div>
                 <div class="slide">
                     <img alt="Premium Honey Banner" src="images/Banner2.png" />
                     <div class="slide-content">
-                        <!-- <h1>Premium Quality Honey</h1> -->
-                        <!-- <p>100% Pure and Organic Honey varieties.</p> -->
                         <a class="btn btn-secondary" href="#" onclick="showPage('honey')">Order now</a>
                     </div>
                 </div>
                 <div class="slide">
                     <img alt="Fresh Dry Fruits Banner" src="images/Banner3.png" />
                     <div class="slide-content">
-                        <!-- <h1>Fresh & Healthy Dry Fruits</h1> -->
-                        <!-- <p>The perfect snack for a healthy lifestyle.</p> -->
                         <a class="btn" href="#" onclick="showPage('appointment')">Book Your Appointment Now</a>
                     </div>
                 </div>
@@ -204,21 +224,18 @@
                 <div class="slide" style="display: block;">
                     <img alt="Herbal Remedies Mobile Banner" src="images/MBanner1.png" />
                     <div class="slide-content">
-                        <!-- <h1>Nature's Finest Remedies</h1> -->
                         <a class="btn" href="#" onclick="showPage('supplements')">Shop Now</a>
                     </div>
                 </div>
                 <div class="slide">
                     <img alt="Premium Honey Mobile Banner" src="images/MBanner2.png" />
                     <div class="slide-content">
-                        <!-- <h1>Premium Quality Honey</h1> -->
                         <a class="btn" href="#" onclick="showPage('honey')">Order now</a>
                     </div>
                 </div>
                 <div class="slide">
                     <img alt="Dry Fruits Mobile Banner" src="images/MBanner3.png" />
                     <div class="slide-content">
-                        <!-- <h1>Healthy Dry Fruits</h1> -->
                         <a class="btn" href="#" onclick="showPage('appointment')">Book Your Appointment Now</a>
                     </div>
                 </div>
@@ -418,7 +435,7 @@
         <div class="page hidden" id="cold-pressed-oil-page">
             <div class="page-header">
                 <div class="container">
-                    <h1>Cold Pressed Oil</h1>
+                    <h1>Herbs and spices</h1>
                 </div>
             </div>
             <div class="page-content">
@@ -566,7 +583,7 @@
                     <h2>✅ Thank You!</h2>
                     <p>Your order has been placed successfully.</p>
                     <p>We will contact you shortly to confirm the details.</p>
-                    <button class="btn-primary" onclick="showPage('home'); cart = []; updateCartDisplay();" style="margin-top: 20px; width: auto;">Continue Shopping</button>
+                    <button class="btn-primary-login" onclick="showPage('home'); cart = []; updateCartDisplay();" style="margin-top: 20px; width: auto;">Continue Shopping</button>
                 </div>
             </div>
         </div>
@@ -584,7 +601,7 @@
                             <label for="login-password">Password</label>
                             <input id="login-password" required="" type="password" />
                         </div>
-                        <button class="btn btn-primary" type="submit">Login</button>
+                        <button class="btn btn-primary-login2" type="submit">Login</button>
                         <p class="toggle-auth">Don't have an account? <a onclick="toggleAuthForms()">Sign Up</a></p>
                     </form>
                     <form class="hidden" id="signup-form">
@@ -601,7 +618,7 @@
                             <label for="signup-password">Password</label>
                             <input id="signup-password" required="" type="password" />
                         </div>
-                        <button class="btn btn-primary" type="submit">Sign Up</button>
+                        <button class="btn btn-primary-login3" type="submit">Sign Up</button>
                         <p class="toggle-auth">Already have an account? <a onclick="toggleAuthForms()">Login</a></p>
                     </form>
                 </div>
@@ -651,7 +668,7 @@
                                         <option value="seeds">Seeds</option>
                                         <option value="supplements">Supplements</option>
                                         <option value="capsules">Capsules</option>
-                                        <option value="cold-pressed-oil">Cold Pressed Oil</option>
+                                        <option value="cold-pressed-oil">Herbs and spices</option>
                                         <option value="essential-oils">Essential Oils</option>
                                         <option value="deals">Deals</option>
                                     </select>
@@ -676,6 +693,50 @@
             </div>
         </div>
     </main>
+
+    <!-- Edit Product Modal -->
+    <div class="modal-overlay hidden" id="edit-product-modal">
+        <div class="modal-content">
+            <form id="edit-product-form">
+                <h3>Edit Product</h3>
+                <input type="hidden" id="edit-product-id">
+                <div class="form-group">
+                    <label for="edit-product-name">Product Name</label>
+                    <input id="edit-product-name" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-product-price">Original Price (PKR)</label>
+                    <input id="edit-product-price" type="number" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-product-category">Category</label>
+                    <select id="edit-product-category" required>
+                         <option value="dry-fruits">Dry Fruits</option>
+                         <option value="herbal-tea">Herbal Tea</option>
+                         <option value="honey">Honey</option>
+                         <option value="seeds">Seeds</option>
+                         <option value="supplements">Supplements</option>
+                         <option value="capsules">Capsules</option>
+                         <option value="cold-pressed-oil">Herbs and spices</option>
+                         <option value="essential-oils">Essential Oils</option>
+                         <option value="deals">Deals</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-product-image-filename">Product Image Filename</label>
+                    <input id="edit-product-image-filename" placeholder="e.g., my-image.jpg" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-product-description">Description</label>
+                    <textarea id="edit-product-description" rows="4" required></textarea>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" id="edit-modal-close-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
     
     <footer class="footer">
         <div class="container">
