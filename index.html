@@ -66,7 +66,7 @@
     <div class="modal-overlay hidden" id="custom-modal">
         <div class="modal-content">
             <p id="modal-message">This is a message.</p>
-            <button class="btn btn-primary modal-close-btn" id="modal-close-btn">Close</button>
+            <button class="btn btn-primary-close modal-close-btn" id="modal-close-btn">Close</button>
         </div>
     </div>
 
@@ -75,8 +75,8 @@
         <div class="modal-content">
             <p id="confirm-message">Are you sure?</p>
             <div class="confirm-buttons">
-                <button class="btn btn-primary" id="confirm-yes-btn">Yes</button>
-                <button class="btn btn-secondary" id="confirm-no-btn">No</button>
+                <button class="btn btn-primary-yes" id="confirm-yes-btn">Yes</button>
+                <button class="btn btn-primary-no" id="confirm-no-btn">No</button>
             </div>
         </div>
     </div>
@@ -630,7 +630,7 @@
                             <label for="login-password">Password</label>
                             <input id="login-password" required="" type="password" />
                         </div>
-                        <button class="btn btn-primary" type="submit">Login</button>
+                        <button class="btn btn-primary-login" type="submit">Login</button>
                         <p class="toggle-auth">Don't have an account? <a onclick="toggleAuthForms()">Sign Up</a></p>
                     </form>
                     <form class="hidden" id="signup-form">
@@ -647,7 +647,7 @@
                             <label for="signup-password">Password</label>
                             <input id="signup-password" required="" type="password" />
                         </div>
-                        <button class="btn btn-primary" type="submit">Sign Up</button>
+                        <button class="btn btn-primary-sign" type="submit">Sign Up</button>
                         <p class="toggle-auth">Already have an account? <a onclick="toggleAuthForms()">Login</a></p>
                     </form>
                 </div>
@@ -717,7 +717,7 @@
                                         <textarea id="product-description" required="" rows="4"></textarea>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary" style="margin-top: 20px; width: auto;" type="submit">Add Product</button>
+                                <button class="btn btn-primary-log2" style="margin-top: 20px; width: auto;" type="submit">Add Product</button>
                             </form>
                         </div>
 
@@ -730,7 +730,7 @@
                                     <input type="file" id="csv-file-input" accept=".csv" required>
                                     <small>CSV format: name,price,weight,category,description,image_filename</small>
                                 </div>
-                                <button class="btn btn-primary" style="width: auto;" type="submit">Upload and Add Products</button>
+                                <button class="btn btn-primary-log" style="width: auto;" type="submit">Upload and Add Products</button>
                             </form>
                             <div id="bulk-upload-status" style="margin-top: 15px; font-weight: bold;"></div>
                         </div>

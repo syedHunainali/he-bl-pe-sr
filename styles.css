@@ -35,8 +35,8 @@ body {
     cursor: pointer;
     position: absolute;
     bottom: 70px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 45%;
+    /* transform: translateX(-50%); */
 }
 
 .btn:hover {
@@ -54,7 +54,7 @@ body {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.2s;
+    /* transition: background 0.2s; */
     width: 100%;
 }
 
@@ -65,6 +65,105 @@ body {
 .btn-primary:disabled {
     background: #ccc;
     cursor: not-allowed;
+}
+.btn-primary-yes {
+    background: #7BC142;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    left: 40%;
+    font-weight: bold;
+    cursor: pointer;
+    /* transition: background 0.2s; */
+    width: 100%;
+}
+.btn-primary-no {
+    background: #7BC142;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    left: 50%;
+    font-weight: bold;
+    cursor: pointer;
+    /* transition: background 0.2s; */
+    width: 100%;
+}
+.btn-primary-close {
+    background: #7BC142;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    left: 40%;
+    bottom: 43%;
+    font-weight: bold;
+    cursor: pointer;
+    /* transition: background 0.2s; */
+    width: 20%;
+}
+.btn-primary-log {
+    background: #7BC142;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    left: 42%;
+    bottom: -80%;
+    font-weight: bold;
+    cursor: pointer;
+    /* transition: background 0.2s; */
+    width: 20%;
+}
+
+.btn-primary-log2 {
+    background: #7BC142;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    left: 45%;
+    bottom: -53%;
+    font-weight: bold;
+    cursor: pointer;
+    /* transition: background 0.2s; */
+    width: 20%;
+}
+
+.btn-primary-sign {
+    background: #7BC142;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    left: 40%;
+    bottom: 0%;
+    font-weight: bold;
+    cursor: pointer;
+    /* transition: background 0.2s; */
+    width: 20%;
+}
+
+.btn-primary-login {
+    background: #7BC142;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    left: 40%;
+    bottom: 14%;
+    font-weight: bold;
+    cursor: pointer;
+    /* transition: background 0.2s; */
+    width: 20%;
 }
 
 .btn-secondary {
