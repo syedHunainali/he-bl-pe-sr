@@ -66,7 +66,7 @@
     <div class="modal-overlay hidden" id="custom-modal">
         <div class="modal-content">
             <p id="modal-message">This is a message.</p>
-            <button class="btn btn-primary-login modal-close-btn" id="modal-close-btn">Close</button>
+            <button class="btn btn-primary modal-close-btn" id="modal-close-btn">Close</button>
         </div>
     </div>
 
@@ -75,8 +75,8 @@
         <div class="modal-content">
             <p id="confirm-message">Are you sure?</p>
             <div class="confirm-buttons">
-                <button class="btn btn-primary-yes" id="confirm-yes-btn">Yes</button>
-                <button class="btn btn-primary-no" id="confirm-no-btn">No</button>
+                <button class="btn btn-primary" id="confirm-yes-btn">Yes</button>
+                <button class="btn btn-secondary" id="confirm-no-btn">No</button>
             </div>
         </div>
     </div>
@@ -119,8 +119,8 @@
                     <a class="mobile-menu-item" href="#" onclick="showPage('honey'); closeMobileMenu();">HONEY</a>
                     <a class="mobile-menu-item" href="#" onclick="showPage('seeds'); closeMobileMenu();">SEEDS</a>
                     <a class="mobile-menu-item" href="#" onclick="showPage('supplements'); closeMobileMenu();">SUPPLEMENTS</a>
-                    <a class="mobile-menu-item" href="#" onclick="showPage('capsules'); closeMobileMenu();">CAPSULES</a>
-                    <a class="mobile-menu-item" href="#" onclick="showPage('cold-pressed-oil'); closeMobileMenu();">Herbs and spices</a>
+                    <a class="mobile-menu-item" href="#" onclick="showPage('custom-formula'); closeMobileMenu();">CUSTOM FORMULA</a>
+                    <a class="mobile-menu-item" href="#" onclick="showPage('cold-pressed-oil'); closeMobileMenu();">COLD PRESSED OIL</a>
                     <a class="mobile-menu-item" href="#" onclick="showPage('essential-oils'); closeMobileMenu();">ESSENTIAL OILS</a>
                     <a class="mobile-menu-item" href="#" onclick="showPage('deals'); closeMobileMenu();">DEALS</a>
                     <a class="mobile-menu-item appointment-nav-item" href="#" onclick="showPage('appointment'); closeMobileMenu();">📅 BOOK APPOINTMENT</a>
@@ -135,13 +135,20 @@
     </div>
     
     <header class="header" id="main-header">
-        <!-- Special August 14 Banner with image background -->
+        <!-- Special August 14 Banner -->
         <div class="august-14-banner">
-            <img src="images/14-aug-banner.svg"  class="august-14-banner-image" alt="14th August Banner">
-            <div class="august-14-banner-text">
-                 <!-- Text can be added here if needed -->
+            <img src="images/14-aug-banner.png" class="august-14-banner-image desktop-only" alt="14th August Banner" >
+            <img src="images/14-aug-banner-mobile.png" class="august-14-banner-image mobile-only" alt="14th August Mobile Banner" onerror="this.style.display='none'" height="30px">
+            <div class="marquee-container">
+                <div class="marquee-text">
+                    <span>Free Shipping For Orders Above Rs.2000</span>
+                    <span>Flat 14% Off on azadi sale "Pakistan Zindabad"</span>
+                    <span>Free Shipping For Orders Above Rs.2000</span>
+                    <span>Flat 14% Off on azadi sale "Pakistan Zindabad"</span>
+                </div>
             </div>
         </div>
+
         <div class="header-tools">
             <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
             <div class="logo">
@@ -175,16 +182,13 @@
                     <li><a class="nav-link" href="#" onclick="showPage('honey')">HONEY</a></li>
                     <li><a class="nav-link" href="#" onclick="showPage('seeds')">SEEDS</a></li>
                     <li><a class="nav-link" href="#" onclick="showPage('supplements')">SUPPLEMENTS</a></li>
-                    <li><a class="nav-link" href="#" onclick="showPage('capsules')">CAPSULES</a></li>
-                    <li><a class="nav-link" href="#" onclick="showPage('cold-pressed-oil')">Herbs and spices</a></li>
+                    <li><a class="nav-link" href="#" onclick="showPage('custom-formula')">CUSTOM FORMULA</a></li>
+                    <li><a class="nav-link" href="#" onclick="showPage('cold-pressed-oil')">COLD PRESSED OIL</a></li>
                     <li><a class="nav-link" href="#" onclick="showPage('essential-oils')">ESSENTIAL OILS</a></li>
                     <li><a class="nav-link" href="#" onclick="showPage('deals')">DEALS</a></li>
                     <li><a class="nav-link appointment-nav-link" href="#" onclick="showPage('appointment')">📅 BOOK APPOINTMENT</a></li>
                 </ul>
             </nav>
-        </div>
-        <div class="top-banner">
-            *Free Shipping For Order Above Rs.2000 **Pakistan's Best Herbal Online Store
         </div>
     </header>
     
@@ -419,15 +423,40 @@
             </div>
         </div>
         
-        <div class="page hidden" id="capsules-page">
+        <div class="page hidden" id="custom-formula-page">
             <div class="page-header">
                 <div class="container">
-                    <h1>Capsules</h1>
+                    <h1>Create Your Custom Formula</h1>
                 </div>
             </div>
             <div class="page-content">
                 <div class="container">
-                    <div class="product-grid" id="capsules-grid"></div>
+                    <div class="formula-builder-container">
+                        <div class="formula-form">
+                            <h3>Add Herbs to Your Formula</h3>
+                            <div class="form-group autocomplete-container">
+                                <label for="herb-name">Herb Name</label>
+                                <input type="text" id="herb-name" placeholder="Start typing an herb name...">
+                                <div class="autocomplete-suggestions" id="herb-suggestions"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="herb-quantity">Quantity (grams)</label>
+                                <input type="number" id="herb-quantity" value="10" min="1">
+                            </div>
+                            <button class="btn-primary" id="add-herb-btn">Add Herb</button>
+                        </div>
+                        <div class="formula-summary">
+                            <h3>Your Custom Formula</h3>
+                            <div id="formula-items-list">
+                                <p>Your formula is empty.</p>
+                            </div>
+                            <div id="formula-total" class="hidden">
+                                <p>Total Weight: <span id="total-weight">0</span>g</p>
+                                <p>Total Price: Rs. <span id="total-price">0.00</span></p>
+                                <button class="btn-primary" id="add-formula-to-cart-btn">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -435,7 +464,7 @@
         <div class="page hidden" id="cold-pressed-oil-page">
             <div class="page-header">
                 <div class="container">
-                    <h1>Herbs and spices</h1>
+                    <h1>Cold Pressed Oil</h1>
                 </div>
             </div>
             <div class="page-content">
@@ -583,7 +612,7 @@
                     <h2>✅ Thank You!</h2>
                     <p>Your order has been placed successfully.</p>
                     <p>We will contact you shortly to confirm the details.</p>
-                    <button class="btn-primary-login" onclick="showPage('home'); cart = []; updateCartDisplay();" style="margin-top: 20px; width: auto;">Continue Shopping</button>
+                    <button class="btn-primary" onclick="showPage('home'); cart = []; updateCartDisplay();" style="margin-top: 20px; width: auto;">Continue Shopping</button>
                 </div>
             </div>
         </div>
@@ -601,7 +630,7 @@
                             <label for="login-password">Password</label>
                             <input id="login-password" required="" type="password" />
                         </div>
-                        <button class="btn btn-primary-login2" type="submit">Login</button>
+                        <button class="btn btn-primary" type="submit">Login</button>
                         <p class="toggle-auth">Don't have an account? <a onclick="toggleAuthForms()">Sign Up</a></p>
                     </form>
                     <form class="hidden" id="signup-form">
@@ -618,7 +647,7 @@
                             <label for="signup-password">Password</label>
                             <input id="signup-password" required="" type="password" />
                         </div>
-                        <button class="btn btn-primary-login3" type="submit">Sign Up</button>
+                        <button class="btn btn-primary" type="submit">Sign Up</button>
                         <p class="toggle-auth">Already have an account? <a onclick="toggleAuthForms()">Login</a></p>
                     </form>
                 </div>
@@ -648,42 +677,63 @@
                         <div id="appointments-list"></div>
                     </div>
                     <div class="admin-content hidden" id="admin-products-content">
-                        <h3 style="margin-bottom: 20px;">Add a New Product</h3>
-                        <form id="add-product-form">
-                            <div class="admin-product-form">
+                        <!-- Add Single Product Form -->
+                        <div class="admin-section">
+                            <h3 style="margin-bottom: 20px;">Add a New Product</h3>
+                            <form id="add-product-form">
+                                <div class="admin-product-form">
+                                    <div class="form-group">
+                                        <label for="product-name">Product Name</label>
+                                        <input id="product-name" required="" type="text" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="product-price">Price (PKR)</label>
+                                        <input id="product-price" required="" type="number" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="product-weight">Weight (grams)</label>
+                                        <input id="product-weight" type="number" min="1" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="product-category">Category</label>
+                                        <select id="product-category" required>
+                                            <option value="dry-fruits">Dry Fruits</option>
+                                            <option value="herbal-tea">Herbal Tea</option>
+                                            <option value="honey">Honey</option>
+                                            <option value="seeds">Seeds</option>
+                                            <option value="supplements">Supplements</option>
+                                            <option value="custom-formula">Custom Formula</option>
+                                            <option value="cold-pressed-oil">Cold Pressed Oil</option>
+                                            <option value="essential-oils">Essential Oils</option>
+                                            <option value="deals">Deals</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="product-image-filename">Product Image Filename</label>
+                                        <input id="product-image-filename" placeholder="e.g., my-image.jpg" required="" type="text" />
+                                    </div>
+                                    <div class="form-group" style="grid-column: 1 / -1;">
+                                        <label for="product-description">Description</label>
+                                        <textarea id="product-description" required="" rows="4"></textarea>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" style="margin-top: 20px; width: auto;" type="submit">Add Product</button>
+                            </form>
+                        </div>
+
+                        <!-- Bulk Add via CSV -->
+                        <div class="admin-section">
+                            <h3 style="margin-bottom: 20px;">Bulk Add Products via CSV</h3>
+                            <form id="bulk-add-form">
                                 <div class="form-group">
-                                    <label for="product-name">Product Name</label>
-                                    <input id="product-name" required="" type="text" />
+                                    <label for="csv-file-input">Upload CSV File</label>
+                                    <input type="file" id="csv-file-input" accept=".csv" required>
+                                    <small>CSV format: name,price,weight,category,description,image_filename</small>
                                 </div>
-                                <div class="form-group">
-                                    <label for="product-price">Price (PKR)</label>
-                                    <input id="product-price" required="" type="number" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="product-category">Category</label>
-                                    <select id="product-category" required="" style="width:100%; padding:12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
-                                        <option value="dry-fruits">Dry Fruits</option>
-                                        <option value="herbal-tea">Herbal Tea</option>
-                                        <option value="honey">Honey</option>
-                                        <option value="seeds">Seeds</option>
-                                        <option value="supplements">Supplements</option>
-                                        <option value="capsules">Capsules</option>
-                                        <option value="cold-pressed-oil">Herbs and spices</option>
-                                        <option value="essential-oils">Essential Oils</option>
-                                        <option value="deals">Deals</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="product-image-filename">Product Image Filename</label>
-                                    <input id="product-image-filename" placeholder="e.g., my-image.jpg" required="" type="text" />
-                                </div>
-                                <div class="form-group" style="grid-column: 1 / -1;">
-                                    <label for="product-description">Description</label>
-                                    <textarea id="product-description" required="" rows="4"></textarea>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary" style="margin-top: 20px; width: auto;" type="submit">Add Product</button>
-                        </form>
+                                <button class="btn btn-primary" style="width: auto;" type="submit">Upload and Add Products</button>
+                            </form>
+                            <div id="bulk-upload-status" style="margin-top: 15px; font-weight: bold;"></div>
+                        </div>
                     </div>
                     <div class="admin-content hidden" id="admin-manage-content">
                         <h3 style="margin-bottom: 20px;">Manage Products</h3>
@@ -709,6 +759,10 @@
                     <input id="edit-product-price" type="number" required>
                 </div>
                 <div class="form-group">
+                    <label for="edit-product-weight">Weight (grams)</label>
+                    <input id="edit-product-weight" type="number" min="1" required>
+                </div>
+                <div class="form-group">
                     <label for="edit-product-category">Category</label>
                     <select id="edit-product-category" required>
                          <option value="dry-fruits">Dry Fruits</option>
@@ -716,8 +770,8 @@
                          <option value="honey">Honey</option>
                          <option value="seeds">Seeds</option>
                          <option value="supplements">Supplements</option>
-                         <option value="capsules">Capsules</option>
-                         <option value="cold-pressed-oil">Herbs and spices</option>
+                         <option value="custom-formula">Custom Formula</option>
+                         <option value="cold-pressed-oil">Cold Pressed Oil</option>
                          <option value="essential-oils">Essential Oils</option>
                          <option value="deals">Deals</option>
                     </select>

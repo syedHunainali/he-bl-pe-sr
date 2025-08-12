@@ -1,6 +1,6 @@
 // Import Firebase functions from the latest SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, doc, setDoc, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, doc, setDoc, getDocs, updateDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // --- FIREBASE SETUP ---
 // Your provided Firebase config
@@ -43,6 +43,7 @@ function createDocumentFragment() {
 // --- STATE MANAGEMENT ---
 let allProducts = [];
 let cart = [];
+let customFormula = [];
 let lastViewedCategory = 'home';
 let currentUser = null;
 let desktopSlideIndex = 1;
@@ -82,7 +83,20 @@ const elements = {
     mainHeader: document.getElementById('main-header'),
     mobileSearchOverlay: document.getElementById('mobile-search-overlay'),
     mobileMenuOverlay: document.getElementById('mobile-menu-overlay'),
-    mobileMenuSidebar: document.getElementById('mobile-menu-sidebar')
+    mobileMenuSidebar: document.getElementById('mobile-menu-sidebar'),
+    herbNameInput: document.getElementById('herb-name'),
+    herbQuantityInput: document.getElementById('herb-quantity'),
+    addHerbBtn: document.getElementById('add-herb-btn'),
+    herbSuggestionsEl: document.getElementById('herb-suggestions'),
+    formulaItemsListEl: document.getElementById('formula-items-list'),
+    formulaTotalEl: document.getElementById('formula-total'),
+    totalWeightEl: document.getElementById('total-weight'),
+    totalPriceEl: document.getElementById('total-price'),
+    addFormulaToCartBtn: document.getElementById('add-formula-to-cart-btn'),
+    // Elements for bulk upload
+    bulkAddFormEl: document.getElementById('bulk-add-form'),
+    csvFileInputEl: document.getElementById('csv-file-input'),
+    bulkUploadStatusEl: document.getElementById('bulk-upload-status'),
 };
 
 // --- MOBILE FUNCTIONALITY ---
@@ -232,7 +246,6 @@ function renderAllGrids() {
         { products: allProducts.filter(p => p.category === 'honey'), id: 'honey-grid' },
         { products: allProducts.filter(p => p.category === 'seeds'), id: 'seeds-grid' },
         { products: allProducts.filter(p => p.category === 'supplements'), id: 'supplements-grid' },
-        { products: allProducts.filter(p => p.category === 'capsules'), id: 'capsules-grid' },
         { products: allProducts.filter(p => p.category === 'cold-pressed-oil'), id: 'cold-pressed-oil-grid' },
         { products: allProducts.filter(p => p.category === 'essential-oils'), id: 'essential-oils-grid' },
         { products: allProducts.filter(p => p.category === 'deals'), id: 'deals-grid' }
@@ -565,17 +578,121 @@ window.showPaymentContent = function (method) {
     document.querySelector(`.payment-tab[onclick="showPaymentContent('${method}')"]`).classList.add('active');
 }
 
+// --- CUSTOM FORMULA LOGIC ---
+function renderFormulaItems() {
+    if (customFormula.length === 0) {
+        elements.formulaItemsListEl.innerHTML = '<p>Your formula is empty.</p>';
+        elements.formulaTotalEl.classList.add('hidden');
+        return;
+    }
+
+    elements.formulaItemsListEl.innerHTML = '';
+    let totalWeight = 0;
+    let totalPrice = 0;
+
+    customFormula.forEach((item, index) => {
+        const formulaItemEl = document.createElement('div');
+        formulaItemEl.className = 'formula-item';
+        formulaItemEl.innerHTML = `
+            <span>${item.name} - ${item.quantity}g</span>
+            <button class="remove-herb-btn" data-index="${index}">×</button>
+        `;
+        elements.formulaItemsListEl.appendChild(formulaItemEl);
+        totalWeight += item.quantity;
+        totalPrice += item.pricePerGram * item.quantity;
+    });
+
+    elements.totalWeightEl.textContent = totalWeight;
+    elements.totalPriceEl.textContent = totalPrice.toFixed(2);
+    elements.formulaTotalEl.classList.remove('hidden');
+}
+
+function addHerbToFormula() {
+    const name = elements.herbNameInput.value.trim();
+    const quantity = parseInt(elements.herbQuantityInput.value);
+    const herbProduct = allProducts.find(p => p.name === name && p.pricePerGram > 0);
+
+    if (herbProduct && quantity > 0) {
+        const existingHerb = customFormula.find(item => item.name === name);
+        if (existingHerb) {
+            existingHerb.quantity += quantity;
+        } else {
+            customFormula.push({ 
+                name: herbProduct.name, 
+                quantity: quantity, 
+                pricePerGram: herbProduct.pricePerGram 
+            });
+        }
+        renderFormulaItems();
+        elements.herbNameInput.value = '';
+        elements.herbQuantityInput.value = '10';
+        elements.herbSuggestionsEl.innerHTML = '';
+    } else {
+        showAlert('Please select a valid herb from the suggestions and enter a quantity.');
+    }
+}
+
+function removeHerbFromFormula(index) {
+    customFormula.splice(index, 1);
+    renderFormulaItems();
+}
+
+function addFormulaToCart() {
+    if (customFormula.length === 0) {
+        showAlert('Your formula is empty.');
+        return;
+    }
+
+    const totalPrice = customFormula.reduce((sum, item) => sum + (item.pricePerGram * item.quantity), 0);
+    
+    const formulaProduct = {
+        id: `custom-formula-${Date.now()}`,
+        name: 'Custom Herbal Formula',
+        description: customFormula.map(item => `${item.name} (${item.quantity}g)`).join(', '),
+        salePrice: totalPrice,
+        originalPrice: totalPrice,
+        quantity: 1,
+        image: 'images/collection-5.png' // Generic image for custom formulas
+    };
+
+    cart.push(formulaProduct);
+    updateCartDisplay();
+    showAlert('Custom formula added to cart!');
+    customFormula = [];
+    renderFormulaItems();
+}
+
+function showHerbSuggestions() {
+    const input = elements.herbNameInput.value.toLowerCase();
+    elements.herbSuggestionsEl.innerHTML = '';
+    if (input.length === 0) {
+        return;
+    }
+
+    const suggestions = allProducts.filter(p => p.pricePerGram > 0 && p.name.toLowerCase().startsWith(input));
+    
+    suggestions.forEach(suggestion => {
+        const suggestionEl = document.createElement('div');
+        suggestionEl.className = 'suggestion-item';
+        suggestionEl.textContent = suggestion.name;
+        suggestionEl.onclick = () => {
+            elements.herbNameInput.value = suggestion.name;
+            elements.herbSuggestionsEl.innerHTML = '';
+        };
+        elements.herbSuggestionsEl.appendChild(suggestionEl);
+    });
+}
+
 // --- PRODUCT MANAGEMENT (ADMIN) ---
 
 // Opens the modal to edit a product's details
 function openEditModal(product) {
     document.getElementById('edit-product-id').value = product.id;
     document.getElementById('edit-product-name').value = product.name;
-    // Admin edits the original price, not the sale price
     document.getElementById('edit-product-price').value = product.originalPrice; 
+    document.getElementById('edit-product-weight').value = product.weight || '';
     document.getElementById('edit-product-category').value = product.category;
     document.getElementById('edit-product-description').value = product.description;
-    // The image path is like "images/my-image.jpg", we only need the filename
     const filename = product.image.split('/').pop();
     document.getElementById('edit-product-image-filename').value = filename;
     
@@ -587,7 +704,6 @@ window.deleteProduct = function (productId) {
     showConfirm('Are you sure you want to delete this product?', async () => {
         try {
             await deleteDoc(doc(db, "products", productId));
-            // Refetch all products to ensure data consistency
             await initializeStore(true); 
             showAlert("Product deleted successfully!");
         } catch (error) {
@@ -596,6 +712,49 @@ window.deleteProduct = function (productId) {
         }
     });
 }
+
+/**
+ * Parses a CSV string into an array of product objects.
+ * Assumes the first row is the header.
+ * @param {string} csvText The raw CSV text content.
+ * @returns {Array<Object>} An array of product objects.
+ */
+function parseCSV(csvText) {
+    const products = [];
+    const lines = csvText.trim().split(/\r?\n/);
+    if (lines.length < 2) {
+        showAlert("CSV file is empty or has no data rows.");
+        return [];
+    }
+
+    const headers = lines[0].split(',').map(h => h.trim());
+    const requiredHeaders = ['name', 'price', 'weight', 'category', 'description', 'image_filename'];
+    
+    // Validate headers
+    for (const requiredHeader of requiredHeaders) {
+        if (!headers.includes(requiredHeader)) {
+            showAlert(`CSV is missing required header: ${requiredHeader}`);
+            return [];
+        }
+    }
+
+    for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(',');
+        if (values.length !== headers.length) {
+            console.warn(`Skipping row ${i + 1}: Mismatched number of columns.`);
+            continue;
+        }
+
+        const product = {};
+        for (let j = 0; j < headers.length; j++) {
+            product[headers[j]] = values[j].trim();
+        }
+        
+        products.push(product);
+    }
+    return products;
+}
+
 
 // --- AUTHENTICATION & ADMIN (LOCAL STORAGE) ---
 window.toggleAuthForms = function () {
@@ -782,6 +941,10 @@ document.addEventListener('click', async function (e) {
         const product = allProducts.find(p => p.id === e.target.dataset.productId);
         if (product) openEditModal(product);
     }
+
+    if (e.target.classList.contains('remove-herb-btn')) {
+        removeHerbFromFormula(parseInt(e.target.dataset.index));
+    }
     
     if (e.target.classList.contains('btn-fulfillment') && !e.target.disabled) {
         if (e.target.dataset.orderId) {
@@ -827,6 +990,10 @@ elements.editModalCloseBtn.addEventListener('click', () => elements.editProductM
 
 elements.searchInputEl.addEventListener('input', handleSearch);
 elements.mobileSearchInputEl.addEventListener('input', handleMobileSearch);
+elements.herbNameInput.addEventListener('input', showHerbSuggestions);
+elements.addHerbBtn.addEventListener('click', addHerbToFormula);
+elements.addFormulaToCartBtn.addEventListener('click', addFormulaToCart);
+
 
 let ticking = false;
 window.addEventListener('scroll', () => {
@@ -962,20 +1129,18 @@ elements.addProductFormEl.addEventListener('submit', async function (e) {
     const newProduct = {
         name: document.getElementById('product-name').value,
         price: parseFloat(document.getElementById('product-price').value),
+        weight: parseFloat(document.getElementById('product-weight').value),
         category: document.getElementById('product-category').value,
         description: document.getElementById('product-description').value,
         image: `images/${document.getElementById('product-image-filename').value}`,
     };
 
     try {
-        // Let firestore generate the ID by using addDoc
-        const docRef = await addDoc(collection(db, "products"), newProduct);
+        await addDoc(collection(db, "products"), newProduct);
         showAlert("Product added successfully!");
         elements.addProductFormEl.reset();
-        // Refetch products to get the new one
         await initializeStore(true);
-    } catch (error)
-        {
+    } catch (error) {
         console.error("Error adding product: ", error);
         showAlert(`Failed to add product. Error: ${error.message}`);
     }
@@ -988,6 +1153,7 @@ elements.editProductFormEl.addEventListener('submit', async function(e) {
     const updatedData = {
         name: document.getElementById('edit-product-name').value,
         price: parseFloat(document.getElementById('edit-product-price').value),
+        weight: parseFloat(document.getElementById('edit-product-weight').value),
         category: document.getElementById('edit-product-category').value,
         description: document.getElementById('edit-product-description').value,
         image: `images/${document.getElementById('edit-product-image-filename').value}`,
@@ -997,12 +1163,77 @@ elements.editProductFormEl.addEventListener('submit', async function(e) {
         await updateDoc(doc(db, "products", productId), updatedData);
         showAlert("Product updated successfully!");
         elements.editProductModalEl.classList.add('hidden');
-        // Refetch all products to ensure UI is up-to-date
         await initializeStore(true); 
     } catch (error) {
         console.error("Error updating product: ", error);
         showAlert("Failed to update product.");
     }
+});
+
+// Handle bulk product upload via CSV
+elements.bulkAddFormEl.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const file = elements.csvFileInputEl.files[0];
+    if (!file) {
+        showAlert('Please select a CSV file to upload.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async function(event) {
+        const csvText = event.target.result;
+        const parsedProducts = parseCSV(csvText);
+
+        if (parsedProducts.length === 0) {
+            elements.bulkUploadStatusEl.textContent = "No valid products found in the file.";
+            elements.bulkUploadStatusEl.style.color = 'red';
+            return;
+        }
+
+        elements.bulkUploadStatusEl.textContent = `Processing ${parsedProducts.length} products...`;
+        elements.bulkUploadStatusEl.style.color = 'blue';
+
+        try {
+            // Use a batch write for efficiency
+            const batch = writeBatch(db);
+            let productsAdded = 0;
+
+            parsedProducts.forEach(p => {
+                const newProductRef = doc(collection(db, "products"));
+                const productData = {
+                    name: p.name,
+                    price: parseFloat(p.price) || 0,
+                    weight: parseInt(p.weight) || 0,
+                    category: p.category,
+                    description: p.description,
+                    image: `images/${p.image_filename}`,
+                };
+
+                // Basic validation
+                if (productData.name && productData.price > 0 && productData.category) {
+                    batch.set(newProductRef, productData);
+                    productsAdded++;
+                } else {
+                    console.warn("Skipping invalid product data:", p);
+                }
+            });
+
+            await batch.commit();
+            
+            elements.bulkUploadStatusEl.textContent = `${productsAdded} products added successfully!`;
+            elements.bulkUploadStatusEl.style.color = 'green';
+            elements.bulkAddFormEl.reset();
+            await initializeStore(true); // Refresh store data
+
+        } catch (error) {
+            console.error("Error adding products in bulk: ", error);
+            elements.bulkUploadStatusEl.textContent = "An error occurred during the upload.";
+            elements.bulkUploadStatusEl.style.color = 'red';
+            showAlert("Failed to add products from CSV. Check console for details.");
+        }
+    };
+
+    reader.readAsText(file);
 });
 
 
@@ -1023,19 +1254,20 @@ async function initializeStore(forceRefetch = false) {
         const productSnapshot = await getDocs(collection(db, "products"));
         allProducts = productSnapshot.docs.map(doc => {
             const data = doc.data();
-            // Apply 14% discount
             const originalPrice = data.price;
             const salePrice = originalPrice * (1 - DISCOUNT_RATE);
+            const pricePerGram = (data.weight > 0) ? (originalPrice / data.weight) : 0;
             return { 
                 id: doc.id, 
                 ...data,
                 originalPrice: originalPrice,
-                salePrice: salePrice
+                salePrice: salePrice,
+                pricePerGram: pricePerGram
             };
         });
         
         renderAllGrids();
-        renderAdminProductsList(); // Also update admin list
+        renderAdminProductsList();
     } catch (error) {
         console.error("Error fetching products from Firestore: ", error);
         showAlert("Could not load products. Please check your connection.");

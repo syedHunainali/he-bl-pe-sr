@@ -42,7 +42,7 @@ body {
 .btn:hover {
     background: #ffffff;
     color: #000000;
-    /* transform: translateY(-2px); */
+    transform: translateY(-2px);
 }
 
 .btn-primary {
@@ -57,70 +57,7 @@ body {
     transition: background 0.2s;
     width: 100%;
 }
-.btn-primary-login {
-    background: #7BC142;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-    width: 20%;
-}
-.btn-primary-login2 {
-    background: #7BC142;
-    color: white;
-    border: none;
-    padding: 10px;
-    bottom: 20px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-    width: 20%;
-}
-.btn-primary-login3 {
-    background: #7BC142;
-    color: white;
-    border: none;
-    padding: 10px;
-    bottom: -70px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-    width: 20%;
-}
-.btn-primary-yes {
-    background: #7BC142;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    right: 600px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-    width: 20%;
-}
-.btn-primary-no {
-    background: #7BC142;
-    color: rgb(2, 36, 12);
-    border: none;
-    padding: 12px;
-    left: 550px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-    width: 20%;
-}
+
 .btn-primary:hover {
     background: #6BA438;
 }
@@ -199,7 +136,7 @@ body {
     font-size: 24px;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(123, 193, 66, 0.4);
-    /* transition: all 0.3s ease; */
+    transition: all 0.3s ease;
     z-index: 1000;
     display: flex;
     align-items: center;
@@ -208,12 +145,12 @@ body {
 
 .floating-appointment-btn:hover {
     background: #6BA438;
-    transform: translateY(0px);
+    transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(123, 193, 66, 0.6);
 }
 
 .floating-appointment-btn:active {
-    transform: translateY(0px);
+    transform: translateY(-1px);
 }
 
 /* Appointment Tooltip */
@@ -283,6 +220,61 @@ body {
 }
 
 /* Header & Navigation */
+.august-14-banner {
+    position: relative;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.august-14-banner-image {
+    width: 100%;
+    height: 50px;
+    display: block;
+}
+
+.marquee-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.marquee-text {
+    font-size: 2.5vw;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    white-space: nowrap;
+    animation: marquee 25s linear infinite;
+    display: inline-block;
+    padding-left: 100%;
+}
+
+.marquee-text span {
+    padding: 0 2em;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.mobile-only {
+    display: none;
+}
+
+.desktop-only {
+    display: block;
+}
+
 .top-banner {
     background: #d4cdcd;
     color: rgb(19, 0, 0);
@@ -1026,6 +1018,13 @@ body {
     border-top: none;
 }
 
+.admin-section {
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
 .order-record,
 .admin-product-card {
     background: #f9f9f9;
@@ -1206,7 +1205,7 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
-    background: #e74c3c;
+    background: #02720c;
     color: white;
     padding: 5px 8px;
     border-radius: 5px;
@@ -1534,6 +1533,85 @@ body {
     font-size: 14px;
 }
 
+/* Custom Formula Page */
+.formula-builder-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.formula-form, .formula-summary {
+    background: #f9f9f9;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+.formula-form h3, .formula-summary h3 {
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.autocomplete-container {
+    position: relative;
+}
+
+.autocomplete-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 100;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.suggestion-item {
+    padding: 12px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background: #f0f0f0;
+}
+
+#formula-items-list .formula-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+#formula-items-list .formula-item:last-child {
+    border-bottom: none;
+}
+
+.remove-herb-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#formula-total {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    font-weight: bold;
+}
+
 /* Footer */
 .footer {
     background: #000000;
@@ -1575,6 +1653,13 @@ body {
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: block;
+    }
 
     /* Mobile Header */
     .header {
@@ -1877,6 +1962,15 @@ body {
     .modal-content {
         margin: 20px;
         padding: 20px;
+    }
+    
+    .formula-builder-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .marquee-text {
+        font-size: 4vw;
+        animation-duration: 15s;
     }
 
     .section-title {
