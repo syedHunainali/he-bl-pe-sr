@@ -281,6 +281,7 @@ function renderProducts(productsToRender, containerId) {
     productsToRender.forEach(p => {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
+        const weightDisplay = p.weight ? `<span class="product-weight">(${p.weight}g)</span>` : '';
         // Display original price and discounted sale price
         productCard.innerHTML = `
             <div class="product-image" onclick="showProductPage('${p.id}')">
@@ -288,7 +289,7 @@ function renderProducts(productsToRender, containerId) {
                 <div class="discount-badge">${(DISCOUNT_RATE * 100).toFixed(0)}% OFF</div>
             </div>
             <div class="product-info">
-                <h3 onclick="showProductPage('${p.id}')">${p.name}</h3>
+                <h3 onclick="showProductPage('${p.id}')">${p.name}${weightDisplay}</h3>
                 <div class="product-price">
                     <span class="price-sale">Rs.${p.salePrice.toFixed(2)}</span>
                     <span class="price-original">Rs.${p.originalPrice.toFixed(2)}</span>
@@ -315,6 +316,8 @@ function renderProductDetailPage(product) {
         return;
     }
     
+    const weightDisplay = product.weight ? `<span class="product-weight">(${product.weight}g)</span>` : '';
+
     elements.productDetailContentEl.innerHTML = `
         <a href="#" onclick="showPage('home')" class="back-link">&larr; Back to Home</a>
         <div class="product-detail-container">
@@ -322,7 +325,7 @@ function renderProductDetailPage(product) {
                 <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x400/ccc/ffffff?text=Image+Not+Found';">
             </div>
             <div class="product-detail-info">
-                <h1>${product.name}</h1>
+                <h1>${product.name}${weightDisplay},</h1>
                 <div class="product-price">
                      <span class="price-sale">Rs.${product.salePrice.toFixed(2)}</span>
                      <span class="price-original">Rs.${product.originalPrice.toFixed(2)}</span>
