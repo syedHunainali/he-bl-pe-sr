@@ -2,70 +2,17 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Mubarak Pansar | Trusted Online Herbal Store in Karachi</title>
-
-    <meta name="description" content="Buy 100% pure herbal products, organic honey, cold-pressed oils, and natural supplements from Mubarak Pansar, Karachi's most trusted online pansar store.">
-
-    <meta name="keywords" content="herbal store karachi, pansar in karachi, online pansar pakistan, natural remedies, organic honey, cold pressed oils, dry fruits, herbal supplements, pensar, pansar, herbs, herbs names">
-
-    <link rel="canonical" href="https://mubarakpansar.store/">
-
-    <link rel="icon" href="https://mubarakpansar.store/images/logo.png" sizes="any">
-    <link rel="apple-touch-icon" href="https://mubarakpansar.store/images/logo.png">
-
-
-    <meta property="og:title" content="Mubarak Pansar - Karachi's Trusted Online Herbal Store">
-    <meta property="og:description" content="Discover authentic herbal remedies, pure honey, organic seeds, and natural supplements. Shop online with confidence at Mubarak Pansar.">
-    <meta property="og:image" content="https://mubarakpansar.store/images/logo.png">
-    <meta property="og:url" content="https://mubarakpansar.store/">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Mubarak Pansar">
-
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Mubarak Pansar - Karachi's Trusted Online Herbal Store">
-    <meta name="twitter:description" content="Buy authentic herbal products, pure honey, and natural remedies online from Karachi's leading pansar. Fast delivery across Pakistan.">
-    <meta name="twitter:image" content="https://mubarakpansar.store/images/logo.png">
-    
-    <!-- Schema Markup -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Store",
-      "name": "Mubarak Pansar",
-      "url": "https://mubarakpansar.store/",
-      "logo": "https://mubarakpansar.store/images/logo.png",
-      "image": "https://mubarakpansar.store/images/logo.png",
-      "description": "Your trusted source for 100% natural herbal products, organic honey, cold-pressed oils, and supplements in Karachi, Pakistan.",
-      "telephone": "+92-343-2516985",  "address": {
-        "@type": "PostalAddress",  "streetAddress": "Shop 1, Main Market", "Gulshan-e-Iqbal": "Karachi",
-        "postalCode": "75300",
-        "addressCountry": "PK"
-      },
-      "priceRange": "Rs", "openingHours": "Mo-Sa 12:00-21:00", "sameAs": [
-        "https://www.facebook.com/profile.php?id=100089355260379",
-        "https://www.instagram.com/mubarakpansar/" ]
-    }
-    </script>
-
-    
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Mubarak-pansar - Pakistan Leading Herbal Online Store</title>
     
-    <!-- Preload critical resources -->
     <link rel="preload" href="styles.css" as="style">
-    <link rel="preload" href="images/logo.png" as="image">
+    <link rel="preload" href="banners/logo.png" as="image">
     
-    <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <!-- Custom Alert Modal -->
     <div class="modal-overlay hidden" id="custom-modal">
         <div class="modal-content">
             <p id="modal-message">This is a message.</p>
@@ -73,7 +20,6 @@
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
     <div class="modal-overlay hidden" id="confirm-modal">
         <div class="modal-content">
             <p id="confirm-message">Are you sure?</p>
@@ -84,17 +30,14 @@
         </div>
     </div>
     
-    <!-- Floating Appointment Button -->
     <button class="floating-appointment-btn" onclick="showPage('appointment')" title="Book Appointment with Herbal Specialist">📅</button>
     
-    <!-- Appointment Tooltip -->
     <div class="appointment-tooltip" id="appointment-tooltip">
         <button class="tooltip-close" onclick="closeAppointmentTooltip()">×</button>
         <h4>Hakeem Syed Asim Ali</h4>
         <p>Book your appointment now for a consultation of Hakeem Syed Asim Ali.</p>
     </div>
     
-    <!-- Mobile Search Overlay -->
     <div class="mobile-search-overlay" id="mobile-search-overlay">
         <div class="mobile-search-container">
             <div class="mobile-search-header">
@@ -107,7 +50,6 @@
         </div>
     </div>
     
-    <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay" id="mobile-menu-overlay">
         <div class="mobile-menu-sidebar" id="mobile-menu-sidebar">
             <div class="mobile-menu-header">
@@ -125,23 +67,21 @@
                     <a class="mobile-menu-item" href="#" onclick="showPage('custom-formula'); closeMobileMenu();">CUSTOM FORMULA</a>
                     <a class="mobile-menu-item" href="#" onclick="showPage('cold-pressed-oil'); closeMobileMenu();">COLD PRESSED OIL</a>
                     <a class="mobile-menu-item" href="#" onclick="showPage('essential-oils'); closeMobileMenu();">ESSENTIAL OILS</a>
-                    <a class="mobile-menu-item" href="#" onclick="showPage('deals'); closeMobileMenu();">DEALS</a>
+                    <a class="mobile-menu-item" href="#" onclick="showPage('herbs'); closeMobileMenu();">HERBS</a>
                     <a class="mobile-menu-item appointment-nav-item" href="#" onclick="showPage('appointment'); closeMobileMenu();">📅 BOOK APPOINTMENT</a>
                 </div>
                 <div class="mobile-menu-footer">
                     <div id="auth-controls-mobile" class="mobile-menu-auth">
-                        <!-- Mobile auth links will be injected here by JS -->
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>
     </div>
     
     <header class="header" id="main-header">
-        <!-- Special August 14 Banner -->
         <div class="august-14-banner">
-            <img src="images/14-aug-banner.png" class="august-14-banner-image desktop-only" alt="14th August Banner" >
-            <img src="images/14-aug-banner-mobile.png" class="august-14-banner-image mobile-only" alt="14th August Mobile Banner" onerror="this.style.display='none'" height="30px">
+            <img src="banners/14-aug-banner.png" class="august-14-banner-image desktop-only" alt="14th August Banner" >
+            <img src="banners/14-aug-banner-mobile.png" class="august-14-banner-image mobile-only" alt="14th August Mobile Banner" onerror="this.style.display='none'" height="30px">
             <div class="marquee-container">
                 <div class="marquee-text">
                     <span>Free Shipping For Orders Above Rs.2000</span>
@@ -156,7 +96,7 @@
             <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
             <div class="logo">
                 <a href="#" onclick="showPage('home')">
-                    <img alt="Herbal Store Logo" src="images/logo.png" />
+                    <img alt="Herbal Store Logo" src="banners/logo.png" />
                 </a>
             </div>
             <div class="search-wrapper">
@@ -171,7 +111,7 @@
                     Total: PKR <span id="cart-total-header">0.00</span>
                 </div>
                 <div class="cart-button" onclick="showPage('cart')">
-                    <img alt="your cart" height="30" src="images/cart.png" width="30" />
+                    <img alt="your cart" height="30" src="banners/cart.png" width="30" />
                     <span class="cart-item-count-badge">0</span>
                 </div>
             </div>
@@ -188,7 +128,7 @@
                     <li><a class="nav-link" href="#" onclick="showPage('custom-formula')">CUSTOM FORMULA</a></li>
                     <li><a class="nav-link" href="#" onclick="showPage('cold-pressed-oil')">COLD PRESSED OIL</a></li>
                     <li><a class="nav-link" href="#" onclick="showPage('essential-oils')">ESSENTIAL OILS</a></li>
-                    <li><a class="nav-link" href="#" onclick="showPage('deals')">DEALS</a></li>
+                    <li><a class="nav-link" href="#" onclick="showPage('herbs')">HERBS</a></li>
                     <li><a class="nav-link appointment-nav-link" href="#" onclick="showPage('appointment')">📅 BOOK APPOINTMENT</a></li>
                 </ul>
             </nav>
@@ -197,22 +137,21 @@
     
     <main>
         <div class="page" id="home-page">
-            <!-- Desktop Banner (Slider with 3 slides) -->
             <div id="desktop-slider" class="slider-container desktop-banner">
                 <div class="slide">
-                    <img alt="Herbal Remedies Banner" src="images/Banner1.png" />
+                    <img alt="Herbal Remedies Banner" src="banners/Banner1.webp" />
                     <div class="slide-content">
                         <a class="btn" href="#" onclick="showPage('supplements')">Shop Now</a>
                     </div>
                 </div>
                 <div class="slide">
-                    <img alt="Premium Honey Banner" src="images/Banner2.png" />
+                    <img alt="Premium Honey Banner" src="banners/Banner2.webp" />
                     <div class="slide-content">
                         <a class="btn btn-secondary" href="#" onclick="showPage('honey')">Order now</a>
                     </div>
                 </div>
                 <div class="slide">
-                    <img alt="Fresh Dry Fruits Banner" src="images/Banner3.png" />
+                    <img alt="Fresh Dry Fruits Banner" src="banners/Banner3.webp" />
                     <div class="slide-content">
                         <a class="btn" href="#" onclick="showPage('appointment')">Book Your Appointment Now</a>
                     </div>
@@ -226,25 +165,21 @@
                 </div>
             </div>
 
-            <!-- Mobile Banner (3 slides, auto-rotating) -->
             <div id="mobile-slider" class="slider-container mobile-banner">
                 <div class="slide" style="display: block;">
-                    <img alt="Herbal Remedies Mobile Banner" src="images/MBanner1.png" />
+                    <img alt="Herbal Remedies Mobile Banner" src="banners/MBanner1.webp" />
                     <div class="slide-content">
-                        <a class="btn" href="#" onclick="showPage('supplements')">Shop Now</a>
-                    </div>
+                        </div>
                 </div>
                 <div class="slide">
-                    <img alt="Premium Honey Mobile Banner" src="images/MBanner2.png" />
+                    <img alt="Premium Honey Mobile Banner" src="banners/MBanner2.webp" />
                     <div class="slide-content">
-                        <a class="btn" href="#" onclick="showPage('honey')">Order now</a>
-                    </div>
+                        </div>
                 </div>
                 <div class="slide">
-                    <img alt="Dry Fruits Mobile Banner" src="images/MBanner3.png" />
+                    <img alt="Dry Fruits Mobile Banner" src="banners/MBanner3.webp" />
                     <div class="slide-content">
-                        <a class="btn" href="#" onclick="showPage('appointment')">Book Your Appointment Now</a>
-                    </div>
+                        </div>
                 </div>
             </div>
 
@@ -254,37 +189,37 @@
                     <div class="collection-grid">
                         <div class="collection-item" onclick="showPage('dry-fruits')">
                             <div class="collection-image">
-                                <img alt="Dry Fruits" src="images/collection-1.png" />
+                                <img alt="Dry Fruits" src="banners/collection-1.webp" />
                             </div>
                             <h4>Dry Fruits</h4>
                         </div>
                         <div class="collection-item" onclick="showPage('herbal-tea')">
                             <div class="collection-image">
-                                <img alt="Herbal Tea" src="images/collection-2.png" />
+                                <img alt="Herbal Tea" src="banners/collection-2.webp" />
                             </div>
                             <h4>Herbal Tea</h4>
                         </div>
                         <div class="collection-item" onclick="showPage('honey')">
                             <div class="collection-image">
-                                <img alt="Honey" src="images/collection-3.png" />
+                                <img alt="Honey" src="banners/collection-3.webp" />
                             </div>
                             <h4>Honey</h4>
                         </div>
                         <div class="collection-item" onclick="showPage('seeds')">
                             <div class="collection-image">
-                                <img alt="Seeds" src="images/collection-4.png" />
+                                <img alt="Seeds" src="banners/collection-4.webp" />
                             </div>
                             <h4>Seeds</h4>
                         </div>
                         <div class="collection-item" onclick="showPage('supplements')">
                             <div class="collection-image">
-                                <img alt="Supplements" src="images/collection-5.png" />
+                                <img alt="Supplements" src="banners/collection-5.webp" />
                             </div>
                             <h4>Supplements</h4>
                         </div>
                         <div class="collection-item" onclick="showPage('essential-oils')">
                             <div class="collection-image">
-                                <img alt="Essential Oils" src="images/collection-6.png" />
+                                <img alt="Essential Oils" src="banners/collection-6.webp" />
                             </div>
                             <h4>Essential Oils</h4>
                         </div>
@@ -299,7 +234,6 @@
             </section>
         </div>
 
-        <!-- Appointment Booking Page -->
         <div class="page hidden" id="appointment-page">
             <div class="appointment-page">
                 <div class="appointment-container">
@@ -307,10 +241,10 @@
                     
                     <div class="appointment-info">
                         <h4>Consultation Information</h4>
-                        <p>• Free consultation with certified herbal specialist</p>
+                        <p>• Free consultation for pakistan azazdi with certified herbal specialist</p>
+                        <p>• Free consultation only for aug month</p>
                         <p>• Personalized treatment recommendations</p>
-                        <p>• Available Monday to Saturday: 9 AM - 6 PM</p>
-                        <p>• Sunday appointments available on request</p>
+                        <p>• Available Monday to Saturday: 6 PM - 9 PM</p>
                     </div>
 
                     <form id="appointment-form">
@@ -338,14 +272,10 @@
                             <label for="appointment-time">Preferred Time *</label>
                             <select id="appointment-time" name="time" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px;">
                                 <option value="">Select Time</option>
-                                <option value="09:00">9:00 AM</option>
-                                <option value="10:00">10:00 AM</option>
-                                <option value="11:00">11:00 AM</option>
-                                <option value="12:00">12:00 PM</option>
-                                <option value="14:00">2:00 PM</option>
-                                <option value="15:00">3:00 PM</option>
-                                <option value="16:00">4:00 PM</option>
-                                <option value="17:00">5:00 PM</option>
+                                <option value="18:00">6:00 PM</option>
+                                <option value="19:00">7:00 PM</option>
+                                <option value="20:00">8:00 PM</option>
+                                <option value="21:00">9:00 PM</option>
                             </select>
                         </div>
                         
@@ -360,7 +290,6 @@
             </div>
         </div>
 
-        <!-- Category Pages -->
         <div class="page hidden" id="dry-fruits-page">
             <div class="page-header">
                 <div class="container">
@@ -438,13 +367,20 @@
                         <div class="formula-form">
                             <h3>Add Herbs to Your Formula</h3>
                             <div class="form-group autocomplete-container">
-                                <label for="herb-name">Herb Name</label>
+                                <label for="herb-name">Herb Name (Type your own or select from suggestions)</label>
                                 <input type="text" id="herb-name" placeholder="Start typing an herb name...">
                                 <div class="autocomplete-suggestions" id="herb-suggestions"></div>
                             </div>
                             <div class="form-group">
                                 <label for="herb-quantity">Quantity (grams)</label>
                                 <input type="number" id="herb-quantity" value="10" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="herb-form">Form</label>
+                                <select id="herb-form">
+                                    <option value="Powder">Powder</option>
+                                    <option value="Solid Herbs">Solid Herbs</option>
+                                </select>
                             </div>
                             <button class="btn-primary" id="add-herb-btn">Add Herb</button>
                         </div>
@@ -490,15 +426,15 @@
             </div>
         </div>
         
-        <div class="page hidden" id="deals-page">
+        <div class="page hidden" id="herbs-page">
             <div class="page-header">
                 <div class="container">
-                    <h1>Deals</h1>
+                    <h1>Herbs</h1>
                 </div>
             </div>
             <div class="page-content">
                 <div class="container">
-                    <div class="product-grid" id="deals-grid"></div>
+                    <div class="product-grid" id="herbs-grid"></div>
                 </div>
             </div>
         </div>
@@ -680,7 +616,6 @@
                         <div id="appointments-list"></div>
                     </div>
                     <div class="admin-content hidden" id="admin-products-content">
-                        <!-- Add Single Product Form -->
                         <div class="admin-section">
                             <h3 style="margin-bottom: 20px;">Add a New Product</h3>
                             <form id="add-product-form">
@@ -708,7 +643,7 @@
                                             <option value="custom-formula">Custom Formula</option>
                                             <option value="cold-pressed-oil">Cold Pressed Oil</option>
                                             <option value="essential-oils">Essential Oils</option>
-                                            <option value="deals">Deals</option>
+                                            <option value="herbs">Herbs</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -724,7 +659,6 @@
                             </form>
                         </div>
 
-                        <!-- Bulk Add via CSV -->
                         <div class="admin-section">
                             <h3 style="margin-bottom: 20px;">Bulk Add Products via CSV</h3>
                             <form id="bulk-add-form">
@@ -747,7 +681,6 @@
         </div>
     </main>
 
-    <!-- Edit Product Modal -->
     <div class="modal-overlay hidden" id="edit-product-modal">
         <div class="modal-content">
             <form id="edit-product-form">
@@ -776,7 +709,7 @@
                          <option value="custom-formula">Custom Formula</option>
                          <option value="cold-pressed-oil">Cold Pressed Oil</option>
                          <option value="essential-oils">Essential Oils</option>
-                         <option value="deals">Deals</option>
+                         <option value="herbs">Herbs</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -801,7 +734,6 @@
         </div>
     </footer>
     
-    <!-- JavaScript -->
     <script type="module" src="script.js"></script>
 </body>
 

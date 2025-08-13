@@ -93,6 +93,7 @@ const elements = {
     totalWeightEl: document.getElementById('total-weight'),
     totalPriceEl: document.getElementById('total-price'),
     addFormulaToCartBtn: document.getElementById('add-formula-to-cart-btn'),
+    herbFormEl: document.getElementById('herb-form'),
     // Elements for bulk upload
     bulkAddFormEl: document.getElementById('bulk-add-form'),
     csvFileInputEl: document.getElementById('csv-file-input'),
@@ -248,7 +249,7 @@ function renderAllGrids() {
         { products: allProducts.filter(p => p.category === 'supplements'), id: 'supplements-grid' },
         { products: allProducts.filter(p => p.category === 'cold-pressed-oil'), id: 'cold-pressed-oil-grid' },
         { products: allProducts.filter(p => p.category === 'essential-oils'), id: 'essential-oils-grid' },
-        { products: allProducts.filter(p => p.category === 'deals'), id: 'deals-grid' }
+        { products: allProducts.filter(p => p.category === 'herbs'), id: 'herbs-grid' }
     ];
 
     // Use requestIdleCallback for non-critical rendering to avoid blocking the main thread
@@ -315,7 +316,7 @@ function renderProductDetailPage(product) {
     }
     
     elements.productDetailContentEl.innerHTML = `
-        <a href="#" onclick="showPage(lastViewedCategory)" class="back-link">&larr; Back to products</a>
+        <a href="#" onclick="showPage('home')" class="back-link">&larr; Back to Home</a>
         <div class="product-detail-container">
             <div class="product-detail-image">
                 <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x400/ccc/ffffff?text=Image+Not+Found';">
@@ -593,8 +594,10 @@ function renderFormulaItems() {
     customFormula.forEach((item, index) => {
         const formulaItemEl = document.createElement('div');
         formulaItemEl.className = 'formula-item';
+        // Display a note for custom herbs with no price
+        const priceNote = item.pricePerGram === 0 ? ' (Custom - Price TBD)' : '';
         formulaItemEl.innerHTML = `
-            <span>${item.name} - ${item.quantity}g</span>
+            <span>${item.name} - ${item.quantity}g${priceNote}</span>
             <button class="remove-herb-btn" data-index="${index}">×</button>
         `;
         elements.formulaItemsListEl.appendChild(formulaItemEl);
@@ -610,26 +613,42 @@ function renderFormulaItems() {
 function addHerbToFormula() {
     const name = elements.herbNameInput.value.trim();
     const quantity = parseInt(elements.herbQuantityInput.value);
-    const herbProduct = allProducts.find(p => p.name === name && p.pricePerGram > 0);
 
-    if (herbProduct && quantity > 0) {
-        const existingHerb = customFormula.find(item => item.name === name);
-        if (existingHerb) {
-            existingHerb.quantity += quantity;
-        } else {
-            customFormula.push({ 
-                name: herbProduct.name, 
-                quantity: quantity, 
-                pricePerGram: herbProduct.pricePerGram 
-            });
-        }
-        renderFormulaItems();
-        elements.herbNameInput.value = '';
-        elements.herbQuantityInput.value = '10';
-        elements.herbSuggestionsEl.innerHTML = '';
-    } else {
-        showAlert('Please select a valid herb from the suggestions and enter a quantity.');
+    if (!name || !(quantity > 0)) {
+        showAlert('Please enter an herb name and a valid quantity.');
+        return;
     }
+
+    // Try to find the product in the store
+    const herbProduct = allProducts.find(p => p.name.toLowerCase() === name.toLowerCase() && p.pricePerGram > 0);
+    
+    let pricePerGram = 0;
+    let displayName = name;
+
+    // If found, use its data. If not, it's a custom entry with price 0.
+    if (herbProduct) {
+        pricePerGram = herbProduct.pricePerGram;
+        displayName = herbProduct.name; // Use the canonical name from the database
+    }
+
+    // Check if the herb (by its display name) is already in the formula
+    const existingHerb = customFormula.find(item => item.name.toLowerCase() === displayName.toLowerCase());
+    if (existingHerb) {
+        existingHerb.quantity += quantity;
+    } else {
+        customFormula.push({
+            name: displayName,
+            quantity: quantity,
+            pricePerGram: pricePerGram
+        });
+    }
+
+    renderFormulaItems();
+    // Reset inputs
+    elements.herbNameInput.value = '';
+    elements.herbQuantityInput.value = '10';
+    elements.herbSuggestionsEl.innerHTML = '';
+    elements.herbNameInput.focus();
 }
 
 function removeHerbFromFormula(index) {
@@ -643,13 +662,20 @@ function addFormulaToCart() {
         return;
     }
 
+    const selectedForm = elements.herbFormEl.value || 'Not Specified';
     const totalPrice = customFormula.reduce((sum, item) => sum + (item.pricePerGram * item.quantity), 0);
     
+    // Create a detailed description for the order
+    const description = `Form: ${selectedForm}. Ingredients: ` + customFormula.map(item => {
+        const priceNote = item.pricePerGram === 0 ? ' (Custom/Price TBD)' : '';
+        return `${item.name} (${item.quantity}g)${priceNote}`;
+    }).join(', ');
+
     const formulaProduct = {
         id: `custom-formula-${Date.now()}`,
-        name: 'Custom Herbal Formula',
-        description: customFormula.map(item => `${item.name} (${item.quantity}g)`).join(', '),
-        salePrice: totalPrice,
+        name: `Custom Formula (${selectedForm})`,
+        description: description,
+        salePrice: totalPrice, // This is the calculated price, may be 0 if all herbs are custom
         originalPrice: totalPrice,
         quantity: 1,
         image: 'images/collection-5.png' // Generic image for custom formulas
@@ -658,6 +684,8 @@ function addFormulaToCart() {
     cart.push(formulaProduct);
     updateCartDisplay();
     showAlert('Custom formula added to cart!');
+    
+    // Clear the formula builder
     customFormula = [];
     renderFormulaItems();
 }
