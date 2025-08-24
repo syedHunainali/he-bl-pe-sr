@@ -44,6 +44,7 @@ function createDocumentFragment() {
 let allProducts = [];
 let cart = [];
 let customFormula = [];
+let lastViewedCategory = 'home';
 let currentUser = null;
 let desktopSlideIndex = 1;
 let desktopSlideInterval;
@@ -99,116 +100,6 @@ const elements = {
     bulkUploadStatusEl: document.getElementById('bulk-upload-status'),
 };
 
-// --- NEW ROUTING LOGIC ---
-
-/**
- * Main routing function. Parses the URL hash and displays the correct page/content.
- * This is the single source of truth for what is displayed on the page.
- */
-function handleRouting() {
-    const hash = window.location.hash || '#page=home';
-
-    // Hide all pages before showing the correct one
-    elements.pages.forEach(page => page.classList.add('hidden'));
-    window.scrollTo(0, 0);
-
-    if (hash.startsWith('#product=')) {
-        const productId = hash.substring(9); // Length of '#product='
-        const product = allProducts.find(p => p.id === productId);
-        if (product) {
-            renderProductDetailPage(product);
-            document.getElementById('product-detail-page').classList.remove('hidden');
-        } else {
-            // If product not found, redirect to home
-            document.getElementById('home-page').classList.remove('hidden');
-        }
-    } else if (hash.startsWith('#page=')) {
-        const pageId = hash.substring(6); // Length of '#page='
-        const targetPage = document.getElementById(pageId + '-page');
-        if (targetPage) {
-            targetPage.classList.remove('hidden');
-            // Handle page-specific logic
-            if (pageId === 'checkout') renderCheckoutPage();
-            if (pageId === 'admin') renderAdminPanel();
-            if (pageId === 'appointment') setMinimumAppointmentDate();
-        } else {
-            // If page not found, redirect to home
-            document.getElementById('home-page').classList.remove('hidden');
-        }
-    } else if (hash.startsWith('#search=')) {
-        const query = decodeURIComponent(hash.substring(8)); // Length of '#search='
-        elements.searchInputEl.value = query;
-        elements.mobileSearchInputEl.value = query;
-        const results = allProducts.filter(p =>
-            p.name.toLowerCase().includes(query.toLowerCase()) ||
-            (p.description && p.description.toLowerCase().includes(query.toLowerCase()))
-        );
-        renderProducts(results, 'search-results-grid');
-        document.getElementById('search-results-title').textContent = `Results for "${query}"`;
-        document.getElementById('search-results-page').classList.remove('hidden');
-    } else {
-        // Default to home page for any other hash
-        document.getElementById('home-page').classList.remove('hidden');
-    }
-
-    // Close mobile overlays on navigation
-    closeMobileSearch();
-    closeMobileMenu();
-}
-
-/**
- * Navigates to a new state by updating the URL hash.
- * @param {string} hash - The new hash to navigate to (e.g., '#page=herbs').
- */
-function navigateTo(hash) {
-    if (window.location.hash !== hash) {
-        window.location.hash = hash;
-    } else {
-        // If hash is the same, manually trigger routing for cases like page refresh
-        handleRouting();
-    }
-}
-
-// --- UPDATED NAVIGATION FUNCTIONS ---
-
-// Replaces the old showPage function. Now it just triggers navigation.
-window.showPage = function (pageId) {
-    navigateTo(`#page=${pageId}`);
-}
-
-// New function to navigate to a product page.
-window.showProductPage = function (productId) {
-    navigateTo(`#product=${productId}`);
-}
-
-// Updated search handler to use routing.
-const handleSearch = debounce(() => {
-    const query = elements.searchInputEl.value.trim();
-    if (query.length === 0) {
-        navigateTo('#page=home');
-        return;
-    }
-    navigateTo(`#search=${encodeURIComponent(query)}`);
-}, 300);
-
-// Updated mobile search handler
-const handleMobileSearch = debounce(() => {
-    const query = elements.mobileSearchInputEl.value.trim();
-    // Mobile search shows results live, but a full navigation isn't needed here.
-    // We can just render the results in the overlay.
-    const resultsGrid = document.getElementById('mobile-search-results-grid');
-    if (query.length === 0) {
-        resultsGrid.innerHTML = '';
-        return;
-    }
-    const results = allProducts.filter(p =>
-        p.name.toLowerCase().includes(query.toLowerCase()) ||
-        (p.description && p.description.toLowerCase().includes(query.toLowerCase()))
-    );
-    renderProducts(results, 'mobile-search-results-grid');
-}, 300);
-
-
 // --- MOBILE FUNCTIONALITY ---
 // Hides header on scroll down on mobile for better visibility
 function handleScroll() {
@@ -256,6 +147,23 @@ window.closeMobileMenu = function () {
     }, 300);
 }
 
+// Optimized mobile search with debouncing
+const handleMobileSearch = debounce(() => {
+    const query = elements.mobileSearchInputEl.value.toLowerCase().trim();
+    const resultsGrid = document.getElementById('mobile-search-results-grid');
+
+    if (query.length === 0) {
+        resultsGrid.innerHTML = '';
+        return;
+    }
+
+    const results = allProducts.filter(p =>
+        p.name.toLowerCase().includes(query) ||
+        p.description.toLowerCase().includes(query)
+    );
+
+    renderProducts(results, 'mobile-search-results-grid');
+}, 300);
 
 // --- APPOINTMENT FUNCTIONS ---
 // Set minimum appointment date to tomorrow to prevent booking for past dates
@@ -364,7 +272,7 @@ function renderProducts(productsToRender, containerId) {
     if (!container) return;
 
     if (productsToRender.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #888; padding: 20px 0;">No products found.</p>';
+        container.innerHTML = '<p style="text-align: center; color: #888; padding: 20px 0;">No products found in this category.</p>';
         return;
     }
 
@@ -467,6 +375,34 @@ function renderAdminProductsList() {
     
     adminProductsListEl.innerHTML = '';
     adminProductsListEl.appendChild(fragment);
+}
+
+// --- PAGE NAVIGATION ---
+window.showPage = function (pageId) {
+    requestAnimationFrame(() => {
+        elements.pages.forEach(page => page.classList.add('hidden'));
+        const targetPage = document.getElementById(pageId + '-page');
+        if (targetPage) {
+            targetPage.classList.remove('hidden');
+            if (!['cart', 'checkout', 'product-detail', 'order-success', 'login', 'admin', 'search-results', 'appointment'].includes(pageId)) {
+                lastViewedCategory = pageId;
+            }
+        }
+        window.scrollTo(0, 0);
+
+        if (pageId === 'checkout') renderCheckoutPage();
+        if (pageId === 'admin') renderAdminPanel();
+        if (pageId === 'appointment') setMinimumAppointmentDate();
+
+        closeMobileSearch();
+        closeMobileMenu();
+    });
+}
+
+window.showProductPage = function (productId) {
+    const product = allProducts.find(p => p.id === productId);
+    renderProductDetailPage(product);
+    showPage('product-detail');
 }
 
 // --- SLIDER LOGIC ---
@@ -969,7 +905,7 @@ function renderOrders(orders) {
     elements.ordersListEl.appendChild(fragment);
 }
 
-// --- MODALS & ALERTS ---
+// --- MODALS & SEARCH ---
 function showAlert(message) {
     elements.modalMessageEl.textContent = message;
     elements.modalEl.classList.remove('hidden');
@@ -989,6 +925,22 @@ function showConfirm(message, onConfirm) {
     };
 }
 
+const handleSearch = debounce(() => {
+    const query = elements.searchInputEl.value.toLowerCase().trim();
+    if (query.length === 0) {
+        showPage(lastViewedCategory || 'home');
+        return;
+    }
+    
+    const results = allProducts.filter(p => 
+        p.name.toLowerCase().includes(query) || 
+        p.description.toLowerCase().includes(query)
+    );
+    
+    renderProducts(results, 'search-results-grid');
+    showPage('search-results');
+    document.getElementById('search-results-title').textContent = `Results for "${query}"`;
+}, 300);
 
 // --- EVENT LISTENERS ---
 // Event delegation for dynamically created elements
@@ -1092,9 +1044,6 @@ window.addEventListener('resize', debounce(() => {
         closeMobileMenu();
     }
 }, 250));
-
-// Add the hashchange listener for routing
-window.addEventListener('hashchange', handleRouting);
 
 // Form event listeners
 elements.loginFormEl.addEventListener('submit', function (e) {
@@ -1350,10 +1299,6 @@ async function initializeStore(forceRefetch = false) {
         
         renderAllGrids();
         renderAdminProductsList();
-        
-        // Handle the initial URL after products are loaded
-        handleRouting();
-
     } catch (error) {
         console.error("Error fetching products from Firestore: ", error);
         showAlert("Could not load products. Please check your connection.");
