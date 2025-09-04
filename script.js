@@ -19,7 +19,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // --- CONSTANTS ---
-const DISCOUNT_RATE = 0.14; // 14% discount
+const DISCOUNT_RATE = 0.07; // 7% discount
 
 // --- PERFORMANCE OPTIMIZATIONS ---
 // Debounce function to limit the rate at which a function gets called.
@@ -98,6 +98,7 @@ const elements = {
     bulkAddFormEl: document.getElementById('bulk-add-form'),
     csvFileInputEl: document.getElementById('csv-file-input'),
     bulkUploadStatusEl: document.getElementById('bulk-upload-status'),
+    appointmentTooltip: document.getElementById('appointment-tooltip'),
 };
 
 // --- MOBILE FUNCTIONALITY ---
@@ -164,6 +165,13 @@ const handleMobileSearch = debounce(() => {
 
     renderProducts(results, 'mobile-search-results-grid');
 }, 300);
+
+// --- APPOINTMENT TOOLTIP ---
+window.closeAppointmentTooltip = function () {
+    if (elements.appointmentTooltip) {
+        elements.appointmentTooltip.style.display = 'none';
+    }
+};
 
 // --- APPOINTMENT FUNCTIONS ---
 // Set minimum appointment date to tomorrow to prevent booking for past dates
@@ -1313,5 +1321,32 @@ async function initializeStore(forceRefetch = false) {
     }
 }
 
+// --- APPOINTMENT TOOLTIP ---
+window.closeAppointmentTooltip = function () {
+    // Hide by removing the .show class
+    if (elements.appointmentTooltip) {
+        elements.appointmentTooltip.classList.remove('show');
+    }
+};
+
+// ... (rest of the script) ...
+
 // Run the store on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => initializeStore());
+document.addEventListener('DOMContentLoaded', () => {
+    initializeStore();
+
+    // Show the appointment tooltip as a timed popup
+    if (elements.appointmentTooltip) {
+        // Show the tooltip after a 2-second delay
+        setTimeout(() => {
+            // Display by adding the .show class
+            elements.appointmentTooltip.classList.add('show');
+
+            // Hide the tooltip again after 14 seconds
+            setTimeout(() => {
+                // Hide by removing the .show class
+                elements.appointmentTooltip.classList.remove('show');
+            }, 14000); // 14-second display duration
+        }, 2000); // 2-second initial delay
+    }
+});
