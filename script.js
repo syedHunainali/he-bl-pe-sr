@@ -45,7 +45,7 @@ let allProducts = [];
 let cart = [];
 let customFormula = [];
 let lastViewedCategory = 'home';
-let currentUser = null;
+let currentUser = null; // Will store { name, email, role }
 let desktopSlideIndex = 1;
 let desktopSlideInterval;
 let mobileSlideIndex = 0;
@@ -187,20 +187,32 @@ function setMinimumAppointmentDate() {
 function renderAppointments(appointments) {
     if (!elements.appointmentsListEl) return;
     
-    if (appointments.length === 0) {
+    // START: Role-based filtering for appointments
+    let appointmentsToRender = [];
+    if (!currentUser || (currentUser.role !== 'admin' && currentUser.role !== 'super-admin')) {
+        elements.appointmentsListEl.innerHTML = '<p>You do not have access to appointments.</p>';
+        return;
+    }
+
+    // For this app, we'll let all admins see all appointments, but only super-admin can manage products.
+    // If you wanted to assign appointments, you'd apply logic similar to renderOrders()
+    appointmentsToRender = appointments;
+    // END: Role-based filtering
+
+    if (appointmentsToRender.length === 0) {
         elements.appointmentsListEl.innerHTML = '<p>No appointments booked yet.</p>';
         return;
     }
 
     // Sort appointments by date and time
-    appointments.sort((a, b) => {
+    appointmentsToRender.sort((a, b) => {
         const dateA = new Date(`${a.date}T${a.time}`);
         const dateB = new Date(`${b.date}T${b.time}`);
         return dateA - dateB;
     });
 
     const fragment = createDocumentFragment();
-    appointments.forEach(appointment => {
+    appointmentsToRender.forEach(appointment => {
         const appointmentElement = document.createElement('div');
         appointmentElement.className = 'appointment-record';
         
@@ -795,7 +807,23 @@ function parseCSV(csvText) {
 }
 
 
-// --- AUTHENTICATION & ADMIN (LOCAL STORAGE) ---
+// --- AUTHENTICATION & ADMIN ---
+
+// NEW: Define admin roles
+const ADMIN_ACCOUNTS = {
+    "super-admin@gmail.com": { name: "Super Admin", password: "super123", role: "super-admin" },
+    "admin1@gmail.com": { name: "Admin One", password: "admin123", role: "admin" },
+    "admin2@gmail.com": { name: "Admin Two", password: "admin123", role: "admin" },
+    "admin3@gmail.com": { name: "Admin Three", password: "admin123", role: "admin" },
+    "admin4@gmail.com": { name: "Admin Four", password: "admin123", role: "admin" },
+    "admin5@gmail.com": { name: "Admin Five", password: "admin123", role: "admin" }
+};
+
+// NEW: Get just the regular admin accounts for forwarding
+const REGULAR_ADMINS = Object.keys(ADMIN_ACCOUNTS)
+    .filter(email => ADMIN_ACCOUNTS[email].role === 'admin')
+    .map(email => ({ email, name: ADMIN_ACCOUNTS[email].name }));
+
 window.toggleAuthForms = function () {
     elements.loginFormEl.classList.toggle('hidden');
     elements.signupFormEl.classList.toggle('hidden');
@@ -803,13 +831,14 @@ window.toggleAuthForms = function () {
     elements.signupFormEl.reset();
 }
 
+// UPDATED: Show user role
 function updateAuthControls() {
     let welcomeMessage = '';
     const defaultLogin = `<a href="#" onclick="showPage('login')">Login</a>`;
 
     if (currentUser) {
-        welcomeMessage = `<span>Welcome, ${currentUser.name}</span>`;
-        if (currentUser.role === 'admin') {
+        welcomeMessage = `<span>Welcome, ${currentUser.name} (${currentUser.role})</span>`;
+        if (currentUser.role === 'admin' || currentUser.role === 'super-admin') {
             welcomeMessage += ` <a href="#" onclick="showPage('admin')">Admin Panel</a>`;
         }
         welcomeMessage += ` <a href="#" onclick="logout()">Logout</a>`;
@@ -825,7 +854,6 @@ function updateAuthControls() {
     }
 }
 
-
 window.logout = function () {
     currentUser = null;
     localStorage.removeItem('currentUser');
@@ -834,17 +862,38 @@ window.logout = function () {
     showAlert("You have been logged out.");
 }
 
+// UPDATED: Show/hide admin tabs based on role
 function renderAdminPanel() {
-    if (!currentUser || currentUser.role !== 'admin') {
+    if (!currentUser || (currentUser.role !== 'admin' && currentUser.role !== 'super-admin')) {
         showAlert("You do not have permission to view this page.");
         showPage('home');
         return;
     }
-    
+
+    // Show/hide tabs based on role
+    const addProductTab = document.querySelector('.admin-tab[onclick="showAdminContent(\'products\')"]');
+    const manageProductTab = document.querySelector('.admin-tab[onclick="showAdminContent(\'manage\')"]');
+    const appointmentsTab = document.querySelector('.admin-tab[onclick="showAdminContent(\'appointments\')"]');
+
+    if (currentUser.role === 'admin') {
+        // Regular admins only see Orders and Appointments
+        if (addProductTab) addProductTab.classList.add('hidden');
+        if (manageProductTab) manageProductTab.classList.add('hidden');
+        if (appointmentsTab) appointmentsTab.classList.remove('hidden'); // Ensure it's visible
+        // Default to orders tab
+        showAdminContent('orders');
+    } else {
+        // Super-admin can see all
+        if (addProductTab) addProductTab.classList.remove('hidden');
+        if (manageProductTab) manageProductTab.classList.remove('hidden');
+        if (appointmentsTab) appointmentsTab.classList.remove('hidden');
+    }
+
     const ordersQuery = query(collection(db, "orders"));
     onSnapshot(ordersQuery, (querySnapshot) => {
         const orders = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        renderOrders(orders);
+        // Pass the list of regular admins to renderOrders
+        renderOrders(orders, REGULAR_ADMINS);
     });
 
     const appointmentsQuery = query(collection(db, "appointments"));
@@ -867,16 +916,34 @@ window.showAdminContent = function (contentType) {
     }
 }
 
-function renderOrders(orders) {
-    if (orders.length === 0) {
-        elements.ordersListEl.innerHTML = '<p>No orders received yet.</p>';
+// UPDATED: Render orders based on role (super-admin or admin)
+function renderOrders(orders, regularAdmins) {
+    if (!elements.ordersListEl) return;
+
+    let ordersToRender = [];
+
+    // Filter orders based on user role
+    if (currentUser.role === 'super-admin') {
+        ordersToRender = orders; // Super admin sees all
+    } else if (currentUser.role === 'admin') {
+        ordersToRender = orders.filter(order => order.assignedTo === currentUser.email);
+    }
+
+    if (ordersToRender.length === 0) {
+        elements.ordersListEl.innerHTML = '<p>No orders found for you.</p>';
         return;
     }
     
-    orders.sort((a, b) => new Date(b.date) - new Date(a.date));
+    ordersToRender.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const fragment = createDocumentFragment();
-    orders.forEach(order => {
+
+    // Create dropdown options for regular admins
+    const adminOptions = regularAdmins.map(admin => 
+        `<option value="${admin.email}">${admin.name} (${admin.email})</option>`
+    ).join('');
+
+    ordersToRender.forEach(order => {
         const orderElement = document.createElement('div');
         orderElement.className = 'order-record';
         
@@ -886,6 +953,59 @@ function renderOrders(orders) {
             orderItemsHtml = order.items.map(item => `<li>${item.name} (x${item.quantity})</li>`).join('');
         }
 
+        // --- Build Controls based on Role and Status ---
+        let adminControls = '';
+        if (currentUser.role === 'super-admin') {
+            // Super Admin Controls
+            if (order.status === 'pending') {
+                // Show forwarding controls
+                adminControls = `
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label for="forward-select-${order.id}">Forward to:</label>
+                        <select id="forward-select-${order.id}" style="width: auto; padding: 5px; border-radius: 5px;">
+                            ${adminOptions}
+                        </select>
+                        <button class="btn-fulfillment btn-forward" 
+                                data-order-id="${order.id}" 
+                                style="margin-left: 10px; background: #f39c12;">
+                            Forward
+                        </button>
+                    </div>
+                `;
+            } else if (order.status === 'forwarded') {
+                // Show "Mark as Fulfilled" button and who it's assigned to
+                adminControls = `
+                    <p style="margin-top: 10px;"><strong>Assigned to:</strong> ${order.assignedTo}</p>
+                    <button 
+                        class="btn-fulfillment" 
+                        data-order-id="${order.id}" 
+                        style="background: #3498db;">
+                        Mark as Fulfilled
+                    </button>
+                `;
+            } else if (order.status === 'fulfilled') {
+                // Show fulfilled status
+                adminControls = `
+                    <button class="btn-fulfillment fulfilled" disabled>Fulfilled</button>
+                    <p style="margin-top: 10px;"><strong>Assigned to:</strong> ${order.assignedTo}</p>
+                `;
+            }
+        } else {
+            // Regular Admin Controls
+            if (order.status === 'forwarded' && !isFulfilled) {
+                adminControls = `
+                    <button 
+                        class="btn-fulfillment" 
+                        data-order-id="${order.id}">
+                        Mark as Fulfilled
+                    </button>
+                `;
+            } else if (isFulfilled) {
+                adminControls = `<button class="btn-fulfillment fulfilled" disabled>Fulfilled</button>`;
+            }
+        }
+        // --- End Controls ---
+
         orderElement.innerHTML = `
             <h4>Order from: ${order.customer.name}</h4>
             <p><strong>Order ID:</strong> ${order.id}</p>
@@ -894,16 +1014,14 @@ function renderOrders(orders) {
             <p><strong>Address:</strong> ${order.customer.address}</p>
             <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
             <p><strong>Total:</strong> Rs. ${order.total.toFixed(2)}</p>
+            <p><strong>Status:</strong> ${order.status}
+               ${order.assignedTo ? ` (Assigned: ${order.assignedTo.split('@')[0]})` : ''}
+            </p>
             <details>
                 <summary>View Items (${order.items.length})</summary>
                 <ul>${orderItemsHtml}</ul>
             </details>
-            <button 
-                class="btn-fulfillment ${isFulfilled ? 'fulfilled' : ''}" 
-                data-order-id="${order.id}" 
-                ${isFulfilled ? 'disabled' : ''}>
-                ${isFulfilled ? 'Fulfilled' : 'Mark as Fulfilled'}
-            </button>
+            ${adminControls}
         `;
         
         fragment.appendChild(orderElement);
@@ -985,10 +1103,45 @@ document.addEventListener('click', async function (e) {
         removeHerbFromFormula(parseInt(e.target.dataset.index));
     }
     
-    if (e.target.classList.contains('btn-fulfillment') && !e.target.disabled) {
+    // --- NEW: Handle Order Forwarding ---
+    if (e.target.classList.contains('btn-forward')) {
+        e.preventDefault();
+        const orderId = e.target.dataset.orderId;
+        const selectEl = document.getElementById(`forward-select-${orderId}`);
+        if (!selectEl) return;
+        
+        const selectedAdminEmail = selectEl.value;
+        if (!selectedAdminEmail) {
+            showAlert("Please select an admin to forward the order to.");
+            return;
+        }
+
+        e.target.disabled = true;
+        e.target.textContent = 'Forwarding...';
+
+        try {
+            await updateDoc(doc(db, "orders", orderId), { 
+                status: "forwarded",
+                assignedTo: selectedAdminEmail
+            });
+            showAlert(`Order ${orderId} forwarded to ${selectedAdminEmail}.`);
+        } catch (error) {
+            console.error("Error forwarding order: ", error);
+            showAlert("Failed to forward order.");
+            e.target.disabled = false;
+            e.target.textContent = 'Forward';
+        }
+    }
+
+    // --- MODIFIED: Handle Fulfillment ---
+    if (e.target.classList.contains('btn-fulfillment') && 
+        !e.target.classList.contains('btn-forward') && 
+        !e.target.disabled) 
+    {
         if (e.target.dataset.orderId) {
             const orderId = e.target.dataset.orderId;
             try {
+                // When fulfilling, we keep the assignedTo field for records
                 await updateDoc(doc(db, "orders", orderId), { status: "fulfilled" });
                 showAlert(`Order ${orderId} marked as fulfilled.`);
             } catch (error) {
@@ -1054,24 +1207,32 @@ window.addEventListener('resize', debounce(() => {
 }, 250));
 
 // Form event listeners
+// UPDATED: Login logic
 elements.loginFormEl.addEventListener('submit', function (e) {
     e.preventDefault();
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
 
-    if (email === 'admin@gmail.com' && password === 'admin123') {
-        currentUser = { name: 'Admin', email: 'admin@gmail.com', role: 'admin' };
+    // Check against defined admin accounts first
+    const adminUser = ADMIN_ACCOUNTS[email];
+    if (adminUser && adminUser.password === password) {
+        currentUser = { 
+            name: adminUser.name, 
+            email: email, 
+            role: adminUser.role 
+        };
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         updateAuthControls();
-        showPage('admin');
+        showPage('admin'); // Go to admin page for both roles
         elements.loginFormEl.reset();
         return;
     }
 
+    // Check regular customer users
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const user = users.find(u => u.email === email && u.password === password);
     if (user) {
-        currentUser = user;
+        currentUser = { ...user, role: 'customer' }; // Ensure role is set
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         updateAuthControls();
         showPage('home');
@@ -1090,6 +1251,12 @@ elements.signupFormEl.addEventListener('submit', function (e) {
     let users = JSON.parse(localStorage.getItem('users')) || [];
     if (users.some(u => u.email === email)) {
         showAlert("An account with this email already exists.");
+        return;
+    }
+
+    // Check if email is an admin email
+    if (ADMIN_ACCOUNTS[email]) {
+        showAlert("This email is reserved. Please use a different email.");
         return;
     }
     
@@ -1131,6 +1298,7 @@ elements.appointmentFormEl.addEventListener('submit', async function (e) {
     }
 });
 
+// UPDATED: Checkout form to assign order to super-admin
 elements.checkoutFormEl.addEventListener('submit', async function (e) {
     e.preventDefault();
     const subtotal = cart.reduce((sum, item) => sum + (item.salePrice * item.quantity), 0);
@@ -1148,7 +1316,8 @@ elements.checkoutFormEl.addEventListener('submit', async function (e) {
         items: cart,
         paymentMethod: document.querySelector('.payment-tab.active').textContent,
         total: total,
-        status: 'pending'
+        status: 'pending', // Initial status
+        assignedTo: 'super-admin@gmail.com' // NEW: Assign to super-admin
     };
 
     try {
