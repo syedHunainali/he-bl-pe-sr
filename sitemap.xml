@@ -1,120 +1,402 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
   <!-- Main Homepage -->
   <url>
     <loc>https://mubarakpansar.store/</loc>
-    <lastmod>2025-08-22</lastmod>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Static Category Pages -->
+  <!-- Category Pages - New Clean URL Structure -->
   <url>
-    <loc>https://mubarakpansar.store/#page=dry-fruits</loc>
-    <lastmod>2025-08-22</lastmod>
+    <loc>https://mubarakpansar.store/category/dry-fruits</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
+  
   <url>
-    <loc>https://mubarakpansar.store/#page=herbal-tea</loc>
-    <lastmod>2025-08-22</lastmod>
+    <loc>https://mubarakpansar.store/category/herbal-tea</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
+  
   <url>
-    <loc>https://mubarakpansar.store/#page=honey</loc>
-    <lastmod>2025-08-22</lastmod>
+    <loc>https://mubarakpansar.store/category/honey</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
+  
   <url>
-    <loc>https://mubarakpansar.store/#page=seeds</loc>
-    <lastmod>2025-08-22</lastmod>
+    <loc>https://mubarakpansar.store/category/seeds</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
+  
   <url>
-    <loc>https://mubarakpansar.store/#page=supplements</loc>
-    <lastmod>2025-08-22</lastmod>
+    <loc>https://mubarakpansar.store/category/supplements</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
+  
   <url>
-    <loc>https://mubarakpansar.store/#page=custom-formula</loc>
-    <lastmod>2025-08-22</lastmod>
+    <loc>https://mubarakpansar.store/category/custom-formula</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/category/cold-pressed-oil</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/category/essential-oils</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/category/herbs</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Static Pages -->
+  <url>
+    <loc>https://mubarakpansar.store/appointment</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/cart</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Product Pages - New Clean URL Structure -->
+  <!-- Cold Pressed Oils Category -->
+  <url>
+    <loc>https://mubarakpansar.store/product/cold-pressed-oil/kalonji-oil</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mubarakpansar.store/images/kalonji-oil.jpg</image:loc>
+      <image:title>Kalonji Oil - Black Seed Oil</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/cold-pressed-oil/almond-oil</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mubarakpansar.store/images/almond-oil.jpg</image:loc>
+      <image:title>Almond Oil - Pure Cold Pressed</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/cold-pressed-oil/coconut-oil</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+  
   <url>
-    <loc>https://mubarakpansar.store/#page=cold-pressed-oil</loc>
-    <lastmod>2025-08-22</lastmod>
+    <loc>https://mubarakpansar.store/product/cold-pressed-oil/olive-oil</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
+  
   <url>
-    <loc>https://mubarakpansar.store/#page=essential-oils</loc>
-    <lastmod>2025-08-22</lastmod>
+    <loc>https://mubarakpansar.store/product/cold-pressed-oil/mustard-oil</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mubarakpansar.store/#page=herbs</loc>
-    <lastmod>2025-08-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mubarakpansar.store/#page=appointment</loc>
-    <lastmod>2025-08-22</lastmod>
-    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
-  <!-- Dynamic Product Pages (Assuming these are your products) -->
-  <!-- In a real-world scenario, this list would be generated automatically -->
+  <!-- Honey Category -->
   <url>
-    <loc>https://mubarakpansar.store/#product=Kalonji%20Oil</loc>
-    <lastmod>2025-08-22</lastmod>
+    <loc>https://mubarakpansar.store/product/honey/sidr-honey</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mubarakpansar.store/images/sidr-honey.jpg</image:loc>
+      <image:title>Sidr Honey - Pure Wild Honey</image:title>
+    </image:image>
   </url>
+  
   <url>
-    <loc>https://mubarakpansar.store/#product=Almond%20Oil</loc>
-    <lastmod>2025-08-22</lastmod>
+    <loc>https://mubarakpansar.store/product/honey/acacia-honey</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
+  
   <url>
-    <loc>https://mubarakpansar.store/#product=Sidr%20Honey</loc>
-    <lastmod>2025-08-22</lastmod>
+    <loc>https://mubarakpansar.store/product/honey/manuka-honey</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
+  
   <url>
-    <loc>https://mubarakpansar.store/#product=Chia%20Seeds</loc>
-    <lastmod>2025-08-22</lastmod>
+    <loc>https://mubarakpansar.store/product/honey/wild-flower-honey</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
-  <url>
-    <loc>https://mubarakpansar.store/#product=Moringa%20Powder</loc>
-    <lastmod>2025-08-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://mubarakpansar.store/#product=Green%20Tea</loc>
-    <lastmod>2025-08-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://mubarakpansar.store/#product=Dried%20Apricots</loc>
-    <lastmod>2025-08-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <!-- Add a <url> entry for every other product in your database -->
 
+  <!-- Seeds Category -->
+  <url>
+    <loc>https://mubarakpansar.store/product/seeds/chia-seeds</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mubarakpansar.store/images/chia-seeds.jpg</image:loc>
+      <image:title>Chia Seeds - Organic</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/seeds/flax-seeds</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/seeds/pumpkin-seeds</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/seeds/sunflower-seeds</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/seeds/sesame-seeds</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Supplements Category -->
+  <url>
+    <loc>https://mubarakpansar.store/product/supplements/moringa-powder</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mubarakpansar.store/images/moringa-powder.jpg</image:loc>
+      <image:title>Moringa Powder - Organic</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/supplements/spirulina-powder</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/supplements/ashwagandha-powder</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/supplements/turmeric-powder</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Herbal Tea Category -->
+  <url>
+    <loc>https://mubarakpansar.store/product/herbal-tea/green-tea</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mubarakpansar.store/images/green-tea.jpg</image:loc>
+      <image:title>Green Tea - Organic</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/herbal-tea/chamomile-tea</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/herbal-tea/peppermint-tea</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/herbal-tea/ginger-tea</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Dry Fruits Category -->
+  <url>
+    <loc>https://mubarakpansar.store/product/dry-fruits/dried-apricots</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mubarakpansar.store/images/dried-apricots.jpg</image:loc>
+      <image:title>Dried Apricots - Premium Quality</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/dry-fruits/almonds</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/dry-fruits/cashews</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/dry-fruits/walnuts</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/dry-fruits/raisins</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/dry-fruits/dates</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/dry-fruits/pistachios</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Essential Oils Category -->
+  <url>
+    <loc>https://mubarakpansar.store/product/essential-oils/lavender-oil</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/essential-oils/tea-tree-oil</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/essential-oils/eucalyptus-oil</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/essential-oils/peppermint-oil</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/essential-oils/rosemary-oil</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Herbs Category -->
+  <url>
+    <loc>https://mubarakpansar.store/product/herbs/basil</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/herbs/oregano</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/herbs/thyme</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/herbs/sage</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://mubarakpansar.store/product/herbs/mint</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
 </urlset>
