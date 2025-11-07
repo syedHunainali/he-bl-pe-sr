@@ -887,7 +887,7 @@ elements.addProductFormEl.addEventListener('submit', async function (e) {
         weight: parseFloat(document.getElementById('product-weight').value),
         category: document.getElementById('product-category').value,
         description: document.getElementById('product-description').value,
-        image: `images/${document.getElementById('product-image-filename').value}`,
+        image: `/images/${document.getElementById('product-image-filename').value}`,
         addedBy: currentUser.email,
         addedAt: new Date().toISOString()
     };
@@ -914,7 +914,7 @@ elements.editProductFormEl.addEventListener('submit', async function(e) {
         weight: parseFloat(document.getElementById('edit-product-weight').value),
         category: document.getElementById('edit-product-category').value,
         description: document.getElementById('edit-product-description').value,
-        image: `images/${document.getElementById('edit-product-image-filename').value}`,
+        image: `/images/${document.getElementById('edit-product-image-filename').value}`,
         updatedBy: currentUser.email,
         updatedAt: new Date().toISOString()
     };
@@ -1690,7 +1690,7 @@ function addFormulaToCart() {
         salePrice: totalPrice,
         originalPrice: totalPrice,
         quantity: 1,
-        image: 'images/collection-5.png'
+        image: '/images/collection-5.png'
     };
 
     cart.push(formulaProduct);
@@ -1842,7 +1842,7 @@ elements.bulkAddFormEl?.addEventListener('submit', function (e) {
                     weight: parseInt(p.weight) || 0,
                     category: p.category,
                     description: p.description,
-                    image: `images/${p.image_filename}`,
+                    image: `/images/${p.image_filename}`,
                     addedBy: currentUser.email,
                     addedAt: new Date().toISOString()
                 };
